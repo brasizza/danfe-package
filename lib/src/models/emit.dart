@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'ender_emit.dart';
 
 class Emit {

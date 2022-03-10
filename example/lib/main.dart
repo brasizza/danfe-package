@@ -1,6 +1,5 @@
 import 'package:danfe/danfe.dart';
-import 'package:example/custom_printer.dart';
-import 'package:example/home_controller.dart';
+import 'home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 

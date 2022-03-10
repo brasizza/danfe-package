@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dados_danfe.dart';
-import 'ender_emit.dart';
 import 'inf_supl.dart';
 import 'prot_nfe.dart';
 
