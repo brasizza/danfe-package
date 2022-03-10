@@ -1,4 +1,5 @@
 import 'package:danfe/danfe.dart';
+import 'package:example/custom_printer.dart';
 import 'package:example/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
@@ -76,16 +77,24 @@ class _MyHomePageState extends State<MyHomePage> {
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: ElevatedButton(
                               onPressed: () async {
+                                final profile = await CapabilityProfile.load();
+
                                 await controller.printDefault(
-                                    _dadosDanfe, PaperSize.mm80);
+                                    danfe: _dadosDanfe,
+                                    paper: PaperSize.mm80,
+                                    profile: profile);
                               },
                               child: const Text('Imprimir nota'))),
                       Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: ElevatedButton(
                               onPressed: () async {
-                                await controller.printCustom(
-                                    _dadosDanfe, PaperSize.mm80);
+                                final profile = await CapabilityProfile.load();
+
+                                await controller.printCustomLayout(
+                                    danfe: _dadosDanfe,
+                                    paper: PaperSize.mm80,
+                                    profile: profile);
                               },
                               child:
                                   const Text('Imprimir minha customizacao'))),

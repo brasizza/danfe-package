@@ -1,6 +1,6 @@
-import 'package:danfe/danfe.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:intl/intl.dart';
+import 'danfe.dart';
 
 class DanfePrinter {
   final PaperSize paperSize;
@@ -50,11 +50,12 @@ class DanfePrinter {
     // Print image
     bytes += generator.rawBytes([27, 97, 49]);
 
-    bytes += generator.text(danfe?.dados?.emit?.xFant ?? '',
+    bytes += generator.text(danfe?.dados?.emit?.xNome ?? '',
         styles: const PosStyles(
           align: PosAlign.center,
-          height: PosTextSize.size2,
-          width: PosTextSize.size2,
+          height: PosTextSize.size1,
+          width: PosTextSize.size1,
+          bold: true,
         ));
     bytes += generator.feed(1);
 
@@ -65,7 +66,11 @@ class DanfePrinter {
             ', ' +
             ((danfe?.dados?.emit?.enderEmit?.nro ?? '')),
         styles: const PosStyles(align: PosAlign.center));
+    bytes += generator.rawBytes([27, 97, 48]);
+
     bytes += generator.hr();
+    bytes += generator.rawBytes([27, 97, 49]);
+
     if ((danfe?.tipo ?? 'CFe') == 'CFe') {
       bytes += generator.text('Nota Fiscal Eletronica - SAT ',
           styles: const PosStyles(
@@ -92,7 +97,6 @@ class DanfePrinter {
     bytes += generator.text("Nota : " + (danfe?.dados?.ide?.nNF ?? ''),
         styles: const PosStyles(align: PosAlign.left));
     bytes += generator.feed(1);
-    bytes += generator.setStyles(const PosStyles(fontType: PosFontType.fontB));
     bytes += generator.row([
       PosColumn(
           text: 'DESCRICAO', width: (paperSize == PaperSize.mm58) ? 3 : 5),
@@ -217,7 +221,6 @@ class DanfePrinter {
             width: PosTextSize.size1,
           )),
     ]);
-
     bytes += generator.hr();
     bytes += generator.setStyles(const PosStyles(fontType: PosFontType.fontA));
     bytes += generator.rawBytes([27, 97, 49]);
@@ -237,6 +240,8 @@ class DanfePrinter {
     bytes += generator.feed(1);
     bytes += generator.rawBytes([27, 97, 49]);
     bytes += generator.qrcode(danfe?.qrcodePrinter ?? '');
+    bytes += generator.feed(1);
+
     bytes += generator.rawBytes([27, 97, 48]);
     if (danfe?.dados?.infAdic?.infCpl != null) {
       bytes += generator.text(danfe!.dados!.infAdic!.infCpl ?? ' ',

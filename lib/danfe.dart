@@ -1,6 +1,22 @@
 library danfe;
 
-/// Imports
-export 'src/models/sat/danfe.dart';
 export 'danfe_parser.dart';
 export 'danfe_printer.dart';
+export 'src/models/danfe.dart';
+export 'src/models/card_pagamento.dart';
+export 'src/models/dados_danfe.dart';
+export 'src/models/dest.dart';
+export 'src/models/det.dart';
+export 'src/models/det_pag.dart';
+export 'src/models/emit.dart';
+export 'src/models/ender_emit.dart';
+export 'src/models/ide.dart';
+export 'src/models/inf_adic.dart';
+export 'src/models/inf_prot.dart';
+export 'src/models/inf_supl.dart';
+export 'src/models/mp.dart';
+export 'src/models/obs_fisco.dart';
+export 'src/models/pgto.dart';
+export 'src/models/prod.dart';
+export 'src/models/prot_nfe.dart';
+export 'src/models/total.dart';

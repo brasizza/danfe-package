@@ -2,7 +2,7 @@
 
 
 
-Este package tem como finalidade ajudar no desenvolvimento e manipulação das Danfes, seja NFC-E ou SAT, normalizand o objeto e também criando um buffer de uma impressão padrão para ser enviada para qualquer dispositivo que imprima ESC/POS
+Este package tem como finalidade ajudar no desenvolvimento e manipulação das Danfes, seja NFC-E ou SAT, normalizando o objeto e também criando um buffer de uma impressão padrão para ser enviada para qualquer dispositivo que imprima ESC/POS
 
 
 ## O que este package faz!
@@ -12,7 +12,7 @@ Este package tem como finalidade ajudar no desenvolvimento e manipulação das D
 
 
 
-#Existe um exemplo completo na pasta example do projeto
+# Existe um exemplo completo na pasta example do projeto
 
 
 
@@ -22,7 +22,7 @@ Este package tem como finalidade ajudar no desenvolvimento e manipulação das D
 ```dart
 // importando o package
 import 'package:danfe/danfe.dart';
-Danfe? danfe = DanfeParser.parseDanfe(xml);
+Danfe? danfe = DanfeParser.readFromString(xml);
 
 ```
 
@@ -32,7 +32,6 @@ Danfe? danfe = DanfeParser.parseDanfe(xml);
 import 'package:danfe/danfe.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 DanfePrinter danfePrinter = DanfePrinter( PaperSize.mm80 ); // ou  PaperSize.mm50
-final profile = await CapabilityProfile.load();
 List<int> _dados = await danfePrinter.bufferDanfe(danfe);
 
 ```
@@ -46,7 +45,22 @@ import 'package:esc_pos_utils/esc_pos_utils.dart';
 DanfePrinter danfePrinter = DanfePrinter( PaperSize.mm80 ); // ou  PaperSize.mm50
 final profile = await CapabilityProfile.load();
 List<int> _dados = await danfePrinter.bufferDanfe(danfe);
+NetworkPrinter printer = NetworkPrinter(paper, profile);
+await printer.connect('192.168.5.111', port: 9100);
+printer.rawBytes(_dados);
+printer.disconnect();
 
+```
+
+
+## Imprimindo um layout diferente do padrão criado por você manualmente
+
+```dart
+import 'package:danfe/danfe.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
+final CustomPrinter custom = CustomPrinter(PaperSize.mm80); // ou  PaperSize.mm50
+final profile = await CapabilityProfile.load();
+List<int> _dados = await custom.layoutCustom(danfe);
 NetworkPrinter printer = NetworkPrinter(paper, profile);
 await printer.connect('192.168.5.111', port: 9100);
 printer.rawBytes(_dados);

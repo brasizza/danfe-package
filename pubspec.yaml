@@ -1,7 +1,7 @@
 name: danfe
-description: A new Flutter package project.
-version: 0.0.1
-homepage:
+description: Package para parsear e transformar um arquivo de danfe xml em objeto ou buffer para impressao
+version: 0.0.3
+homepage: https://github.com/brasizza/danfe-package
 
 environment:
   sdk: ">=2.16.1 <3.0.0"
