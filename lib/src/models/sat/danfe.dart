@@ -20,7 +20,9 @@ class Danfe {
   }
 
   factory Danfe.fromMapSat(Map<String, dynamic> map) {
-    Danfe _danfe = Danfe(dados: map['infCFe'] != null ? DadosDanfe.fromMap(map['infCFe']) : null, tipo: 'CFe');
+    Danfe _danfe = Danfe(
+        dados: map['infCFe'] != null ? DadosDanfe.fromMap(map['infCFe']) : null,
+        tipo: 'CFe');
     // String qrcode = (_danfe.dados?.chaveNota?.replaceAll('CFe', '') ?? '') + '|' + (_danfe.dados?.ide?.dEmi ?? '') + (_danfe.dados?.ide?.hEmi ?? '') + '|' + (_danfe.dados?.total?.valorTotal ?? '') + '|' + (_danfe.dados?.dest?.cpf ?? '') + '|' + (_danfe.dados?.ide?.assinaturaQRCODE ?? '');
     String qrcode = (_danfe.dados?.ide?.assinaturaQRCODE ?? '');
     _danfe.qrcodePrinter = qrcode.substring(100);
@@ -29,10 +31,14 @@ class Danfe {
 
   factory Danfe.fromMapNFce(Map<String, dynamic> map) {
     Danfe _danfe = Danfe(
-      dados: map['NFe']['infNFe'] != null ? DadosDanfe.fromMap(map['NFe']['infNFe']) : null,
+      dados: map['NFe']['infNFe'] != null
+          ? DadosDanfe.fromMap(map['NFe']['infNFe'])
+          : null,
       tipo: 'NFe',
       protNFe: map['protNFe'] != null ? ProtNFe.fromMap(map['protNFe']) : null,
-      infNFeSupl: map['NFe']['infNFeSupl'] != null ? InfNFeSupl.fromMap(map['NFe']['infNFeSupl']) : null,
+      infNFeSupl: map['NFe']['infNFeSupl'] != null
+          ? InfNFeSupl.fromMap(map['NFe']['infNFeSupl'])
+          : null,
     );
     _danfe.qrcodePrinter = _danfe.infNFeSupl?.qrCode;
     return _danfe;
@@ -66,7 +72,8 @@ class InfNFeSupl {
 
   String toJson() => json.encode(toMap());
 
-  factory InfNFeSupl.fromJson(String source) => InfNFeSupl.fromMap(json.decode(source));
+  factory InfNFeSupl.fromJson(String source) =>
+      InfNFeSupl.fromMap(json.decode(source));
 }
 
 class ProtNFe {
@@ -91,7 +98,8 @@ class ProtNFe {
 
   String toJson() => json.encode(toMap());
 
-  factory ProtNFe.fromJson(String source) => ProtNFe.fromMap(json.decode(source));
+  factory ProtNFe.fromJson(String source) =>
+      ProtNFe.fromMap(json.decode(source));
 }
 
 class InfProt {
@@ -104,7 +112,15 @@ class InfProt {
   String? cStat;
   String? xMotivo;
 
-  InfProt({this.tpAmb, this.verAplic, this.chNFe, this.dhRecbto, this.nProt, this.digVal, this.cStat, this.xMotivo});
+  InfProt(
+      {this.tpAmb,
+      this.verAplic,
+      this.chNFe,
+      this.dhRecbto,
+      this.nProt,
+      this.digVal,
+      this.cStat,
+      this.xMotivo});
 
   Map<String, dynamic> toMap() {
     return {
@@ -134,7 +150,8 @@ class InfProt {
 
   String toJson() => json.encode(toMap());
 
-  factory InfProt.fromJson(String source) => InfProt.fromMap(json.decode(source));
+  factory InfProt.fromJson(String source) =>
+      InfProt.fromMap(json.decode(source));
 }
 
 class DadosDanfe {
@@ -150,7 +167,18 @@ class DadosDanfe {
   String? sVersaoDadosEnt;
   String? sVersaoSB;
 
-  DadosDanfe({this.ide, this.emit, this.dest, this.det, this.total, this.pgto, this.infAdic, this.chaveNota, this.sVersao, this.sVersaoDadosEnt, this.sVersaoSB});
+  DadosDanfe(
+      {this.ide,
+      this.emit,
+      this.dest,
+      this.det,
+      this.total,
+      this.pgto,
+      this.infAdic,
+      this.chaveNota,
+      this.sVersao,
+      this.sVersaoDadosEnt,
+      this.sVersaoSB});
 
   Map<String, dynamic> toMap() {
     return {
@@ -181,16 +209,20 @@ class DadosDanfe {
       dest: map['dest'] != null ? Dest.fromMap(map['dest']) : null,
       det: map['det'] != null ? _det : null,
       total: map['total'] != null ? Total.fromMap(map['total']) : null,
-      pgto: (map['pgto'] != null || map['pag'] != null) ? Pgto.fromMap(map.containsKey('pgto') ? map['pgto'] : map['pag']) : null,
+      pgto: (map['pgto'] != null || map['pag'] != null)
+          ? Pgto.fromMap(map.containsKey('pgto') ? map['pgto'] : map['pag'])
+          : null,
       infAdic: map['infAdic'] != null ? InfAdic.fromMap(map['infAdic']) : null,
-      chaveNota: (map['_Id'] as String).replaceAll('CFe', '').replaceAll('NFe', ''),
+      chaveNota:
+          (map['_Id'] as String).replaceAll('CFe', '').replaceAll('NFe', ''),
       sVersao: map['_versao'],
       sVersaoDadosEnt: map['_versaoDadosEnt'],
       sVersaoSB: map['_versaoSB'],
     );
   }
   String toJson() => json.encode(toMap());
-  factory DadosDanfe.fromJson(String source) => DadosDanfe.fromMap(json.decode(source));
+  factory DadosDanfe.fromJson(String source) =>
+      DadosDanfe.fromMap(json.decode(source));
 }
 
 class Ide {
@@ -209,7 +241,21 @@ class Ide {
   String? nNF;
   String? dhEmi;
 
-  Ide({this.cUF, this.cNF, this.mod, this.nserieSAT, this.dEmi, this.hEmi, this.cDV, this.tpAmb, this.cNPJ, this.signAC, this.assinaturaQRCODE, this.numeroCaixa, this.nNF, this.dhEmi});
+  Ide(
+      {this.cUF,
+      this.cNF,
+      this.mod,
+      this.nserieSAT,
+      this.dEmi,
+      this.hEmi,
+      this.cDV,
+      this.tpAmb,
+      this.cNPJ,
+      this.signAC,
+      this.assinaturaQRCODE,
+      this.numeroCaixa,
+      this.nNF,
+      this.dhEmi});
 
   Map<String, dynamic> toMap() {
     return {
@@ -267,7 +313,18 @@ class EnderEmit {
   String? xPais;
   String? fone;
 
-  EnderEmit({this.xLgr, this.nro, this.xCpl, this.xBairro, this.cMun, this.xMun, this.uF, this.cEP, this.cPais, this.xPais, this.fone});
+  EnderEmit(
+      {this.xLgr,
+      this.nro,
+      this.xCpl,
+      this.xBairro,
+      this.cMun,
+      this.xMun,
+      this.uF,
+      this.cEP,
+      this.cPais,
+      this.xPais,
+      this.fone});
 
   Map<String, dynamic> toMap() {
     return {
@@ -303,7 +360,8 @@ class EnderEmit {
 
   String toJson() => json.encode(toMap());
 
-  factory EnderEmit.fromJson(String source) => EnderEmit.fromMap(json.decode(source));
+  factory EnderEmit.fromJson(String source) =>
+      EnderEmit.fromMap(json.decode(source));
 }
 
 class Emit {
@@ -315,7 +373,15 @@ class Emit {
   String? cRegTrib;
   String? indRatISSQN;
   EnderEmit? enderEmit;
-  Emit({this.cnpj, this.xNome, this.xFant, this.iE, this.iM, this.cRegTrib, this.indRatISSQN, this.enderEmit});
+  Emit(
+      {this.cnpj,
+      this.xNome,
+      this.xFant,
+      this.iE,
+      this.iM,
+      this.cRegTrib,
+      this.indRatISSQN,
+      this.enderEmit});
 
   Map<String, dynamic> toMap() {
     return {
@@ -339,7 +405,8 @@ class Emit {
       iM: map['IM'],
       cRegTrib: map['cRegTrib'],
       indRatISSQN: map['indRatISSQN'],
-      enderEmit: map['enderEmit'] != null ? EnderEmit.fromMap(map['enderEmit']) : null,
+      enderEmit:
+          map['enderEmit'] != null ? EnderEmit.fromMap(map['enderEmit']) : null,
     );
   }
 
@@ -408,7 +475,18 @@ class Prod {
   String? indRegra;
   String? vItem;
   String? vDesc;
-  Prod({this.cProd, this.xProd, this.nCM, this.cFOP, this.uCom, this.qCom, this.vUnCom, this.vProd, this.indRegra, this.vItem, this.vDesc});
+  Prod(
+      {this.cProd,
+      this.xProd,
+      this.nCM,
+      this.cFOP,
+      this.uCom,
+      this.qCom,
+      this.vUnCom,
+      this.vProd,
+      this.indRegra,
+      this.vItem,
+      this.vDesc});
 
   Map<String, dynamic> toMap() {
     return {
@@ -438,7 +516,9 @@ class Prod {
       vProd: map['vProd'],
       indRegra: map['indRegra'],
       vItem: (map.containsKey('vItem') ? (map['vItem']) : map['vUnCom']) ?? '',
-      vDesc: (map.containsKey('vRatDesc') ? (map['vRatDesc']) : map['vRatDesc']) ?? '',
+      vDesc:
+          (map.containsKey('vRatDesc') ? (map['vRatDesc']) : map['vRatDesc']) ??
+              '',
     );
   }
 
@@ -463,8 +543,11 @@ class Total {
 
   factory Total.fromMap(Map<String, dynamic> map) {
     return Total(
-      valorTotal: (map.containsKey('vCFe') ? map['vCFe'] : map['ICMSTot']['vNF']),
-      desconto: (map.containsKey('vCFe') ? (map['DescAcrEntr']?['vDescSubtot']) : map['ICMSTot']['vDesc']),
+      valorTotal:
+          (map.containsKey('vCFe') ? map['vCFe'] : map['ICMSTot']['vNF']),
+      desconto: (map.containsKey('vCFe')
+          ? (map['DescAcrEntr']?['vDescSubtot'])
+          : map['ICMSTot']['vDesc']),
       acrescimo: (map.containsKey('vCFe') ? null : map['ICMSTot']['vOutro']),
     );
   }
@@ -568,7 +651,8 @@ class CardPagamento {
 
   String toJson() => json.encode(toMap());
 
-  factory CardPagamento.fromJson(String source) => CardPagamento.fromMap(json.decode(source));
+  factory CardPagamento.fromJson(String source) =>
+      CardPagamento.fromMap(json.decode(source));
 }
 
 class MP {
@@ -600,7 +684,9 @@ class MP {
       "05": "Credito Loja",
     };
     return MP(
-      cMP: (map.containsKey('cMP')) ? formasPagamento[map['cMP']] : formasPagamento[map['tPag']],
+      cMP: (map.containsKey('cMP'))
+          ? formasPagamento[map['cMP']]
+          : formasPagamento[map['tPag']],
       vMP: (map.containsKey('vMP')) ? map['vMP'] : map['vPag'],
     );
   }
@@ -625,13 +711,15 @@ class InfAdic {
   factory InfAdic.fromMap(Map<String, dynamic> map) {
     return InfAdic(
       infCpl: map['infCpl'],
-      obsFisco: map['obsFisco'] != null ? ObsFisco.fromMap(map['obsFisco']) : null,
+      obsFisco:
+          map['obsFisco'] != null ? ObsFisco.fromMap(map['obsFisco']) : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory InfAdic.fromJson(String source) => InfAdic.fromMap(json.decode(source));
+  factory InfAdic.fromJson(String source) =>
+      InfAdic.fromMap(json.decode(source));
 }
 
 class ObsFisco {
@@ -655,5 +743,6 @@ class ObsFisco {
 
   String toJson() => json.encode(toMap());
 
-  factory ObsFisco.fromJson(String source) => ObsFisco.fromMap(json.decode(source));
+  factory ObsFisco.fromJson(String source) =>
+      ObsFisco.fromMap(json.decode(source));
 }

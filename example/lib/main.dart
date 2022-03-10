@@ -67,7 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: ElevatedButton(
                               onPressed: () {
                                 setState(() {
-                                  _dadosDanfe = controller.parseXml(_xmlController.text);
+                                  _dadosDanfe =
+                                      controller.parseXml(_xmlController.text);
                                 });
                               },
                               child: const Text('Processar nota'))),
@@ -75,16 +76,19 @@ class _MyHomePageState extends State<MyHomePage> {
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: ElevatedButton(
                               onPressed: () async {
-                                await controller.printDefault(_dadosDanfe, PaperSize.mm80);
+                                await controller.printDefault(
+                                    _dadosDanfe, PaperSize.mm80);
                               },
                               child: const Text('Imprimir nota'))),
                       Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: ElevatedButton(
                               onPressed: () async {
-                                await controller.printCustom(_dadosDanfe, PaperSize.mm80);
+                                await controller.printCustom(
+                                    _dadosDanfe, PaperSize.mm80);
                               },
-                              child: const Text('Imprimir minha customizacao'))),
+                              child:
+                                  const Text('Imprimir minha customizacao'))),
                     ],
                   ),
                 ],
@@ -115,7 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(child: Text(nota?.tipo == 'CFe' ? ' Nota SAT' : 'Nota NFC-E')),
+            Center(
+                child: Text(nota?.tipo == 'CFe' ? ' Nota SAT' : 'Nota NFC-E')),
             Padding(
               padding: const EdgeInsets.only(top: 2.0),
               child: RichText(
@@ -126,7 +131,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextSpan(
                   text: nota?.dados?.emit?.xFant ?? '',
-                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10),
                 ),
               ])),
             ),
@@ -140,7 +148,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextSpan(
                   text: nota?.dados?.emit?.cnpj ?? '',
-                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10),
                 ),
               ])),
             ),
@@ -154,7 +165,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextSpan(
                   text: nota?.dados?.chaveNota ?? '',
-                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10),
                 ),
               ])),
             ),
@@ -168,7 +182,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextSpan(
                   text: nota?.dados?.ide?.nNF ?? '',
-                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10),
                 ),
               ])),
             ),
@@ -189,10 +206,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     TextSpan(
                       text: ' (' + (prod?.prod?.vProd ?? '') + ') ',
-                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10),
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10),
                     ),
                   ])),
-                  subtitle: (prod?.prod?.vDesc != null) ? Text('Desconto: ' + (prod?.prod?.vDesc ?? '')) : const SizedBox(),
+                  subtitle: (prod?.prod?.vDesc != null)
+                      ? Text('Desconto: ' + (prod?.prod?.vDesc ?? ''))
+                      : const SizedBox(),
                   trailing: Text(prod?.prod?.vItem ?? ''),
                 );
               },
@@ -211,7 +233,8 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             Visibility(
-              visible: (nota?.dados?.total?.desconto != '0.00' && nota?.dados?.total?.desconto != null),
+              visible: (nota?.dados?.total?.desconto != '0.00' &&
+                  nota?.dados?.total?.desconto != null),
               child: RichText(
                   text: TextSpan(children: [
                 const TextSpan(
@@ -220,12 +243,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextSpan(
                   text: nota?.dados?.total?.desconto,
-                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10),
                 ),
               ])),
             ),
             Visibility(
-              visible: (nota?.dados?.pgto?.vTroco != '0.00' && nota?.dados?.pgto?.vTroco != null),
+              visible: (nota?.dados?.pgto?.vTroco != '0.00' &&
+                  nota?.dados?.pgto?.vTroco != null),
               child: RichText(
                   text: TextSpan(children: [
                 const TextSpan(
@@ -234,7 +261,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextSpan(
                   text: nota?.dados?.pgto?.vTroco ?? '',
-                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10),
                 ),
               ])),
             ),
@@ -246,7 +276,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               TextSpan(
                 text: nota?.dados?.total?.valorTotal,
-                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10),
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10),
               ),
             ])),
           ],

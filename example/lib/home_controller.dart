@@ -5,7 +5,7 @@ import 'package:esc_pos_utils/esc_pos_utils.dart';
 class HomeController {
   Danfe? parseXml(String xml) {
     try {
-      Danfe? danfe = DanfeParser.parseDanfe(xml);
+      Danfe? danfe = DanfeParser.readFromString(xml);
       return danfe;
     } catch (_) {
       return null;
@@ -34,8 +34,10 @@ class HomeController {
         ));
     bytes += generator.feed(1);
 
-    bytes += generator.text((danfe?.dados?.emit?.cnpj ?? ''), styles: const PosStyles(align: PosAlign.center));
-    bytes += generator.text('Nota compacta', styles: const PosStyles(align: PosAlign.center));
+    bytes += generator.text((danfe?.dados?.emit?.cnpj ?? ''),
+        styles: const PosStyles(align: PosAlign.center));
+    bytes += generator.text('Nota compacta',
+        styles: const PosStyles(align: PosAlign.center));
     bytes += generator.qrcode(danfe?.qrcodePrinter ?? ' ');
     bytes += generator.text('Chave: ' + (danfe?.dados?.chaveNota ?? ' '));
     bytes += generator.cut();

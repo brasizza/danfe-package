@@ -1,39 +1,57 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# DANFE
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Este package tem como finalidade ajudar no desenvolvimento e manipulação das Danfes, seja NFC-E ou SAT, normalizand o objeto e também criando um buffer de uma impressão padrão para ser enviada para qualquer dispositivo que imprima ESC/POS
 
-## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+## O que este package faz!
+- [x] Carrega um xml em string e verifica se é SAT ou NFC-E e normaliza um objeto com todas as informações em propriedades genéricas
+- [x] Cria um buffer em List<int> com um layout especificado por mim, porém no seu projeto você mesmo pode criar o layout que achar necessário (vide pasta EXEMPLO)
 
-## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
 
-## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+#Existe um exemplo completo na pasta example do projeto
+
+
+
+
+## Parseando seu xml em um objeto do tipo Danfe
 
 ```dart
-const like = 'sample';
+// importando o package
+import 'package:danfe/danfe.dart';
+Danfe? danfe = DanfeParser.parseDanfe(xml);
+
 ```
 
-## Additional information
+## Transformando seu objeto em um buffer para impressão (Utilizando o esc_pos_utils)
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```dart
+import 'package:danfe/danfe.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
+DanfePrinter danfePrinter = DanfePrinter( PaperSize.mm80 ); // ou  PaperSize.mm50
+final profile = await CapabilityProfile.load();
+List<int> _dados = await danfePrinter.bufferDanfe(danfe);
+
+```
+
+
+## Imprimindo o buffer em uma impressora de rede
+
+```dart
+import 'package:danfe/danfe.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
+DanfePrinter danfePrinter = DanfePrinter( PaperSize.mm80 ); // ou  PaperSize.mm50
+final profile = await CapabilityProfile.load();
+List<int> _dados = await danfePrinter.bufferDanfe(danfe);
+
+NetworkPrinter printer = NetworkPrinter(paper, profile);
+await printer.connect('192.168.5.111', port: 9100);
+printer.rawBytes(_dados);
+printer.disconnect();
+
+```
+
+
