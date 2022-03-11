@@ -24,7 +24,7 @@ class Total {
               : map['ICMSTot']['vDesc']) ??
           '0.00',
       acrescimo: (map.containsKey('vCFe') ? '0.00' : map['ICMSTot']['vOutro']),
-      valorPago: (map['vCFe']),
+      valorPago: (map['ICMSTot']['vNF']),
     );
   }
 

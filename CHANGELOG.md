@@ -1,3 +1,7 @@
+## 0.0.5
+* Inclusão da mensagem do fisco no final da nota
+* A data na emissão agora é a data da nota e não mais a data atual
+
 ## 0.0.4
 * Melhoria no modelo parão de impressão da danfe, colocando mais detalhado os descontos, acréscimos, troco e as formas de pagamento
 * Retirado também do modelo os espaços que consumia muita bobina

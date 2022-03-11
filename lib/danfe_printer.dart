@@ -55,7 +55,7 @@ class DanfePrinter implements IDanfePrinter {
     bytes += generator.text("Nota: " + (danfe?.dados?.ide?.nNF ?? ''),
         styles: const PosStyles(align: PosAlign.left));
     bytes += generator.text(
-        'Data: ' + DanfeUtils.formatDate(DateTime.now().toIso8601String()),
+        'Data: ' + DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? ''),
         styles: const PosStyles(align: PosAlign.center));
 
     bytes += generator.hr();
