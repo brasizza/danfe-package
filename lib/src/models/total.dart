@@ -4,11 +4,13 @@ class Total {
   String? valorTotal;
   String? desconto;
   String? acrescimo;
-  Total({this.valorTotal, this.desconto, this.acrescimo});
+  String? valorPago;
+  Total({this.valorTotal, this.desconto, this.acrescimo, this.valorPago});
 
   Map<String, dynamic> toMap() {
     return {
       'valorTotal': valorTotal,
+      'valorPago': valorPago,
       'desconto': desconto,
       'acrescimo': acrescimo,
     };
@@ -16,12 +18,10 @@ class Total {
 
   factory Total.fromMap(Map<String, dynamic> map) {
     return Total(
-      valorTotal:
-          (map.containsKey('vCFe') ? map['vCFe'] : map['ICMSTot']['vNF']),
-      desconto: (map.containsKey('vCFe')
-          ? (map['DescAcrEntr']?['vDescSubtot'])
-          : map['ICMSTot']['vDesc']),
-      acrescimo: (map.containsKey('vCFe') ? null : map['ICMSTot']['vOutro']),
+      valorTotal: (map['ICMSTot']['vProd']),
+      desconto: (map.containsKey('vCFe') ? (map['DescAcrEntr']?['vDescSubtot']) : map['ICMSTot']['vDesc']) ?? '0.00',
+      acrescimo: (map.containsKey('vCFe') ? '0.00' : map['ICMSTot']['vOutro']),
+      valorPago: (map['vCFe']),
     );
   }
 

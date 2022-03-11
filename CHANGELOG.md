@@ -1,3 +1,12 @@
+## 0.0.4
+* Melhoria no modelo parão de impressão da danfe, colocando mais detalhado os descontos, acréscimos, troco e as formas de pagamento
+* Retirado também do modelo os espaços que consumia muita bobina
+* Melhoria no modo de criar seu próprio modelo de impressão. Você agora pode implementar a interface ***IDanfePrinter*** 
+* Inclusão de uma propriedade para mostrar ou esconder o R$ nos valores.
+* Externalização de uma classe DanfeUtils com metodos de ajuda como conversão de valores
+* No exemplo, o custom printer tem exatamente o layout que uso na classe interna do package
+
+
 ## 0.0.3
 * Melhoria no exemplo dentro do REAME
 * Refatoração nas classes de modelos, colocando uma em cada pasta para facilitar futura manutenção

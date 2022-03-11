@@ -20,3 +20,5 @@ export 'src/models/pgto.dart';
 export 'src/models/prod.dart';
 export 'src/models/prot_nfe.dart';
 export 'src/models/total.dart';
+export 'src/interface/i_danfe_printer.dart';
+export 'src/core/utils.dart';
