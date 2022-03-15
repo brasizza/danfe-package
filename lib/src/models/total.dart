@@ -19,9 +19,14 @@ class Total {
   factory Total.fromMap(Map<String, dynamic> map) {
     return Total(
       valorTotal: (map['ICMSTot']['vProd']),
-      desconto: (map.containsKey('vCFe') ? (map['DescAcrEntr']?['vDescSubtot']) : map['ICMSTot']['vDesc']) ?? '0.00',
+      desconto: (map.containsKey('vCFe')
+              ? (map['DescAcrEntr']?['vDescSubtot'])
+              : map['ICMSTot']['vDesc']) ??
+          '0.00',
       acrescimo: (map.containsKey('vCFe') ? '0.00' : map['ICMSTot']['vOutro']),
-      valorPago: ((map.containsKey('vCFe') ? map['vCFe'] : map['ICMSTot']['vNF'])) ?? '0.00',
+      valorPago:
+          ((map.containsKey('vCFe') ? map['vCFe'] : map['ICMSTot']['vNF'])) ??
+              '0.00',
     );
   }
 

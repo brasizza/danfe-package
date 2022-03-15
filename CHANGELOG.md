@@ -1,3 +1,7 @@
+## 0.0.6
+* Alteração de conversão de double pra string feita errada
+
+
 ## 0.0.5
 * Inclusão da mensagem do fisco no final da nota
 * A data na emissão agora é a data da nota e não mais a data atual
