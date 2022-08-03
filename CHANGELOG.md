@@ -1,3 +1,7 @@
+## 0.0.7
+* O nó DEST as vezes o sistema entendia NULL, as vezes Vazio, corrigido para sempre ser nulo
+
+
 ## 0.0.6
 * Alteração de conversão de double pra string feita errada
 

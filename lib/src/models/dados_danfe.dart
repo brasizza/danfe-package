@@ -60,7 +60,9 @@ class DadosDanfe {
     return DadosDanfe(
       ide: map['ide'] != null ? Ide.fromMap(map['ide']) : null,
       emit: map['emit'] != null ? Emit.fromMap(map['emit']) : null,
-      dest: map['dest'] != null ? Dest.fromMap(map['dest']) : null,
+      dest: (map['dest'] != null && map['dest'] != '')
+          ? Dest.fromMap(map['dest'])
+          : null,
       det: map['det'] != null ? _det : null,
       total: map['total'] != null ? Total.fromMap(map['total']) : null,
       pgto: (map['pgto'] != null || map['pag'] != null)
