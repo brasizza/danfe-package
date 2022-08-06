@@ -1,3 +1,6 @@
+## 0.0.8
+* Separação do *vDesc* e do *vRatDesc* em duas propriedades diferentes para facilitar o uso
+
 ## 0.0.7
 * O nó DEST as vezes o sistema entendia NULL, as vezes Vazio, corrigido para sempre ser nulo
 

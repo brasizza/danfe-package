@@ -12,18 +12,21 @@ class Prod {
   String? indRegra;
   String? vItem;
   String? vDesc;
-  Prod(
-      {this.cProd,
-      this.xProd,
-      this.nCM,
-      this.cFOP,
-      this.uCom,
-      this.qCom,
-      this.vUnCom,
-      this.vProd,
-      this.indRegra,
-      this.vItem,
-      this.vDesc});
+  String? vRatDesc;
+  Prod({
+    this.cProd,
+    this.xProd,
+    this.nCM,
+    this.cFOP,
+    this.uCom,
+    this.qCom,
+    this.vUnCom,
+    this.vProd,
+    this.indRegra,
+    this.vItem,
+    this.vDesc,
+    this.vRatDesc,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -38,6 +41,7 @@ class Prod {
       'indRegra': indRegra,
       'vItem': vItem,
       'vDesc': vDesc,
+      'vRatDesc': vRatDesc,
     };
   }
 
@@ -53,7 +57,8 @@ class Prod {
       vProd: map['vProd'],
       indRegra: map['indRegra'],
       vItem: (map.containsKey('vItem') ? (map['vItem']) : map['vUnCom']) ?? '',
-      vDesc:
+      vDesc: (map.containsKey('vDesc') ? (map['vDesc']) : map['vDesc']) ?? '',
+      vRatDesc:
           (map.containsKey('vRatDesc') ? (map['vRatDesc']) : map['vRatDesc']) ??
               '',
     );
