@@ -1,3 +1,6 @@
+## 0.0.9
+* Criação do campo **vCFeLei12741** como *valorLei12741*
+
 ## 0.0.8
 * Separação do *vDesc* e do *vRatDesc* em duas propriedades diferentes para facilitar o uso
 
