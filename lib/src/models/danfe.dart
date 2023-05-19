@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'dados_danfe.dart';
 import 'inf_supl.dart';
 import 'prot_nfe.dart';
@@ -23,17 +24,17 @@ class Danfe {
   }
 
   factory Danfe.fromMapSat(Map<String, dynamic> map) {
-    Danfe _danfe = Danfe(
+    Danfe danfe = Danfe(
         dados: map['infCFe'] != null ? DadosDanfe.fromMap(map['infCFe']) : null,
         tipo: 'CFe');
     // String qrcode = (_danfe.dados?.chaveNota?.replaceAll('CFe', '') ?? '') + '|' + (_danfe.dados?.ide?.dEmi ?? '') + (_danfe.dados?.ide?.hEmi ?? '') + '|' + (_danfe.dados?.total?.valorTotal ?? '') + '|' + (_danfe.dados?.dest?.cpf ?? '') + '|' + (_danfe.dados?.ide?.assinaturaQRCODE ?? '');
-    String qrcode = (_danfe.dados?.ide?.assinaturaQRCODE ?? '');
-    _danfe.qrcodePrinter = qrcode.substring(100);
-    return _danfe;
+    String qrcode = (danfe.dados?.ide?.assinaturaQRCODE ?? '');
+    danfe.qrcodePrinter = qrcode.substring(100);
+    return danfe;
   }
 
   factory Danfe.fromMapNFce(Map<String, dynamic> map) {
-    Danfe _danfe = Danfe(
+    Danfe danfe = Danfe(
       dados: map['NFe']['infNFe'] != null
           ? DadosDanfe.fromMap(map['NFe']['infNFe'])
           : null,
@@ -43,8 +44,8 @@ class Danfe {
           ? InfNFeSupl.fromMap(map['NFe']['infNFeSupl'])
           : null,
     );
-    _danfe.qrcodePrinter = _danfe.infNFeSupl?.qrCode;
-    return _danfe;
+    danfe.qrcodePrinter = danfe.infNFeSupl?.qrCode;
+    return danfe;
   }
 
   String toJson() => json.encode(toMap());

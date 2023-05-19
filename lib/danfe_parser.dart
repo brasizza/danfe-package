@@ -13,15 +13,15 @@ class DanfeParser {
     final myTransformer = Xml2Json();
     myTransformer.parse(xml);
     String json = myTransformer.toParkerWithAttrs();
-    Map<String, dynamic> _converter = jsonDecode(json);
+    Map<String, dynamic> converter = jsonDecode(json);
 
     ///
     /// Verificando se começa com CFe ou nfeProc para saber se vai para  NFC-E ou SAT
     ///
-    if (_converter.containsKey('CFe')) {
-      return Danfe.fromMapSat(_converter['CFe']);
-    } else if (_converter.containsKey('nfeProc')) {
-      return Danfe.fromMapNFce(_converter['nfeProc']);
+    if (converter.containsKey('CFe')) {
+      return Danfe.fromMapSat(converter['CFe']);
+    } else if (converter.containsKey('nfeProc')) {
+      return Danfe.fromMapNFce(converter['nfeProc']);
     }
     return null;
   }

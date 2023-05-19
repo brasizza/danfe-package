@@ -72,16 +72,10 @@ class Ide {
     );
 
     if (map.containsKey('dEmi')) {
-      String parsedDate = ((map['dEmi'] as String).substring(0, 4) +
-          '-' +
-          (map['dEmi'] as String).substring(4, 6) +
-          '-' +
-          (map['dEmi'] as String).substring(6, 8));
-      String parsedHour = (map['hEmi'] as String).substring(0, 2) +
-          ':' +
-          (map['hEmi'] as String).substring(2, 4) +
-          ':' +
-          (map['hEmi'] as String).substring(4, 6);
+      String parsedDate =
+          ('${(map['dEmi'] as String).substring(0, 4)}-${(map['dEmi'] as String).substring(4, 6)}-${(map['dEmi'] as String).substring(6, 8)}');
+      String parsedHour =
+          '${(map['hEmi'] as String).substring(0, 2)}:${(map['hEmi'] as String).substring(2, 4)}:${(map['hEmi'] as String).substring(4, 6)}';
       ide.dataEmissao = "$parsedDate $parsedHour";
     } else if (map.containsKey('dhEmi')) {
       DateTime data = DateTime.parse((map['dhEmi']));

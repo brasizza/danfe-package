@@ -1,3 +1,6 @@
+## 0.0.11
+* Fix do pubspec pra levar o dart pro 4.0.0
+
 ## 0.0.10
 * Atualização do **intl interno** de   *^0.17.0* para *^0.18.1*
 

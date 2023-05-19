@@ -16,21 +16,21 @@ class Pgto {
 
   factory Pgto.fromMap(Map<String, dynamic> map) {
     if (map.containsKey('MP')) {
-      final List<MP> _listMP = [];
+      final List<MP> listMP = [];
 
       if (map['MP'].runtimeType.toString() != 'List<dynamic>') {
-        _listMP.add(MP.fromMap(map['MP']));
+        listMP.add(MP.fromMap(map['MP']));
       } else {
-        _listMP.addAll(List<MP>.from(map['MP']?.map((x) => MP.fromMap(x))));
+        listMP.addAll(List<MP>.from(map['MP']?.map((x) => MP.fromMap(x))));
       }
       return Pgto(
-        formas: map['MP'] != null ? _listMP : null,
+        formas: map['MP'] != null ? listMP : null,
         vTroco: map['vTroco'],
       );
     } else if (map.containsKey('detPag')) {
-      final _listMP = [MP.fromMap(map['detPag'])];
+      final listMP = [MP.fromMap(map['detPag'])];
       return Pgto(
-        formas: map['detPag'] != null ? _listMP : null,
+        formas: map['detPag'] != null ? listMP : null,
         vTroco: map['vTroco'],
       );
     } else {

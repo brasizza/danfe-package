@@ -51,11 +51,11 @@ class DadosDanfe {
   }
 
   factory DadosDanfe.fromMap(Map<String, dynamic> map) {
-    List<Det> _det = [];
+    List<Det> det = [];
     if (map['det'].runtimeType.toString() != 'List<dynamic>') {
-      _det.add(Det.fromMap(map['det']));
+      det.add(Det.fromMap(map['det']));
     } else {
-      _det.addAll(List<Det>.from(map['det']?.map((x) => Det.fromMap(x))));
+      det.addAll(List<Det>.from(map['det']?.map((x) => Det.fromMap(x))));
     }
     return DadosDanfe(
       ide: map['ide'] != null ? Ide.fromMap(map['ide']) : null,
@@ -63,7 +63,7 @@ class DadosDanfe {
       dest: (map['dest'] != null && map['dest'] != '')
           ? Dest.fromMap(map['dest'])
           : null,
-      det: map['det'] != null ? _det : null,
+      det: map['det'] != null ? det : null,
       total: map['total'] != null ? Total.fromMap(map['total']) : null,
       pgto: (map['pgto'] != null || map['pag'] != null)
           ? Pgto.fromMap(map.containsKey('pgto') ? map['pgto'] : map['pag'])

@@ -27,9 +27,7 @@ class DanfePrinter implements IDanfePrinter {
     bytes += generator.text((danfe?.dados?.emit?.cnpj ?? ''),
         styles: const PosStyles(align: PosAlign.center));
     bytes += generator.text(
-        (danfe?.dados?.emit?.enderEmit?.xLgr ?? '') +
-            ', ' +
-            ((danfe?.dados?.emit?.enderEmit?.nro ?? '')),
+        '${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''}, ${danfe?.dados?.emit?.enderEmit?.nro ?? ''}',
         styles: const PosStyles(align: PosAlign.center));
     bytes += generator.rawBytes([27, 97, 48]);
     bytes += generator.hr();
@@ -51,12 +49,12 @@ class DanfePrinter implements IDanfePrinter {
     }
     bytes += generator.rawBytes([27, 97, 48]);
     bytes += generator.text(
-        "CPF/CNPJ do consumidor: " + (danfe?.dados?.dest?.cpf ?? ''),
+        "CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? ''}",
         styles: const PosStyles(align: PosAlign.left));
-    bytes += generator.text("Nota: " + (danfe?.dados?.ide?.nNF ?? ''),
+    bytes += generator.text("Nota: ${danfe?.dados?.ide?.nNF ?? ''}",
         styles: const PosStyles(align: PosAlign.left));
     bytes += generator.text(
-        'Data: ' + DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? ''),
+        'Data: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? '')}',
         styles: const PosStyles(align: PosAlign.center));
 
     bytes += generator.hr();
