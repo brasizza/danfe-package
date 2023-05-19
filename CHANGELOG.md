@@ -1,3 +1,6 @@
+## 0.0.10
+* Atualização do **intl interno** de   *^0.17.0* para *^0.18.1*
+
 ## 0.0.9
 * Criação do campo **vCFeLei12741** como *valorLei12741*
 
