@@ -1,3 +1,6 @@
+## 0.0.12
+* Improve: Novas formas de Pagamento de acordo com a NT 2020 Tks to [@f-junior](https://github.com/f-junior)
+
 ## 0.0.11
 * Fix do pubspec pra levar o dart pro 4.0.0
 
