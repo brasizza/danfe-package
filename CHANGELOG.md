@@ -1,3 +1,6 @@
+## 0.0.13
+* Improve: Incluindo a possibilidade de parsear um xml sem protocolo [@Hudson82011](https://github.com/Hudson82011)
+
 ## 0.0.12
 * Improve: Novas formas de Pagamento de acordo com a NT 2020 Tks to [@f-junior](https://github.com/f-junior)
 

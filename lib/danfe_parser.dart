@@ -22,6 +22,8 @@ class DanfeParser {
       return Danfe.fromMapSat(converter['CFe']);
     } else if (converter.containsKey('nfeProc')) {
       return Danfe.fromMapNFce(converter['nfeProc']);
+    } else if (converter.containsKey('NFe')) {
+      return Danfe.fromMapNFce(converter['NFe']);
     }
     return null;
   }

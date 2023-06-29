@@ -34,14 +34,17 @@ class Danfe {
   }
 
   factory Danfe.fromMapNFce(Map<String, dynamic> map) {
+    final parseMap = map.containsKey('NFe') ? map['NFe'] : map;
     Danfe danfe = Danfe(
-      dados: map['NFe']['infNFe'] != null
-          ? DadosDanfe.fromMap(map['NFe']['infNFe'])
+      dados: parseMap['infNFe'] != null
+          ? DadosDanfe.fromMap(parseMap['infNFe'])
           : null,
       tipo: 'NFe',
-      protNFe: map['protNFe'] != null ? ProtNFe.fromMap(map['protNFe']) : null,
-      infNFeSupl: map['NFe']['infNFeSupl'] != null
-          ? InfNFeSupl.fromMap(map['NFe']['infNFeSupl'])
+      protNFe: parseMap['protNFe'] != null
+          ? ProtNFe.fromMap(parseMap['protNFe'])
+          : null,
+      infNFeSupl: parseMap['infNFeSupl'] != null
+          ? InfNFeSupl.fromMap(parseMap['infNFeSupl'])
           : null,
     );
     danfe.qrcodePrinter = danfe.infNFeSupl?.qrCode;
