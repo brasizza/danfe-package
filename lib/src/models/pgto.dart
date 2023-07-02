@@ -28,11 +28,22 @@ class Pgto {
         vTroco: map['vTroco'],
       );
     } else if (map.containsKey('detPag')) {
-      final listMP = [MP.fromMap(map['detPag'])];
-      return Pgto(
-        formas: map['detPag'] != null ? listMP : null,
-        vTroco: map['vTroco'],
-      );
+      if (map['detPag'].runtimeType.toString() == 'List<dynamic>') {
+        List<MP> listMP = [];
+        for (var pag in map['detPag']) {
+          listMP.add(MP.fromMap(pag));
+        }
+        return Pgto(
+          formas: listMP.isNotEmpty ? listMP : null,
+          vTroco: map['vTroco'],
+        );
+      } else {
+        final listMP = [MP.fromMap(map['detPag'])];
+        return Pgto(
+          formas: map['detPag'] != null ? listMP : null,
+          vTroco: map['vTroco'],
+        );
+      }
     } else {
       return Pgto();
     }
