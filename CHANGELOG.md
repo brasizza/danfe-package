@@ -1,3 +1,7 @@
+## 0.0.14
+* Improve: Comportando múltiplas formas de pagamento Tks to [@f-junior](https://github.com/f-junior)
+
+
 ## 0.0.13
 * Improve: Incluindo a possibilidade de parsear um xml sem protocolo [@Hudson82011](https://github.com/Hudson82011)
 
