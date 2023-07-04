@@ -5,6 +5,7 @@ class Ide {
   String? cNF;
   String? mod;
   String? nserieSAT;
+  String? serie;
   String? dEmi;
   String? hEmi;
   String? cDV;
@@ -22,6 +23,7 @@ class Ide {
       this.cNF,
       this.mod,
       this.nserieSAT,
+      this.serie,
       this.dEmi,
       this.hEmi,
       this.cDV,
@@ -40,6 +42,7 @@ class Ide {
       'cNF': cNF,
       'mod': mod,
       'nserieSAT': nserieSAT,
+      'serie': serie,
       'dEmi': dEmi,
       'hEmi': hEmi,
       'cDV': cDV,
@@ -59,6 +62,7 @@ class Ide {
       cNF: map['cNF'],
       mod: map['mod'],
       nserieSAT: map['nserieSAT'],
+      serie: map['serie'],
       dEmi: map['dEmi'],
       hEmi: map['hEmi'],
       cDV: map['cDV'],
