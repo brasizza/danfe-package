@@ -1,3 +1,7 @@
+## 0.0.15
+* Improve: Corrigindo o calculo de desconto da danfe Tks to [@murilorissos](https://github.com/murilorissos)
+
+
 ## 0.0.14
 * Improve: Comportando múltiplas formas de pagamento Tks to [@f-junior](https://github.com/f-junior)
 

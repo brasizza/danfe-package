@@ -1,7 +1,8 @@
 import 'package:danfe/danfe.dart';
-import 'home_controller.dart';
-import 'package:flutter/material.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'package:flutter/material.dart';
+
+import 'home_controller.dart';
 
 void main() {
   runApp(const MyApp());

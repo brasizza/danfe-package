@@ -95,7 +95,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.13"
+    version: "0.0.15"
   esc_pos_printer:
     dependency: "direct main"
     description:
