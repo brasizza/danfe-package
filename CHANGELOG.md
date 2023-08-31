@@ -1,3 +1,8 @@
+## 0.0.16
+* Improve:  Foi necessário tirar o valor unitário quando a impressão for a de 58mm por conta da colunagem.
+
+
+
 ## 0.0.15
 * Improve: Corrigindo o calculo de desconto da danfe Tks to [@murilorissos](https://github.com/murilorissos)
 

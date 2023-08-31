@@ -59,46 +59,82 @@ class DanfePrinter implements IDanfePrinter {
 
     bytes += generator.hr();
 
-    bytes += generator.row([
-      PosColumn(
-          text: 'DESCRICAO',
-          width: (paperSize == PaperSize.mm58) ? 3 : 5,
-          styles: const PosStyles(align: PosAlign.left, bold: true)),
-      PosColumn(
-          text: 'QTD',
-          width: ((paperSize == PaperSize.mm58) ? 3 : 1),
-          styles: const PosStyles(align: PosAlign.right, bold: true)),
-      PosColumn(
-          text: 'VLUN',
-          width: 3,
-          styles: const PosStyles(align: PosAlign.right, bold: true)),
-      PosColumn(
-          text: 'VLTOT',
-          width: 3,
-          styles: const PosStyles(align: PosAlign.right, bold: true)),
-    ]);
+    if (paperSize == PaperSize.mm58) {
+      bytes += generator.row([
+        PosColumn(
+            text: 'DESCRICAO',
+            width: 7,
+            styles: const PosStyles(align: PosAlign.left, bold: true)),
+        PosColumn(
+            text: 'QTD',
+            width: 2,
+            styles: const PosStyles(align: PosAlign.right, bold: true)),
+        PosColumn(
+            text: 'VLTOT',
+            width: 3,
+            styles: const PosStyles(align: PosAlign.right, bold: true)),
+      ]);
+    } else {
+      bytes += generator.row([
+        PosColumn(
+            text: 'DESCRICAO',
+            width: 5,
+            styles: const PosStyles(align: PosAlign.left, bold: true)),
+        PosColumn(
+            text: 'QTD',
+            width: 1,
+            styles: const PosStyles(align: PosAlign.right, bold: true)),
+        PosColumn(
+            text: 'VLUN',
+            width: 3,
+            styles: const PosStyles(align: PosAlign.right, bold: true)),
+        PosColumn(
+            text: 'VLTOT',
+            width: 3,
+            styles: const PosStyles(align: PosAlign.right, bold: true)),
+      ]);
+    }
     if (danfe?.dados?.det != null) {
       for (Det det in danfe!.dados!.det!) {
-        bytes += generator.row([
-          PosColumn(
-              text: det.prod?.xProd ?? '',
-              width: (paperSize == PaperSize.mm58) ? 3 : 5,
-              styles: const PosStyles(align: PosAlign.left)),
-          PosColumn(
-              text: DanfeUtils.formatNumber(det.prod?.qCom ?? ''),
-              width: ((paperSize == PaperSize.mm58) ? 3 : 1),
-              styles: const PosStyles(align: PosAlign.right)),
-          PosColumn(
-              text: DanfeUtils.formatMoneyMilhar(det.prod?.vUnCom ?? '',
-                  modeda: 'pt_BR', simbolo: moeda),
-              width: 3,
-              styles: const PosStyles(align: PosAlign.right)),
-          PosColumn(
-              text: DanfeUtils.formatMoneyMilhar(det.prod?.vProd ?? '',
-                  modeda: 'pt_BR', simbolo: moeda),
-              width: 3,
-              styles: const PosStyles(align: PosAlign.right)),
-        ]);
+        if (paperSize == PaperSize.mm58) {
+          bytes += generator.row([
+            PosColumn(
+                text: det.prod?.xProd ?? '',
+                width: 7,
+                styles: const PosStyles(
+                    align: PosAlign.left, width: PosTextSize.size1)),
+            PosColumn(
+                text: DanfeUtils.formatNumber(det.prod?.qCom ?? ''),
+                width: 2,
+                styles: const PosStyles(align: PosAlign.right)),
+            PosColumn(
+                text: DanfeUtils.formatMoneyMilhar(det.prod?.vProd ?? '',
+                    modeda: 'pt_BR', simbolo: moeda),
+                width: 3,
+                styles: const PosStyles(align: PosAlign.right)),
+          ]);
+        } else {
+          bytes += generator.row([
+            PosColumn(
+                text: det.prod?.xProd ?? '',
+                width: 5,
+                styles: const PosStyles(align: PosAlign.left)),
+            PosColumn(
+                text: DanfeUtils.formatNumber(det.prod?.qCom ?? ''),
+                width: 1,
+                styles: const PosStyles(align: PosAlign.right)),
+            PosColumn(
+                text: DanfeUtils.formatMoneyMilhar(det.prod?.vUnCom ?? '',
+                    modeda: 'pt_BR', simbolo: moeda),
+                width: 3,
+                styles: const PosStyles(align: PosAlign.right)),
+            PosColumn(
+                text: DanfeUtils.formatMoneyMilhar(det.prod?.vProd ?? '',
+                    modeda: 'pt_BR', simbolo: moeda),
+                width: 3,
+                styles: const PosStyles(align: PosAlign.right)),
+          ]);
+        }
       }
     }
     bytes += generator.hr();
@@ -227,6 +263,7 @@ class DanfePrinter implements IDanfePrinter {
     bytes += generator.qrcode(danfe?.qrcodePrinter ?? '');
 
     bytes += generator.rawBytes([27, 97, 48]);
+    bytes += generator.feed(1);
     if (danfe?.dados?.infAdic?.infCpl != null) {
       bytes += generator.text(danfe!.dados!.infAdic!.infCpl ?? ' ',
           styles: const PosStyles(align: PosAlign.center));

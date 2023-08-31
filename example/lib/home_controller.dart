@@ -22,7 +22,7 @@ class HomeController {
     List<int> _dados =
         await danfePrinter.bufferDanfe(danfe, mostrarMoeda: false);
     NetworkPrinter printer = NetworkPrinter(paper, profile);
-    await printer.connect('192.168.5.111', port: 9100);
+    await printer.connect('192.168.20.220', port: 9100);
     printer.rawBytes(_dados);
     printer.disconnect();
   }
@@ -34,7 +34,7 @@ class HomeController {
     final CustomPrinter custom = CustomPrinter(paper);
     List<int> _dados = await custom.bufferDanfe(danfe);
     NetworkPrinter printer = NetworkPrinter(paper, profile);
-    await printer.connect('192.168.5.111', port: 9100);
+    await printer.connect('192.168.20.220', port: 9100);
     printer.rawBytes(_dados);
     printer.disconnect();
   }
