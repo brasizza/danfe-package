@@ -1,5 +1,5 @@
 ## 0.0.17
-* Change:  Foi necessário fazer o fork do esc_pos_utils para atualizar dependencias e colocar no meu repositório
+* Change:  Foi necessário fazer o fork do esc_pos_printer para atualizar dependencias e colocar no meu repositório **esc_pos_printer_plus**
 
 ## 0.0.16
 * Improve:  Foi necessário tirar o valor unitário quando a impressão for a de 58mm por conta da colunagem.
