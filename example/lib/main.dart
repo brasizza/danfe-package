@@ -1,5 +1,5 @@
 import 'package:danfe/danfe.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 import 'package:flutter/material.dart';
 
 import 'home_controller.dart';
@@ -58,8 +58,117 @@ class _MyHomePageState extends State<MyHomePage> {
                   const Text('Cole aqui o seu xml da danfe'),
                   TextField(
                     controller: _xmlController
-                      ..text =
-                          r'''<CFe><infCFe Id="CFe23221233040747000637592302005660000041065401" versao="0.08" versaoDadosEnt="0.08" versaoSB="050004"><ide><cUF>23</cUF><cNF>106540</cNF><mod>59</mod><nserieSAT>230200566</nserieSAT><nCFe>000004</nCFe><dEmi>20221222</dEmi><hEmi>121248</hEmi><cDV>1</cDV><tpAmb>1</tpAmb><CNPJ>15120049000155</CNPJ><signAC>eZW1X8vaNbBAhAsN7gvtcj8JPaXQdAjTQz2BR761OEzTOrpc/p13imWQsGQojBNvd4aQunXFPiMzXZCoWNAc3NJOn2Rc/qyhtHB4x0ZSffo1Df2J0zdBUa1dMEs0A8FYSdcwQr/r2gqnuYSZVotpZGZGu93ixqiert/EXDYYBUmhW/q5AfRpQUJDEJvnibv1DnZXmD1KlM9d+pZQTiaqzA8HLXZ14wpwUKZIzhNxtzivYV9KAAUblcsbyEKLNS+10tp9i3SvSSISizsuh6i3U8TxHDH2S4DS2uFjGfPT47M2QOzQvby1t0ZMnnHPAX+USMDxmKWuKgy4o28RV3hQSA==</signAC><assinaturaQRCODE>Hk+by19lgiU9lQbSDCpzY+k9ryPchSEzF6qohhn0f/qMj1qu5GHJ8lcIB4TKlb5BX3/lxeUoZ2CWmelClwJ4RA1aQO3DgJDrow5gVIykc/rcFStzTCxthVGBrKCwILnikuAwrbLCBu34QDKXcsjSyYhDF1UGYlHsMeU2BHnPayMz3jcCQBjBYvcpdqYxYzjjZCCOTihsqpMfayVDRSO67qkgf39qxYaHuiSC1+eqAv2iK535cg+A3KrUQptzNMpNmSCeEWMt4yvdqlr5eLEvIlwAOd+nEm+7Jmti7SsxzRsHqacv8P5LcmTADK3NSXollz1Kwqwr/wQof2oIRnH+rQ==</assinaturaQRCODE><numeroCaixa>062</numeroCaixa></ide><emit><CNPJ>33040747000637</CNPJ><xNome>TBRP RESTAURANTE LTDA</xNome><xFant>TATU BOLA FORTALEZA</xFant><enderEmit><xLgr>REPUBLICA DO LIBANO</xLgr><nro>01084</nro><xBairro>MEIRELES</xBairro><xMun>FORTALEZA</xMun><CEP>60160140</CEP></enderEmit><IE>000071029966</IE><IM>7644868</IM><cRegTrib>3</cRegTrib><indRatISSQN>S</indRatISSQN></emit><dest></dest><det nItem="1"><prod><cProd>1001100032</cProd><xProd>RED BULL TROPICAL PEQ</xProd><NCM>22011000</NCM><CFOP>5405</CFOP><uCom>UN</uCom><qCom>2.0000</qCom><vUnCom>20.000</vUnCom><vProd>40.00</vProd><indRegra>A</indRegra><vItem>40.00</vItem></prod><imposto><ICMS><ICMS40><Orig>0</Orig><CST>60</CST></ICMS40></ICMS><PIS><PISNT><CST>06</CST></PISNT></PIS><COFINS><COFINSNT><CST>06</CST></COFINSNT></COFINS></imposto></det><det nItem="2"><prod><cProd>1001400009</cProd><xProd>MOSCOW MULE</xProd><NCM>22085000</NCM><CFOP>5405</CFOP><uCom>UN</uCom><qCom>3.0000</qCom><vUnCom>26.800</vUnCom><vProd>80.40</vProd><indRegra>A</indRegra><vItem>80.40</vItem></prod><imposto><ICMS><ICMS40><Orig>0</Orig><CST>60</CST></ICMS40></ICMS><PIS><PISNT><CST>06</CST></PISNT></PIS><COFINS><COFINSNT><CST>06</CST></COFINSNT></COFINS></imposto></det><det nItem="3"><prod><cProd>1001900011</cProd><xProd>GIN DOSE PEQ</xProd><NCM>22085000</NCM><CFOP>5405</CFOP><uCom>UN</uCom><qCom>2.0000</qCom><vUnCom>7.900</vUnCom><vProd>15.80</vProd><indRegra>A</indRegra><vItem>15.80</vItem></prod><imposto><ICMS><ICMS40><Orig>0</Orig><CST>60</CST></ICMS40></ICMS><PIS><PISNT><CST>06</CST></PISNT></PIS><COFINS><COFINSNT><CST>06</CST></COFINSNT></COFINS></imposto></det><det nItem="4"><prod><cProd>7008000002</cProd><xProd>COUVERT 7,90</xProd><NCM>00000099</NCM><CFOP>5933</CFOP><uCom>UN</uCom><qCom>1.0000</qCom><vUnCom>7.900</vUnCom><vProd>7.90</vProd><indRegra>A</indRegra><vItem>7.90</vItem></prod><imposto><ISSQN><vDeducISSQN>0.00</vDeducISSQN><vBC>7.90</vBC><vAliq>005.00</vAliq><vISSQN>0.40</vISSQN><cMunFG>2304400</cMunFG><cListServ>12.06</cListServ><cNatOp>05</cNatOp><indIncFisc>1</indIncFisc></ISSQN><PIS><PISSN><CST>49</CST></PISSN></PIS><COFINS><COFINSSN><CST>49</CST></COFINSSN></COFINS></imposto></det><det nItem="5"><prod><cProd>7007000001</cProd><xProd>Gorjeta concedida</xProd><NCM>21069090</NCM><CFOP>5102</CFOP><uCom>UN</uCom><qCom>1.0000</qCom><vUnCom>13.620</vUnCom><vProd>13.62</vProd><indRegra>A</indRegra><vItem>13.62</vItem></prod><imposto><ICMS><ICMS40><Orig>0</Orig><CST>41</CST></ICMS40></ICMS><PIS><PISNT><CST>08</CST></PISNT></PIS><COFINS><COFINSNT><CST>08</CST></COFINSNT></COFINS></imposto></det><total><ICMSTot><vICMS>0.00</vICMS><vProd>149.82</vProd><vDesc>0.00</vDesc><vPIS>0.00</vPIS><vCOFINS>0.00</vCOFINS><vPISST>0.00</vPISST><vCOFINSST>0.00</vCOFINSST><vOutro>0.00</vOutro></ICMSTot><vCFe>157.72</vCFe><ISSQNtot><vBC>7.90</vBC><vISS>0.40</vISS><vPIS>0.00</vPIS><vCOFINS>0.00</vCOFINS><vPISST>0.00</vPISST><vCOFINSST>0.00</vCOFINSST></ISSQNtot></total><pgto><MP><cMP>01</cMP><vMP>157.72</vMP></MP><vTroco>0.00</vTroco></pgto><infAdic><infCpl>- :Nacional: R$ 0,00 Estadual: R$ 0,00 Municipal: R$ 0,00 Importado: R$ F:766</infCpl></infAdic></infCFe><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></CanonicalizationMethod><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"></SignatureMethod><Reference URI="#CFe23221233040747000637592302005660000041065401"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></Transform></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod><DigestValue>qUsNqUoOWzxrXeOqmfdkVhC1cC4lOhGlnwLacYYX1vg=</DigestValue></Reference></SignedInfo><SignatureValue>pw89Z6wpjlYGzZGKTtvwBgW0YvT2fzmh1YqhHqDuFGsy0Auajxr4GCay0wWlCbCT2xKRcDK+4BqQ/FUUDqBP9hzzO7B5f6FYhCaH7z1h5ZiPxh6A9bsdq9Jvs9rGUEihV+IhSkkWAt0NJhio/xa4wLJKxDUbamBJZb2/sH/HtcgLfcefAuGryYHsIkb6Kr2VU7R2OscWOXuhL4Q+BZdhWRe8Gkrq3wF9HbinGm+ZOiJrJSIH08IPLWfqRucl5zKqm+hZmA9plxHKRI87FyhqEh+VhzmMzrNCbKu84rum6u/uPEIlu15m+wNvWe+1oOwKhjsjBFIJ50Z1RnqKOfmyrw==</SignatureValue><KeyInfo><X509Data><X509Certificate>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</X509Certificate></X509Data></KeyInfo></Signature></CFe>''',
+                      ..text = r'''<?xml version="1.0"?>
+<CFe>
+  <infCFe Id="CFe35161261099008000141599000026310003024947916" versao="0.07" versaoDadosEnt="0.07" versaoSB="010300">
+    <ide>
+      <cUF>35</cUF>
+      <cNF>494791</cNF>
+      <mod>59</mod>
+      <nserieSAT>900002631</nserieSAT>
+      <nCFe>000302</nCFe>
+      <dEmi>20161220</dEmi>
+      <hEmi>095111</hEmi>
+      <cDV>6</cDV>
+      <tpAmb>2</tpAmb>
+      <CNPJ>08427847000169</CNPJ>
+      <signAC>SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT</signAC>
+      <assinaturaQRCODE>EKP6q5FOMSxPfTr4yf2LHBw4UTp6vsFsJ6cM3c6Lc0AjLExZ63tERLucVgp5Ao69fzmS103/PiTyw2XdweVebq1hfLiK7vbPRqgVWJySxjcLUCzMJacVlPCJyOwTxDL34tyvbW6Vr+c2+jBB3HsqO3zxW9ZsrzBWhhkxx9zWgFC6CSf5wOZe88+cTU+JVpWN6pPUEKIoeO3Z0/1+WZz1ESoU+kGfpVu+z45j70AZu0bIRjFT6bqs65BUDtUKRtMsq72vocnSD9yQgYHwNpZglCGkREyF2qQu18oqN0RQvi9L8DBSFhxf8QW2RC13XpqfmLWwFXc8sjp1VjjgDH6CYQ==</assinaturaQRCODE>
+      <numeroCaixa>001</numeroCaixa>
+    </ide>
+    <emit>
+      <CNPJ>61099008000141</CNPJ>
+      <xNome>DIMAS DE MELO PIMENTA SISTEMAS DE PONTO E ACESSO LTDA</xNome>
+      <xFant>DIMEP</xFant>
+      <enderEmit>
+        <xLgr>AVENIDA MOFARREJ</xLgr>
+        <nro>840</nro>
+        <xCpl>908</xCpl>
+        <xBairro>VL. LEOPOLDINA</xBairro>
+        <xMun>SAO PAULO</xMun>
+        <CEP>05311000</CEP>
+      </enderEmit>
+      <IE>111111111111</IE>
+      <IM>12345</IM>
+      <cRegTrib>3</cRegTrib>
+      <cRegTribISSQN>3</cRegTribISSQN>
+      <indRatISSQN>N</indRatISSQN>
+    </emit>
+    <dest/>
+    <det nItem="1">
+      <prod>
+        <cProd>116</cProd>
+        <cEAN>9990000001163</cEAN>
+        <xProd>Cascao</xProd>
+        <CFOP>5405</CFOP>
+        <uCom>UN</uCom>
+        <qCom>1.0000</qCom>
+        <vUnCom>4.00</vUnCom>
+        <vProd>4.00</vProd>
+        <indRegra>A</indRegra>
+        <vItem>4.00</vItem>
+      </prod>
+      <imposto>
+        <ICMS>
+          <ICMSSN102>
+            <Orig>0</Orig>
+            <CSOSN>500</CSOSN>
+          </ICMSSN102>
+        </ICMS>
+        <PIS>
+          <PISSN>
+            <CST>49</CST>
+          </PISSN>
+        </PIS>
+        <COFINS>
+          <COFINSSN>
+            <CST>49</CST>
+          </COFINSSN>
+        </COFINS>
+      </imposto>
+    </det>
+    <total>
+      <ICMSTot>
+        <vICMS>0.00</vICMS>
+        <vProd>4.00</vProd>
+        <vDesc>0.00</vDesc>
+        <vPIS>0.00</vPIS>
+        <vCOFINS>0.00</vCOFINS>
+        <vPISST>0.00</vPISST>
+        <vCOFINSST>0.00</vCOFINSST>
+        <vOutro>0.00</vOutro>
+      </ICMSTot>
+      <vCFe>4.00</vCFe>
+    </total>
+    <pgto>
+      <MP>
+        <cMP>01</cMP>
+        <vMP>4.00</vMP>
+      </MP>
+      <vTroco>0.00</vTroco>
+    </pgto>
+  </infCFe>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+      <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+      <Reference URI="#CFe35161261099008000141599000026310003024947916">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+          <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+        <DigestValue>3sW0ay6BB4wbJUVnp9B1SQpqCka+ga8gwxHy/ViCXuw=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>G9hWhCmhaFn4FYNU+ukYm4a8OfvFR5fZz9CYGj0XN5ayr43p2ugho7oCY1ySlwhrl0dTfnvQrE6S1IvD/W7LcS8PSnCx4G7X4wzZpTQojDAwbAZBBHjEe4Xhj7gIHRKhHvwiHwBsuBF64zZgUCcs91SgVJNFc1pfor/RP37pfwfFNQtobhvvFak99J0aPsHsmYoPeQBH2HzrmGfqLvZvpZQX7xJlpgU/D/wPxWpSTjHUOr2UegT0LYMPudpUQ96rBLgByvwx2rkJ+fmXz94T9WNPQxRyhJduDjChCFkwqFZ+3Ik4+s3LiQDVM/MonHvXB9BPIYRJOjiN3C6Nc3WMSA==</SignatureValue>
+    <KeyInfo>
+      <X509Data>
+        <X509Certificate>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</X509Certificate>
+      </X509Data>
+    </KeyInfo>
+  </Signature>
+</CFe>''',
                     maxLines: 10,
                   ),
                   Row(

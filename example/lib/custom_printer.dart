@@ -1,5 +1,5 @@
 import 'package:danfe/danfe.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 
 class CustomPrinter implements IDanfePrinter {
   final PaperSize paperSize;
