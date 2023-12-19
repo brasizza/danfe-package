@@ -40,7 +40,7 @@ class Danfe {
           ? DadosDanfe.fromMap(parseMap['infNFe'])
           : null,
       tipo: 'NFe',
-      protNFe: parseMap['protNFe'] != null
+      protNFe: map['protNFe'] != null
           ? ProtNFe.fromMap(parseMap['protNFe'])
           : null,
       infNFeSupl: parseMap['infNFeSupl'] != null
