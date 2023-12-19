@@ -264,10 +264,64 @@ class DanfePrinter implements IDanfePrinter {
 
     bytes += generator.rawBytes([27, 97, 48]);
     bytes += generator.feed(1);
+
+    if (danfe?.dados?.ide?.serie != null) {
+      final serie = (danfe?.dados?.ide?.serie ?? '0').padLeft(3, '0');
+      final nnf = (danfe?.dados?.ide?.nNF ?? '0').padLeft(9, '0');
+      bytes += generator.rawBytes([27, 97, 49]);
+
+      bytes += generator.text('Nota $nnf Serie $serie ',
+          styles: const PosStyles(align: PosAlign.center, bold: true));
+      bytes += generator.rawBytes([27, 97, 48]);
+
+      bytes += generator.feed(1);
+    }
+
+    if (danfe?.dados?.ide?.nserieSAT != null) {
+      final serie = (danfe?.dados?.ide?.nserieSAT ?? '0').padLeft(3, '0');
+      final nnf = (danfe?.dados?.ide?.nNF ?? '0').padLeft(9, '0');
+      bytes += generator.rawBytes([27, 97, 49]);
+      bytes += generator.text('Nota $nnf Serie $serie',
+          styles: const PosStyles(align: PosAlign.center, bold: true));
+      bytes += generator.rawBytes([27, 97, 48]);
+
+      bytes += generator.feed(1);
+    }
+
+    if (danfe?.protNFe != null) {
+      bytes += generator.row([
+        PosColumn(
+            text: 'Protocolo: ', width: 6, styles: const PosStyles(bold: true)),
+        PosColumn(
+            text: danfe?.protNFe?.infProt?.nProt ?? '',
+            width: 6,
+            styles: const PosStyles(
+              align: PosAlign.right,
+            )),
+      ]);
+      DateTime dateTime = DateTime.parse(danfe?.protNFe?.infProt?.dhRecbto ??
+          DateTime.now().toIso8601String());
+      String formattedDate =
+          "${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
+
+      bytes += generator.row([
+        PosColumn(
+            text: 'Data: ', width: 6, styles: const PosStyles(bold: true)),
+        PosColumn(
+            text: formattedDate,
+            width: 6,
+            styles: const PosStyles(
+              align: PosAlign.right,
+            )),
+      ]);
+      bytes += generator.feed(1);
+    }
+
     if (danfe?.dados?.infAdic?.infCpl != null) {
       bytes += generator.text(danfe!.dados!.infAdic!.infCpl ?? ' ',
           styles: const PosStyles(align: PosAlign.center));
     }
+
     bytes += generator.cut();
     bytes += generator.reset();
 
