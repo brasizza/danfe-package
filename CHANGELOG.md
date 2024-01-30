@@ -1,3 +1,6 @@
+## 0.0.19
+* Improve: Diminuir o qrcode da danfe que estava muito grande!
+
 ## 0.0.18
 * Improve: Melhoria de recebimento do protocolo quando é NFC-E da danfe Tks to [@EduardoDadalt](https://github.com/EduardoDadalt)
 * Melhoria de impressão, agora estamos colocando o número do documento, serie e os numeros de procoloco quando é NFC-e e a data!
