@@ -49,8 +49,12 @@ class DanfePrinter implements IDanfePrinter {
     }
     bytes += generator.rawBytes([27, 97, 48]);
     bytes += generator.text(
-        "CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? ''}",
+        "CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? danfe?.dados?.dest?.cnpj ?? ''}",
         styles: const PosStyles(align: PosAlign.left));
+    if (danfe?.dados?.dest?.xNome != '' || danfe?.dados?.dest?.xNome != null) {
+      bytes += generator.text("Nome: ${danfe?.dados?.dest?.xNome ?? ''}",
+          styles: const PosStyles(align: PosAlign.left));
+    }
     bytes += generator.text("Nota: ${danfe?.dados?.ide?.nNF ?? ''}",
         styles: const PosStyles(align: PosAlign.left));
     bytes += generator.text(
@@ -262,6 +266,7 @@ class DanfePrinter implements IDanfePrinter {
     bytes += generator.rawBytes([27, 97, 49]);
     bytes += generator.qrcode(danfe?.qrcodePrinter ?? '',
         size: QRSize.Size2, cor: QRCorrection.H);
+
     bytes += generator.rawBytes([27, 97, 48]);
     bytes += generator.feed(1);
 

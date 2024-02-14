@@ -1,3 +1,6 @@
+## 0.0.20
+* Improve: Imprimir os dados do consumidor quando for CNPJ Tks pelo xml de teste [@smorigo](https://github.com/smorigo)
+
 ## 0.0.19
 * Improve: Diminuir o qrcode da danfe que estava muito grande!
 
