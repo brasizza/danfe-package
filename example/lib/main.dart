@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:danfe/danfe.dart';
 import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -187,6 +189,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: ElevatedButton(
+                              onPressed: () {
+                                final jsonNormativo = controller.normativeJson(
+                                    _xmlController.text, PaperSize.mm58);
+                                log(jsonNormativo);
+                              },
+                              child: const Text('Json normativo'))),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: ElevatedButton(
                               onPressed: () async {
                                 final profile = await CapabilityProfile.load();
 
@@ -325,7 +336,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: const TextStyle(color: Colors.black, fontSize: 12),
                     ),
                     TextSpan(
-                      text: ' (' + (prod?.prod?.vProd ?? '') + ') ',
+                      text: ' (${prod?.prod?.vProd ?? ''}) ',
                       style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -333,7 +344,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ])),
                   subtitle: (prod?.prod?.vDesc != null)
-                      ? Text('Desconto: ' + (prod?.prod?.vDesc ?? ''))
+                      ? Text('Desconto: ${prod?.prod?.vDesc ?? ''}')
                       : const SizedBox(),
                   trailing: Text(prod?.prod?.vItem ?? ''),
                 );

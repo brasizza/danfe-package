@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 
 import 'danfe.dart';
@@ -331,5 +333,484 @@ class DanfePrinter implements IDanfePrinter {
     bytes += generator.reset();
 
     return bytes;
+  }
+
+  @override
+  String normativeJsonDanfe(Danfe? danfe, {bool mostrarMoeda = true}) {
+    String moeda = (mostrarMoeda == true) ? r'R$' : '';
+
+    List<Map> danfeJson = [];
+
+    danfeJson.add(_prepareLine(
+        aligment: 1,
+        bold: true,
+        fontSize: 18,
+        italic: false,
+        content:
+            danfe?.dados?.emit?.xFant ?? (danfe?.dados?.emit?.xNome ?? '')));
+    danfeJson.add(_prepareLine(
+        aligment: 1,
+        bold: false,
+        fontSize: 12,
+        italic: false,
+        content: danfe?.dados?.emit?.cnpj ?? ''));
+    danfeJson.add(_prepareLine(
+        aligment: 1,
+        bold: false,
+        fontSize: 12,
+        italic: false,
+        content:
+            '${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''}, ${danfe?.dados?.emit?.enderEmit?.nro ?? ''}'));
+    danfeJson.add(_divider());
+    if ((danfe?.tipo ?? 'CFe') == 'CFe') {
+      danfeJson.add(_prepareLine(
+          aligment: 1,
+          bold: true,
+          fontSize: 12,
+          italic: false,
+          content: ('Nota Fiscal Eletronica - SAT ')));
+    } else {
+      danfeJson.add(_prepareLine(
+          aligment: 1,
+          bold: true,
+          fontSize: 12,
+          italic: false,
+          content: ('Nota Fiscal Eletronica - NFC-E ')));
+    }
+    danfeJson.add(_prepareLine(
+        aligment: 0,
+        bold: false,
+        fontSize: 12,
+        italic: false,
+        content:
+            "CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? danfe?.dados?.dest?.cnpj ?? ''}"));
+    if (danfe?.dados?.dest?.xNome != '' && danfe?.dados?.dest?.xNome != null) {
+      danfeJson.add(_prepareLine(
+          aligment: 0,
+          bold: false,
+          fontSize: 12,
+          italic: false,
+          content: "Nome: ${danfe?.dados?.dest?.xNome ?? ''}"));
+    }
+    danfeJson.add(_prepareLine(
+        aligment: 0,
+        bold: false,
+        fontSize: 12,
+        italic: false,
+        content: ("Nota: ${danfe?.dados?.ide?.nNF ?? ''}")));
+    danfeJson.add(_prepareLine(
+        aligment: 0,
+        bold: false,
+        fontSize: 12,
+        italic: false,
+        content:
+            ('Data: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? '')}')));
+    danfeJson.add(_divider());
+
+    danfeJson
+        .add(_createColumnItems(paperSize: paperSize, det: danfe?.dados?.det));
+
+    danfeJson.add(_divider());
+
+    danfeJson.add(
+      _createColumn(
+        paperSize: paperSize,
+        rows: [
+          _createRow(row: {
+            'text': 'QTD de itens',
+            'alignment': 0,
+          }, paperSize: paperSize),
+          _createRow(
+            row: {
+              'text': DanfeUtils.formatNumber(
+                  danfe?.dados?.det?.length.toString() ?? ''),
+              'alignment': 2,
+            },
+            paperSize: paperSize,
+          )
+        ],
+      ),
+    );
+
+    danfeJson.add(
+      _createColumn(
+        paperSize: paperSize,
+        rows: [
+          _createRow(row: {
+            'text': 'SUBTOTAL',
+            'alignment': 0,
+          }, paperSize: paperSize),
+          _createRow(
+            row: {
+              'text': DanfeUtils.formatMoneyMilhar(
+                  danfe?.dados?.total?.valorTotal ?? '',
+                  modeda: 'pt_BR',
+                  simbolo: moeda),
+              'alignment': 2,
+            },
+            paperSize: paperSize,
+          )
+        ],
+      ),
+    );
+
+    if ((danfe?.dados?.total?.desconto ?? '0.00') != '0.00') {
+      danfeJson.add(
+        _createColumn(
+          paperSize: paperSize,
+          rows: [
+            _createRow(row: {
+              'text': 'Desconto',
+              'alignment': 0,
+            }, paperSize: paperSize),
+            _createRow(
+              row: {
+                'text': DanfeUtils.formatMoneyMilhar(
+                    danfe?.dados?.total?.desconto ?? '',
+                    modeda: 'pt_BR',
+                    simbolo: moeda),
+                'alignment': 2,
+              },
+              paperSize: paperSize,
+            )
+          ],
+        ),
+      );
+    }
+
+    if ((danfe?.dados?.total?.acrescimo ?? '0.00') != '0.00') {
+      danfeJson.add(
+        _createColumn(
+          paperSize: paperSize,
+          rows: [
+            _createRow(row: {
+              'text': 'Acréscimo',
+              'alignment': 0,
+            }, paperSize: paperSize),
+            _createRow(
+              row: {
+                'text': DanfeUtils.formatMoneyMilhar(
+                    danfe?.dados?.total?.acrescimo ?? '',
+                    modeda: 'pt_BR',
+                    simbolo: moeda),
+                'alignment': 2,
+              },
+              paperSize: paperSize,
+            )
+          ],
+        ),
+      );
+    }
+    if ((danfe?.dados?.pgto?.vTroco ?? '0.00') != '0.00') {
+      danfeJson.add(
+        _createColumn(
+          paperSize: paperSize,
+          rows: [
+            _createRow(row: {
+              'text': 'Troco',
+              'alignment': 0,
+            }, paperSize: paperSize),
+            _createRow(
+              row: {
+                'text': DanfeUtils.formatMoneyMilhar(
+                    danfe?.dados?.pgto?.vTroco ?? '',
+                    modeda: 'pt_BR',
+                    simbolo: moeda),
+                'alignment': 2,
+              },
+              paperSize: paperSize,
+            )
+          ],
+        ),
+      );
+    }
+
+    danfeJson.add(
+      _createColumn(
+        paperSize: paperSize,
+        rows: [
+          _createRow(row: {
+            'text': 'Total',
+            'alignment': 0,
+          }, paperSize: paperSize),
+          _createRow(
+            row: {
+              'text': DanfeUtils.formatMoneyMilhar(
+                  danfe?.dados?.total?.valorPago ?? '0.00',
+                  modeda: 'pt_BR',
+                  simbolo: moeda),
+              'alignment': 2,
+            },
+            paperSize: paperSize,
+          )
+        ],
+      ),
+    );
+
+    if (danfe?.dados?.pgto != null) {
+      danfeJson.add(_divider());
+
+      danfeJson.add(
+        _createColumn(
+          paperSize: paperSize,
+          rows: [
+            _createRow(row: {
+              'text': 'Formas de pagamento',
+              'alignment': 0,
+              'bold': true
+            }, paperSize: paperSize),
+            _createRow(
+              row: {'text': 'Valor pago', 'alignment': 2, 'bold': true},
+              paperSize: paperSize,
+            )
+          ],
+        ),
+      );
+
+      for (MP pagamento in danfe!.dados!.pgto!.formas!) {
+        danfeJson.add(
+          _createColumn(
+            paperSize: paperSize,
+            rows: [
+              _createRow(row: {
+                'text': pagamento.cMP ?? '',
+                'alignment': 0,
+              }, paperSize: paperSize),
+              _createRow(
+                row: {
+                  'text': DanfeUtils.formatMoneyMilhar(pagamento.vMP ?? '',
+                      modeda: 'pt_BR', simbolo: moeda),
+                  'alignment': 2,
+                },
+                paperSize: paperSize,
+              )
+            ],
+          ),
+        );
+      }
+    }
+    danfeJson.add(_divider());
+    danfeJson.add(_prepareLine(content: 'CHAVE DE ACESSO DA NOTA FISCAL'));
+    danfeJson.add(
+      _prepareLine(
+        fontSize: 10,
+        bold: true,
+        content: DanfeUtils.splitByLength(
+          danfe?.dados?.chaveNota ?? '',
+          4,
+          ' ',
+        ),
+      ),
+    );
+    danfeJson.add(_prepareQrcode(
+        content: danfe?.qrcodePrinter ?? '', size: 200, level: 'L'));
+
+    if (danfe?.dados?.ide?.serie != null) {
+      final serie = (danfe?.dados?.ide?.serie ?? '0').padLeft(3, '0');
+      final nnf = (danfe?.dados?.ide?.nNF ?? '0').padLeft(9, '0');
+      danfeJson.add(_prepareLine(content: 'Nota $nnf Serie $serie '));
+    }
+
+    if (danfe?.dados?.ide?.nserieSAT != null) {
+      final serie = (danfe?.dados?.ide?.nserieSAT ?? '0').padLeft(3, '0');
+      final nnf = (danfe?.dados?.ide?.nNF ?? '0').padLeft(9, '0');
+
+      danfeJson.add(_prepareLine(content: 'Nota $nnf Serie $serie '));
+    }
+
+    if (danfe?.protNFe != null) {
+      danfeJson.add(_prepareLine(
+          content: 'Protocolo: ${danfe?.protNFe?.infProt?.nProt ?? ''} '));
+
+      DateTime dateTime = DateTime.parse(danfe?.protNFe?.infProt?.dhRecbto ??
+          DateTime.now().toIso8601String());
+      String formattedDate =
+          "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}";
+      danfeJson.add(_prepareLine(content: 'Data: $formattedDate '));
+    }
+
+    if (danfe?.dados?.infAdic?.infCpl != null) {
+      danfeJson.add(_prepareLine(
+          content: danfe!.dados!.infAdic!.infCpl ?? '', fontSize: 10));
+    }
+    return json.encode(danfeJson);
+  }
+
+  Map _createRow({required Map row, required PaperSize paperSize}) {
+    final lineRow = {};
+    lineRow['row'] = {};
+    lineRow['row']['customization'] = {};
+    lineRow['row']['customization']['font_size'] =
+        paperSize == PaperSize.mm58 ? 10 : 12;
+    lineRow['row']['customization']['alignment'] =
+        row.containsKey('alignment') ? row['alignment'] : 0;
+    lineRow['row']['customization']['font_style'] = {};
+    lineRow['row']['customization']['font_style']['bold'] =
+        row.containsKey('bold') ? row['bold'] : false;
+    lineRow['row']['customization']['font_style']['italic'] =
+        row.containsKey('italic') ? row['italic'] : false;
+    lineRow['row']['content'] = row['text'];
+    lineRow['row']['size'] = row['size'];
+    return lineRow;
+  }
+
+  List<Map> _createHeader(
+      {required List<Map> headers, required PaperSize paperSize}) {
+    List<Map> header = [];
+    for (var row in headers) {
+      header.add(_createRow(
+        row: row,
+        paperSize: paperSize,
+      ));
+    }
+
+    return header;
+  }
+
+  Map _createColumn({required List<Map> rows, required PaperSize paperSize}) {
+    Map column = {};
+    column['line'] = {};
+    column['line']['column'] = rows.toList();
+
+    return column;
+  }
+
+  Map _createColumnItems({required PaperSize paperSize, List<Det>? det}) {
+    List<Map> headers = [];
+    if (paperSize == PaperSize.mm58) {
+      headers.add({
+        'text': "DESCRICAO",
+        'size': 70,
+        'bold': true,
+      });
+      headers.add({
+        'text': "QTD",
+        'size': 10,
+        'bold': true,
+        'alignment': 2,
+      });
+      headers.add({
+        'text': "VLTOT",
+        'size': 20,
+        'bold': true,
+        'alignment': 2,
+      });
+    } else {
+      headers.add({
+        'text': "DESCRICAO",
+        'size': 50,
+        'bold': true,
+      });
+      headers.add({
+        'text': "QTD",
+        'size': 10,
+        'bold': true,
+        'alignment': 2,
+      });
+      headers.add({
+        'text': "VLUN",
+        'size': 20,
+        'bold': true,
+        'alignment': 2,
+      });
+      headers.add({
+        'text': "VLTOT",
+        'size': 20,
+        'bold': true,
+        'alignment': 2,
+      });
+    }
+
+    Map column = {};
+    column['line'] = {};
+    column['line']['column'] = [];
+    column['line']['column'].add({
+      'header': _createHeader(headers: headers, paperSize: paperSize),
+      'items': _createItems(det: det, paperSize: paperSize)
+    });
+
+    return column;
+  }
+
+  Map _divider() {
+    Map divider = {};
+    divider['line'] = {};
+    divider['line']['divider'] = true;
+    return divider;
+  }
+
+  Map _prepareQrcode(
+      {int size = 100, String content = '', String level = 'H'}) {
+    Map qrcode = {};
+    qrcode['line'] = {};
+    qrcode['line']['qrcode'] = {};
+    qrcode['line']['qrcode']['size'] = size;
+    qrcode['line']['qrcode']['content'] = content;
+    qrcode['line']['qrcode']['level'] = level;
+    return qrcode;
+  }
+
+  Map _prepareLine(
+      {bool bold = false,
+      bool italic = false,
+      int aligment = 1,
+      int fontSize = 12,
+      String content = ''}) {
+    Map customLine = {};
+    customLine['line'] = {};
+    customLine['line']['customization'] = {};
+    customLine['line']['customization']['font_style'] = {};
+    customLine['line']['customization']['font_style']['bold'] = bold;
+    customLine['line']['customization']['font_size'] = fontSize;
+    customLine['line']['customization']['alignment'] = aligment;
+    customLine['line']['customization']['font_style']['italic'] = italic;
+    customLine['line']['content'] = content;
+    return customLine;
+  }
+
+  _createItems({List<Det>? det, required PaperSize paperSize}) {
+    List items = [];
+    if (det != null) {
+      for (Det item in det) {
+        final detList = <Map>[];
+
+        if (paperSize == PaperSize.mm58) {
+          detList.add(_createRow(row: {
+            'text': item.prod?.xProd ?? '',
+          }, paperSize: paperSize));
+          detList.add(_createRow(row: {
+            'text': DanfeUtils.formatNumber(item.prod?.qCom ?? ''),
+            'alignment': 2,
+          }, paperSize: paperSize));
+          detList.add(_createRow(row: {
+            'text': DanfeUtils.formatMoneyMilhar(item.prod?.vProd ?? '',
+                modeda: 'pt_BR', simbolo: ''),
+            'alignment': 2,
+          }, paperSize: paperSize));
+        } else {
+          detList.add(_createRow(row: {
+            'text': item.prod?.xProd ?? '',
+          }, paperSize: paperSize));
+          detList.add(_createRow(row: {
+            'text': DanfeUtils.formatNumber(item.prod?.qCom ?? ''),
+            'alignment': 2,
+          }, paperSize: paperSize));
+
+          detList.add(_createRow(row: {
+            'text': DanfeUtils.formatMoneyMilhar(item.prod?.vUnCom ?? '',
+                modeda: 'pt_BR', simbolo: ''),
+            'alignment': 2,
+          }, paperSize: paperSize));
+          detList.add(_createRow(row: {
+            'text': DanfeUtils.formatMoneyMilhar(item.prod?.vProd ?? '',
+                modeda: 'pt_BR', simbolo: ''),
+            'alignment': 2,
+          }, paperSize: paperSize));
+        }
+
+        items.add(detList);
+      }
+    }
+    return items;
   }
 }
