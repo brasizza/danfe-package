@@ -1,3 +1,4 @@
+## 0.0.22
 ## 0.0.21
 * Improve: Preparando a danfe para um futuro package de json normativo que estou desenvolvendo.
 

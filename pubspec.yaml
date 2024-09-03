@@ -7,7 +7,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  esc_pos_utils_plus: ^2.0.3
+  esc_pos_utils_plus: 2.0.3
   flutter:
     sdk: flutter
     

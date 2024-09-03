@@ -12,177 +12,85 @@ class DanfePrinter implements IDanfePrinter {
   ///  Metodo que vai pegar o objeto Danfe e converter em esc/pos em um layout pre determinado
   //
   @override
-  Future<List<int>> bufferDanfe(Danfe? danfe,
-      {bool mostrarMoeda = true}) async {
+  Future<List<int>> bufferDanfe(Danfe? danfe, {bool mostrarMoeda = true}) async {
     String moeda = (mostrarMoeda == true) ? r'R$' : '';
     final profile = await CapabilityProfile.load();
     final generator = Generator(paperSize, profile);
     List<int> bytes = [];
     // Print image
     bytes += generator.rawBytes([27, 97, 49]);
-    bytes += generator.text(
-        danfe?.dados?.emit?.xFant ?? (danfe?.dados?.emit?.xNome ?? ''),
+    bytes += generator.text(danfe?.dados?.emit?.xFant ?? (danfe?.dados?.emit?.xNome ?? ''),
         styles: const PosStyles(
           align: PosAlign.center,
           bold: true,
         ));
-    bytes += generator.text((danfe?.dados?.emit?.cnpj ?? ''),
-        styles: const PosStyles(align: PosAlign.center));
-    bytes += generator.text(
-        '${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''}, ${danfe?.dados?.emit?.enderEmit?.nro ?? ''}',
-        styles: const PosStyles(align: PosAlign.center));
+    bytes += generator.text((danfe?.dados?.emit?.cnpj ?? ''), styles: const PosStyles(align: PosAlign.center));
+    bytes += generator.text('${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''}, ${danfe?.dados?.emit?.enderEmit?.nro ?? ''}', styles: const PosStyles(align: PosAlign.center));
     bytes += generator.rawBytes([27, 97, 48]);
     bytes += generator.hr();
     bytes += generator.rawBytes([27, 97, 49]);
     if ((danfe?.tipo ?? 'CFe') == 'CFe') {
-      bytes += generator.text('Nota Fiscal Eletronica - SAT ',
-          styles: const PosStyles(
-              align: PosAlign.center,
-              bold: true,
-              height: PosTextSize.size1,
-              width: PosTextSize.size1));
+      bytes += generator.text('Nota Fiscal Eletronica - SAT ', styles: const PosStyles(align: PosAlign.center, bold: true, height: PosTextSize.size1, width: PosTextSize.size1));
     } else {
-      bytes += generator.text('Nota Fiscal Eletronica - NFC-E ',
-          styles: const PosStyles(
-              align: PosAlign.center,
-              bold: true,
-              height: PosTextSize.size1,
-              width: PosTextSize.size1));
+      bytes += generator.text('Nota Fiscal Eletronica - NFC-E ', styles: const PosStyles(align: PosAlign.center, bold: true, height: PosTextSize.size1, width: PosTextSize.size1));
     }
     bytes += generator.rawBytes([27, 97, 48]);
-    bytes += generator.text(
-        "CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? danfe?.dados?.dest?.cnpj ?? ''}",
-        styles: const PosStyles(align: PosAlign.left));
+    bytes += generator.text("CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? danfe?.dados?.dest?.cnpj ?? ''}", styles: const PosStyles(align: PosAlign.left));
     if (danfe?.dados?.dest?.xNome != '' || danfe?.dados?.dest?.xNome != null) {
-      bytes += generator.text("Nome: ${danfe?.dados?.dest?.xNome ?? ''}",
-          styles: const PosStyles(align: PosAlign.left));
+      bytes += generator.text("Nome: ${danfe?.dados?.dest?.xNome ?? ''}", styles: const PosStyles(align: PosAlign.left));
     }
-    bytes += generator.text("Nota: ${danfe?.dados?.ide?.nNF ?? ''}",
-        styles: const PosStyles(align: PosAlign.left));
-    bytes += generator.text(
-        'Data: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? '')}',
-        styles: const PosStyles(align: PosAlign.center));
+    bytes += generator.text("Nota: ${danfe?.dados?.ide?.nNF ?? ''}", styles: const PosStyles(align: PosAlign.left));
+    bytes += generator.text('Data: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? '')}', styles: const PosStyles(align: PosAlign.center));
 
     bytes += generator.hr();
 
     if (paperSize == PaperSize.mm58) {
       bytes += generator.row([
-        PosColumn(
-            text: 'DESCRICAO',
-            width: 7,
-            styles: const PosStyles(align: PosAlign.left, bold: true)),
-        PosColumn(
-            text: 'QTD',
-            width: 2,
-            styles: const PosStyles(align: PosAlign.right, bold: true)),
-        PosColumn(
-            text: 'VLTOT',
-            width: 3,
-            styles: const PosStyles(align: PosAlign.right, bold: true)),
+        PosColumn(text: 'DESCRICAO', width: 7, styles: const PosStyles(align: PosAlign.left, bold: true)),
+        PosColumn(text: 'QTD', width: 2, styles: const PosStyles(align: PosAlign.right, bold: true)),
+        PosColumn(text: 'VLTOT', width: 3, styles: const PosStyles(align: PosAlign.right, bold: true)),
       ]);
     } else {
       bytes += generator.row([
-        PosColumn(
-            text: 'DESCRICAO',
-            width: 5,
-            styles: const PosStyles(align: PosAlign.left, bold: true)),
-        PosColumn(
-            text: 'QTD',
-            width: 1,
-            styles: const PosStyles(align: PosAlign.right, bold: true)),
-        PosColumn(
-            text: 'VLUN',
-            width: 3,
-            styles: const PosStyles(align: PosAlign.right, bold: true)),
-        PosColumn(
-            text: 'VLTOT',
-            width: 3,
-            styles: const PosStyles(align: PosAlign.right, bold: true)),
+        PosColumn(text: 'DESCRICAO', width: 5, styles: const PosStyles(align: PosAlign.left, bold: true)),
+        PosColumn(text: 'QTD', width: 1, styles: const PosStyles(align: PosAlign.right, bold: true)),
+        PosColumn(text: 'VLUN', width: 3, styles: const PosStyles(align: PosAlign.right, bold: true)),
+        PosColumn(text: 'VLTOT', width: 3, styles: const PosStyles(align: PosAlign.right, bold: true)),
       ]);
     }
     if (danfe?.dados?.det != null) {
       for (Det det in danfe!.dados!.det!) {
         if (paperSize == PaperSize.mm58) {
           bytes += generator.row([
-            PosColumn(
-                text: det.prod?.xProd ?? '',
-                width: 7,
-                styles: const PosStyles(
-                    align: PosAlign.left, width: PosTextSize.size1)),
-            PosColumn(
-                text: DanfeUtils.formatNumber(det.prod?.qCom ?? ''),
-                width: 2,
-                styles: const PosStyles(align: PosAlign.right)),
-            PosColumn(
-                text: DanfeUtils.formatMoneyMilhar(det.prod?.vProd ?? '',
-                    modeda: 'pt_BR', simbolo: moeda),
-                width: 3,
-                styles: const PosStyles(align: PosAlign.right)),
+            PosColumn(text: det.prod?.xProd ?? '', width: 7, styles: const PosStyles(align: PosAlign.left, width: PosTextSize.size1)),
+            PosColumn(text: DanfeUtils.formatNumber(det.prod?.qCom ?? ''), width: 2, styles: const PosStyles(align: PosAlign.right)),
+            PosColumn(text: DanfeUtils.formatMoneyMilhar(det.prod?.vProd ?? '', modeda: 'pt_BR', simbolo: moeda), width: 3, styles: const PosStyles(align: PosAlign.right)),
           ]);
         } else {
           bytes += generator.row([
-            PosColumn(
-                text: det.prod?.xProd ?? '',
-                width: 5,
-                styles: const PosStyles(align: PosAlign.left)),
-            PosColumn(
-                text: DanfeUtils.formatNumber(det.prod?.qCom ?? ''),
-                width: 1,
-                styles: const PosStyles(align: PosAlign.right)),
-            PosColumn(
-                text: DanfeUtils.formatMoneyMilhar(det.prod?.vUnCom ?? '',
-                    modeda: 'pt_BR', simbolo: moeda),
-                width: 3,
-                styles: const PosStyles(align: PosAlign.right)),
-            PosColumn(
-                text: DanfeUtils.formatMoneyMilhar(det.prod?.vProd ?? '',
-                    modeda: 'pt_BR', simbolo: moeda),
-                width: 3,
-                styles: const PosStyles(align: PosAlign.right)),
+            PosColumn(text: det.prod?.xProd ?? '', width: 5, styles: const PosStyles(align: PosAlign.left)),
+            PosColumn(text: DanfeUtils.formatNumber(det.prod?.qCom ?? ''), width: 1, styles: const PosStyles(align: PosAlign.right)),
+            PosColumn(text: DanfeUtils.formatMoneyMilhar(det.prod?.vUnCom ?? '', modeda: 'pt_BR', simbolo: moeda), width: 3, styles: const PosStyles(align: PosAlign.right)),
+            PosColumn(text: DanfeUtils.formatMoneyMilhar(det.prod?.vProd ?? '', modeda: 'pt_BR', simbolo: moeda), width: 3, styles: const PosStyles(align: PosAlign.right)),
           ]);
         }
       }
     }
     bytes += generator.hr();
     bytes += generator.row([
-      PosColumn(
-          text: 'QTD DE ITENS',
-          width: 6,
-          styles: const PosStyles(align: PosAlign.left)),
-      PosColumn(
-          text: DanfeUtils.formatNumber(
-              danfe?.dados?.det?.length.toString() ?? ''),
-          width: 6,
-          styles: const PosStyles(
-              align: PosAlign.right,
-              height: PosTextSize.size1,
-              width: PosTextSize.size1)),
+      PosColumn(text: 'QTD DE ITENS', width: 6, styles: const PosStyles(align: PosAlign.left)),
+      PosColumn(text: DanfeUtils.formatNumber(danfe?.dados?.det?.length.toString() ?? ''), width: 6, styles: const PosStyles(align: PosAlign.right, height: PosTextSize.size1, width: PosTextSize.size1)),
     ]);
     bytes += generator.row([
-      PosColumn(
-          text: 'SUBTOTAL',
-          width: 6,
-          styles: const PosStyles(bold: true, align: PosAlign.left)),
-      PosColumn(
-          text: DanfeUtils.formatMoneyMilhar(
-              danfe?.dados?.total?.valorTotal ?? '',
-              modeda: 'pt_BR',
-              simbolo: moeda),
-          width: 6,
-          styles: const PosStyles(align: PosAlign.right, bold: true)),
+      PosColumn(text: 'SUBTOTAL', width: 6, styles: const PosStyles(bold: true, align: PosAlign.left)),
+      PosColumn(text: DanfeUtils.formatMoneyMilhar(danfe?.dados?.total?.valorTotal ?? '', modeda: 'pt_BR', simbolo: moeda), width: 6, styles: const PosStyles(align: PosAlign.right, bold: true)),
     ]);
 
     if ((danfe?.dados?.total?.desconto ?? '0.00') != '0.00') {
       bytes += generator.row([
+        PosColumn(text: 'DESCONTO', width: 6, styles: const PosStyles(align: PosAlign.left)),
         PosColumn(
-            text: 'DESCONTO',
-            width: 6,
-            styles: const PosStyles(align: PosAlign.left)),
-        PosColumn(
-            text: DanfeUtils.formatMoneyMilhar(
-                danfe?.dados?.total?.desconto ?? '',
-                modeda: 'pt_BR',
-                simbolo: moeda),
+            text: DanfeUtils.formatMoneyMilhar(danfe?.dados?.total?.desconto ?? '', modeda: 'pt_BR', simbolo: moeda),
             width: 6,
             styles: const PosStyles(
               align: PosAlign.right,
@@ -194,10 +102,7 @@ class DanfePrinter implements IDanfePrinter {
       bytes += generator.row([
         PosColumn(text: 'ACRESCIMO', width: 6, styles: const PosStyles()),
         PosColumn(
-            text: DanfeUtils.formatMoneyMilhar(
-                danfe?.dados?.total?.acrescimo ?? '',
-                modeda: 'pt_BR',
-                simbolo: moeda),
+            text: DanfeUtils.formatMoneyMilhar(danfe?.dados?.total?.acrescimo ?? '', modeda: 'pt_BR', simbolo: moeda),
             width: 6,
             styles: const PosStyles(
               align: PosAlign.right,
@@ -206,68 +111,35 @@ class DanfePrinter implements IDanfePrinter {
     }
     if ((danfe?.dados?.pgto?.vTroco ?? '0.00') != '0.00') {
       bytes += generator.row([
-        PosColumn(
-            text: 'TROCO',
-            width: 6,
-            styles: const PosStyles(align: PosAlign.left)),
-        PosColumn(
-            text: DanfeUtils.formatMoneyMilhar(danfe?.dados?.pgto?.vTroco ?? '',
-                modeda: 'pt_BR', simbolo: moeda),
-            width: 6,
-            styles: const PosStyles(align: PosAlign.right)),
+        PosColumn(text: 'TROCO', width: 6, styles: const PosStyles(align: PosAlign.left)),
+        PosColumn(text: DanfeUtils.formatMoneyMilhar(danfe?.dados?.pgto?.vTroco ?? '', modeda: 'pt_BR', simbolo: moeda), width: 6, styles: const PosStyles(align: PosAlign.right)),
       ]);
     }
 
     bytes += generator.row([
-      PosColumn(
-          text: 'TOTAL',
-          width: 6,
-          styles: const PosStyles(bold: true, align: PosAlign.left)),
-      PosColumn(
-          text: DanfeUtils.formatMoneyMilhar(
-              danfe?.dados?.total?.valorPago ?? '0.00',
-              modeda: 'pt_BR',
-              simbolo: moeda),
-          width: 6,
-          styles: const PosStyles(align: PosAlign.right, bold: true)),
+      PosColumn(text: 'TOTAL', width: 6, styles: const PosStyles(bold: true, align: PosAlign.left)),
+      PosColumn(text: DanfeUtils.formatMoneyMilhar(danfe?.dados?.total?.valorPago ?? '0.00', modeda: 'pt_BR', simbolo: moeda), width: 6, styles: const PosStyles(align: PosAlign.right, bold: true)),
     ]);
     bytes += generator.hr();
     if (danfe?.dados?.pgto != null) {
       bytes += generator.row([
-        PosColumn(
-            text: 'FORMAS DE PAGAMENTO',
-            width: 6,
-            styles: const PosStyles(bold: true)),
-        PosColumn(
-            text: 'VALOR PAGO',
-            width: 6,
-            styles: const PosStyles(align: PosAlign.right, bold: true)),
+        PosColumn(text: 'FORMAS DE PAGAMENTO', width: 6, styles: const PosStyles(bold: true)),
+        PosColumn(text: 'VALOR PAGO', width: 6, styles: const PosStyles(align: PosAlign.right, bold: true)),
       ]);
       for (MP pagamento in danfe!.dados!.pgto!.formas!) {
         bytes += generator.row([
-          PosColumn(
-              text: pagamento.cMP ?? '',
-              width: 6,
-              styles: const PosStyles(align: PosAlign.left)),
-          PosColumn(
-              text: DanfeUtils.formatMoneyMilhar(pagamento.vMP ?? '',
-                  modeda: 'pt_BR', simbolo: moeda),
-              width: 6,
-              styles: const PosStyles(align: PosAlign.right)),
+          PosColumn(text: pagamento.cMP ?? '', width: 6, styles: const PosStyles(align: PosAlign.left)),
+          PosColumn(text: DanfeUtils.formatMoneyMilhar(pagamento.vMP ?? '', modeda: 'pt_BR', simbolo: moeda), width: 6, styles: const PosStyles(align: PosAlign.right)),
         ]);
       }
       bytes += generator.hr();
     }
 
     bytes += generator.rawBytes([27, 97, 49]);
-    bytes += generator.text('CHAVE DE ACESSO DA NOTA FISCAL',
-        styles: const PosStyles(align: PosAlign.center));
-    bytes += generator.text(
-        DanfeUtils.splitByLength(danfe?.dados?.chaveNota ?? '', 4, ' '),
-        styles: const PosStyles(align: PosAlign.center, bold: true));
+    bytes += generator.text('CHAVE DE ACESSO DA NOTA FISCAL', styles: const PosStyles(align: PosAlign.center));
+    bytes += generator.text(DanfeUtils.splitByLength(danfe?.dados?.chaveNota ?? '', 4, ' '), styles: const PosStyles(align: PosAlign.center, bold: true));
     bytes += generator.rawBytes([27, 97, 49]);
-    bytes += generator.qrcode(danfe?.qrcodePrinter ?? '',
-        size: QRSize.Size2, cor: QRCorrection.H);
+    bytes += generator.qrcode(danfe?.qrcodePrinter ?? '', size: QRSize.Size2, cor: QRCorrection.H);
 
     bytes += generator.rawBytes([27, 97, 48]);
     bytes += generator.feed(1);
@@ -277,8 +149,7 @@ class DanfePrinter implements IDanfePrinter {
       final nnf = (danfe?.dados?.ide?.nNF ?? '0').padLeft(9, '0');
       bytes += generator.rawBytes([27, 97, 49]);
 
-      bytes += generator.text('Nota $nnf Serie $serie ',
-          styles: const PosStyles(align: PosAlign.center, bold: true));
+      bytes += generator.text('Nota $nnf Serie $serie ', styles: const PosStyles(align: PosAlign.center, bold: true));
       bytes += generator.rawBytes([27, 97, 48]);
 
       bytes += generator.feed(1);
@@ -288,8 +159,7 @@ class DanfePrinter implements IDanfePrinter {
       final serie = (danfe?.dados?.ide?.nserieSAT ?? '0').padLeft(3, '0');
       final nnf = (danfe?.dados?.ide?.nNF ?? '0').padLeft(9, '0');
       bytes += generator.rawBytes([27, 97, 49]);
-      bytes += generator.text('Nota $nnf Serie $serie',
-          styles: const PosStyles(align: PosAlign.center, bold: true));
+      bytes += generator.text('Nota $nnf Serie $serie', styles: const PosStyles(align: PosAlign.center, bold: true));
       bytes += generator.rawBytes([27, 97, 48]);
 
       bytes += generator.feed(1);
@@ -297,8 +167,7 @@ class DanfePrinter implements IDanfePrinter {
 
     if (danfe?.protNFe != null) {
       bytes += generator.row([
-        PosColumn(
-            text: 'Protocolo: ', width: 6, styles: const PosStyles(bold: true)),
+        PosColumn(text: 'Protocolo: ', width: 6, styles: const PosStyles(bold: true)),
         PosColumn(
             text: danfe?.protNFe?.infProt?.nProt ?? '',
             width: 6,
@@ -306,14 +175,11 @@ class DanfePrinter implements IDanfePrinter {
               align: PosAlign.right,
             )),
       ]);
-      DateTime dateTime = DateTime.parse(danfe?.protNFe?.infProt?.dhRecbto ??
-          DateTime.now().toIso8601String());
-      String formattedDate =
-          "${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
+      DateTime dateTime = DateTime.parse(danfe?.protNFe?.infProt?.dhRecbto ?? DateTime.now().toIso8601String());
+      String formattedDate = "${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
 
       bytes += generator.row([
-        PosColumn(
-            text: 'Data: ', width: 6, styles: const PosStyles(bold: true)),
+        PosColumn(text: 'Data: ', width: 6, styles: const PosStyles(bold: true)),
         PosColumn(
             text: formattedDate,
             width: 6,
@@ -325,8 +191,7 @@ class DanfePrinter implements IDanfePrinter {
     }
 
     if (danfe?.dados?.infAdic?.infCpl != null) {
-      bytes += generator.text(danfe!.dados!.infAdic!.infCpl ?? ' ',
-          styles: const PosStyles(align: PosAlign.center));
+      bytes += generator.text(danfe!.dados!.infAdic!.infCpl ?? ' ', styles: const PosStyles(align: PosAlign.center));
     }
 
     bytes += generator.cut();
@@ -341,74 +206,24 @@ class DanfePrinter implements IDanfePrinter {
 
     List<Map> danfeJson = [];
 
-    danfeJson.add(_prepareLine(
-        aligment: 1,
-        bold: true,
-        fontSize: 18,
-        italic: false,
-        content:
-            danfe?.dados?.emit?.xFant ?? (danfe?.dados?.emit?.xNome ?? '')));
-    danfeJson.add(_prepareLine(
-        aligment: 1,
-        bold: false,
-        fontSize: 12,
-        italic: false,
-        content: danfe?.dados?.emit?.cnpj ?? ''));
-    danfeJson.add(_prepareLine(
-        aligment: 1,
-        bold: false,
-        fontSize: 12,
-        italic: false,
-        content:
-            '${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''}, ${danfe?.dados?.emit?.enderEmit?.nro ?? ''}'));
+    danfeJson.add(_prepareLine(aligment: 1, bold: true, fontSize: 18, italic: false, content: danfe?.dados?.emit?.xFant ?? (danfe?.dados?.emit?.xNome ?? '')));
+    danfeJson.add(_prepareLine(aligment: 1, bold: false, fontSize: 10, italic: false, content: danfe?.dados?.emit?.cnpj ?? ''));
+    danfeJson.add(_prepareLine(aligment: 1, bold: false, fontSize: 10, italic: false, content: '${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''}, ${danfe?.dados?.emit?.enderEmit?.nro ?? ''}'));
     danfeJson.add(_divider());
     if ((danfe?.tipo ?? 'CFe') == 'CFe') {
-      danfeJson.add(_prepareLine(
-          aligment: 1,
-          bold: true,
-          fontSize: 12,
-          italic: false,
-          content: ('Nota Fiscal Eletronica - SAT ')));
+      danfeJson.add(_prepareLine(aligment: 1, bold: true, fontSize: 10, italic: false, content: ('Nota Fiscal Eletronica - SAT ')));
     } else {
-      danfeJson.add(_prepareLine(
-          aligment: 1,
-          bold: true,
-          fontSize: 12,
-          italic: false,
-          content: ('Nota Fiscal Eletronica - NFC-E ')));
+      danfeJson.add(_prepareLine(aligment: 1, bold: true, fontSize: 10, italic: false, content: ('Nota Fiscal Eletronica - NFC-E ')));
     }
-    danfeJson.add(_prepareLine(
-        aligment: 0,
-        bold: false,
-        fontSize: 12,
-        italic: false,
-        content:
-            "CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? danfe?.dados?.dest?.cnpj ?? ''}"));
+    danfeJson.add(_prepareLine(aligment: 0, bold: false, fontSize: 10, italic: false, content: "CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? danfe?.dados?.dest?.cnpj ?? ''}"));
     if (danfe?.dados?.dest?.xNome != '' && danfe?.dados?.dest?.xNome != null) {
-      danfeJson.add(_prepareLine(
-          aligment: 0,
-          bold: false,
-          fontSize: 12,
-          italic: false,
-          content: "Nome: ${danfe?.dados?.dest?.xNome ?? ''}"));
+      danfeJson.add(_prepareLine(aligment: 0, bold: false, fontSize: 10, italic: false, content: "Nome: ${danfe?.dados?.dest?.xNome ?? ''}"));
     }
-    danfeJson.add(_prepareLine(
-        aligment: 0,
-        bold: false,
-        fontSize: 12,
-        italic: false,
-        content: ("Nota: ${danfe?.dados?.ide?.nNF ?? ''}")));
-    danfeJson.add(_prepareLine(
-        aligment: 0,
-        bold: false,
-        fontSize: 12,
-        italic: false,
-        content:
-            ('Data: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? '')}')));
+    danfeJson.add(_prepareLine(aligment: 0, bold: false, fontSize: 10, italic: false, content: ("Nota: ${danfe?.dados?.ide?.nNF ?? ''}")));
+    danfeJson.add(_prepareLine(aligment: 0, bold: false, fontSize: 10, italic: false, content: ('Data: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? '')}')));
     danfeJson.add(_divider());
 
-    danfeJson
-        .add(_createColumnItems(paperSize: paperSize, det: danfe?.dados?.det));
+    danfeJson.add(_createColumnItems(paperSize: paperSize, det: danfe?.dados?.det));
 
     danfeJson.add(_divider());
 
@@ -422,8 +237,7 @@ class DanfePrinter implements IDanfePrinter {
           }, paperSize: paperSize),
           _createRow(
             row: {
-              'text': DanfeUtils.formatNumber(
-                  danfe?.dados?.det?.length.toString() ?? ''),
+              'text': DanfeUtils.formatNumber(danfe?.dados?.det?.length.toString() ?? ''),
               'alignment': 2,
             },
             paperSize: paperSize,
@@ -442,10 +256,7 @@ class DanfePrinter implements IDanfePrinter {
           }, paperSize: paperSize),
           _createRow(
             row: {
-              'text': DanfeUtils.formatMoneyMilhar(
-                  danfe?.dados?.total?.valorTotal ?? '',
-                  modeda: 'pt_BR',
-                  simbolo: moeda),
+              'text': DanfeUtils.formatMoneyMilhar(danfe?.dados?.total?.valorTotal ?? '', modeda: 'pt_BR', simbolo: moeda),
               'alignment': 2,
             },
             paperSize: paperSize,
@@ -465,10 +276,7 @@ class DanfePrinter implements IDanfePrinter {
             }, paperSize: paperSize),
             _createRow(
               row: {
-                'text': DanfeUtils.formatMoneyMilhar(
-                    danfe?.dados?.total?.desconto ?? '',
-                    modeda: 'pt_BR',
-                    simbolo: moeda),
+                'text': DanfeUtils.formatMoneyMilhar(danfe?.dados?.total?.desconto ?? '', modeda: 'pt_BR', simbolo: moeda),
                 'alignment': 2,
               },
               paperSize: paperSize,
@@ -489,10 +297,7 @@ class DanfePrinter implements IDanfePrinter {
             }, paperSize: paperSize),
             _createRow(
               row: {
-                'text': DanfeUtils.formatMoneyMilhar(
-                    danfe?.dados?.total?.acrescimo ?? '',
-                    modeda: 'pt_BR',
-                    simbolo: moeda),
+                'text': DanfeUtils.formatMoneyMilhar(danfe?.dados?.total?.acrescimo ?? '', modeda: 'pt_BR', simbolo: moeda),
                 'alignment': 2,
               },
               paperSize: paperSize,
@@ -512,10 +317,7 @@ class DanfePrinter implements IDanfePrinter {
             }, paperSize: paperSize),
             _createRow(
               row: {
-                'text': DanfeUtils.formatMoneyMilhar(
-                    danfe?.dados?.pgto?.vTroco ?? '',
-                    modeda: 'pt_BR',
-                    simbolo: moeda),
+                'text': DanfeUtils.formatMoneyMilhar(danfe?.dados?.pgto?.vTroco ?? '', modeda: 'pt_BR', simbolo: moeda),
                 'alignment': 2,
               },
               paperSize: paperSize,
@@ -535,10 +337,7 @@ class DanfePrinter implements IDanfePrinter {
           }, paperSize: paperSize),
           _createRow(
             row: {
-              'text': DanfeUtils.formatMoneyMilhar(
-                  danfe?.dados?.total?.valorPago ?? '0.00',
-                  modeda: 'pt_BR',
-                  simbolo: moeda),
+              'text': DanfeUtils.formatMoneyMilhar(danfe?.dados?.total?.valorPago ?? '0.00', modeda: 'pt_BR', simbolo: moeda),
               'alignment': 2,
             },
             paperSize: paperSize,
@@ -554,11 +353,7 @@ class DanfePrinter implements IDanfePrinter {
         _createColumn(
           paperSize: paperSize,
           rows: [
-            _createRow(row: {
-              'text': 'Formas de pagamento',
-              'alignment': 0,
-              'bold': true
-            }, paperSize: paperSize),
+            _createRow(row: {'text': 'Formas de pagamento', 'alignment': 0, 'bold': true}, paperSize: paperSize),
             _createRow(
               row: {'text': 'Valor pago', 'alignment': 2, 'bold': true},
               paperSize: paperSize,
@@ -578,8 +373,7 @@ class DanfePrinter implements IDanfePrinter {
               }, paperSize: paperSize),
               _createRow(
                 row: {
-                  'text': DanfeUtils.formatMoneyMilhar(pagamento.vMP ?? '',
-                      modeda: 'pt_BR', simbolo: moeda),
+                  'text': DanfeUtils.formatMoneyMilhar(pagamento.vMP ?? '', modeda: 'pt_BR', simbolo: moeda),
                   'alignment': 2,
                 },
                 paperSize: paperSize,
@@ -602,8 +396,7 @@ class DanfePrinter implements IDanfePrinter {
         ),
       ),
     );
-    danfeJson.add(_prepareQrcode(
-        content: danfe?.qrcodePrinter ?? '', size: 200, level: 'L'));
+    danfeJson.add(_prepareQrcode(content: danfe?.qrcodePrinter ?? '', size: 120, level: 'L'));
 
     if (danfe?.dados?.ide?.serie != null) {
       final serie = (danfe?.dados?.ide?.serie ?? '0').padLeft(3, '0');
@@ -619,19 +412,15 @@ class DanfePrinter implements IDanfePrinter {
     }
 
     if (danfe?.protNFe != null) {
-      danfeJson.add(_prepareLine(
-          content: 'Protocolo: ${danfe?.protNFe?.infProt?.nProt ?? ''} '));
+      danfeJson.add(_prepareLine(content: 'Protocolo: ${danfe?.protNFe?.infProt?.nProt ?? ''} '));
 
-      DateTime dateTime = DateTime.parse(danfe?.protNFe?.infProt?.dhRecbto ??
-          DateTime.now().toIso8601String());
-      String formattedDate =
-          "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}";
+      DateTime dateTime = DateTime.parse(danfe?.protNFe?.infProt?.dhRecbto ?? DateTime.now().toIso8601String());
+      String formattedDate = "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}";
       danfeJson.add(_prepareLine(content: 'Data: $formattedDate '));
     }
 
     if (danfe?.dados?.infAdic?.infCpl != null) {
-      danfeJson.add(_prepareLine(
-          content: danfe!.dados!.infAdic!.infCpl ?? '', fontSize: 10));
+      danfeJson.add(_prepareLine(content: danfe!.dados!.infAdic!.infCpl ?? '', fontSize: 10));
     }
     return json.encode(danfeJson);
   }
@@ -640,22 +429,17 @@ class DanfePrinter implements IDanfePrinter {
     final lineRow = {};
     lineRow['row'] = {};
     lineRow['row']['customization'] = {};
-    lineRow['row']['customization']['font_size'] =
-        paperSize == PaperSize.mm58 ? 10 : 12;
-    lineRow['row']['customization']['alignment'] =
-        row.containsKey('alignment') ? row['alignment'] : 0;
+    lineRow['row']['customization']['font_size'] = paperSize == PaperSize.mm58 ? 10 : 12;
+    lineRow['row']['customization']['alignment'] = row.containsKey('alignment') ? row['alignment'] : 0;
     lineRow['row']['customization']['font_style'] = {};
-    lineRow['row']['customization']['font_style']['bold'] =
-        row.containsKey('bold') ? row['bold'] : false;
-    lineRow['row']['customization']['font_style']['italic'] =
-        row.containsKey('italic') ? row['italic'] : false;
+    lineRow['row']['customization']['font_style']['bold'] = row.containsKey('bold') ? row['bold'] : false;
+    lineRow['row']['customization']['font_style']['italic'] = row.containsKey('italic') ? row['italic'] : false;
     lineRow['row']['content'] = row['text'];
     lineRow['row']['size'] = row['size'];
     return lineRow;
   }
 
-  List<Map> _createHeader(
-      {required List<Map> headers, required PaperSize paperSize}) {
+  List<Map> _createHeader({required List<Map> headers, required PaperSize paperSize}) {
     List<Map> header = [];
     for (var row in headers) {
       header.add(_createRow(
@@ -680,12 +464,12 @@ class DanfePrinter implements IDanfePrinter {
     if (paperSize == PaperSize.mm58) {
       headers.add({
         'text': "DESCRICAO",
-        'size': 70,
+        'size': 65,
         'bold': true,
       });
       headers.add({
         'text': "QTD",
-        'size': 10,
+        'size': 15,
         'bold': true,
         'alignment': 2,
       });
@@ -724,10 +508,7 @@ class DanfePrinter implements IDanfePrinter {
     Map column = {};
     column['line'] = {};
     column['line']['column'] = [];
-    column['line']['column'].add({
-      'header': _createHeader(headers: headers, paperSize: paperSize),
-      'items': _createItems(det: det, paperSize: paperSize)
-    });
+    column['line']['column'].add({'header': _createHeader(headers: headers, paperSize: paperSize), 'items': _createItems(det: det, paperSize: paperSize)});
 
     return column;
   }
@@ -739,8 +520,7 @@ class DanfePrinter implements IDanfePrinter {
     return divider;
   }
 
-  Map _prepareQrcode(
-      {int size = 100, String content = '', String level = 'H'}) {
+  Map _prepareQrcode({int size = 100, String content = '', String level = 'H'}) {
     Map qrcode = {};
     qrcode['line'] = {};
     qrcode['line']['qrcode'] = {};
@@ -750,12 +530,7 @@ class DanfePrinter implements IDanfePrinter {
     return qrcode;
   }
 
-  Map _prepareLine(
-      {bool bold = false,
-      bool italic = false,
-      int aligment = 1,
-      int fontSize = 12,
-      String content = ''}) {
+  Map _prepareLine({bool bold = false, bool italic = false, int aligment = 1, int fontSize = 12, String content = ''}) {
     Map customLine = {};
     customLine['line'] = {};
     customLine['line']['customization'] = {};
@@ -783,8 +558,7 @@ class DanfePrinter implements IDanfePrinter {
             'alignment': 2,
           }, paperSize: paperSize));
           detList.add(_createRow(row: {
-            'text': DanfeUtils.formatMoneyMilhar(item.prod?.vProd ?? '',
-                modeda: 'pt_BR', simbolo: ''),
+            'text': DanfeUtils.formatMoneyMilhar(item.prod?.vProd ?? '', modeda: 'pt_BR', simbolo: ''),
             'alignment': 2,
           }, paperSize: paperSize));
         } else {
@@ -797,13 +571,11 @@ class DanfePrinter implements IDanfePrinter {
           }, paperSize: paperSize));
 
           detList.add(_createRow(row: {
-            'text': DanfeUtils.formatMoneyMilhar(item.prod?.vUnCom ?? '',
-                modeda: 'pt_BR', simbolo: ''),
+            'text': DanfeUtils.formatMoneyMilhar(item.prod?.vUnCom ?? '', modeda: 'pt_BR', simbolo: ''),
             'alignment': 2,
           }, paperSize: paperSize));
           detList.add(_createRow(row: {
-            'text': DanfeUtils.formatMoneyMilhar(item.prod?.vProd ?? '',
-                modeda: 'pt_BR', simbolo: ''),
+            'text': DanfeUtils.formatMoneyMilhar(item.prod?.vProd ?? '', modeda: 'pt_BR', simbolo: ''),
             'alignment': 2,
           }, paperSize: paperSize));
         }
