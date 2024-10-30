@@ -28,15 +28,20 @@ class Total {
 
   factory Total.fromMap(Map<String, dynamic> map) {
     String? desconto;
+    String? acrescimo;
+
     if (map.containsKey('vCFe')) {
       if (map.containsKey('DescAcrEntr')) {
         desconto = map['DescAcrEntr']?['vDescSubtot'];
+        acrescimo = map['DescAcrEntr']?['vAcresSubtot'];
       } else {
         desconto = map['ICMSTot']['vDesc'];
+        acrescimo = map['ICMSTot']['vOutro'];
       }
     } else {
       if (map.containsKey('ICMSTot')) {
         desconto = map['ICMSTot']['vDesc'];
+        acrescimo = map['ICMSTot']['vOutro'];
       }
     }
 
@@ -49,9 +54,7 @@ class Total {
       valorLei12741:
           map.containsKey('vCFeLei12741') ? map['vCFeLei12741'] : '0.00',
       desconto: desconto ?? '0.00',
-      acrescimo: (map.containsKey('vCFe')
-          ? map['ICMSTot']['vOutro']
-          : map['ICMSTot']['vOutro']),
+      acrescimo: acrescimo ?? '0.00',
       valorPago:
           ((map.containsKey('vCFe') ? map['vCFe'] : map['ICMSTot']['vNF'])) ??
               '0.00',
