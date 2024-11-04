@@ -1,10 +1,12 @@
+## 0.0.23
+* Improve: Arrumando o calculo de desconto/acrescimo no SAT Tks to [@alessandro-amos](https://github.com/alessandro-amos)
 ## 0.0.22
 ## 0.0.21
 * Improve: Preparando a danfe para um futuro package de json normativo que estou desenvolvendo.
 
 
 ## 0.0.20
-* Improve: Imprimir os dados do consumidor quando for CNPJ Tks pelo xml de teste [@smorigo](https://github.com/smorigo)
+* Improve: Imprimir os dados do consumidor quando for CNPJ Tks pelo xml de teste Tks to [@smorigo](https://github.com/smorigo)
 
 ## 0.0.19
 * Improve: Diminuir o qrcode da danfe que estava muito grande!
