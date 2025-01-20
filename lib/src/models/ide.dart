@@ -55,6 +55,10 @@ class Ide {
   /// Data e hora de emissão formatada (AAAA-MM-DD HH:MM:SS).
   String? dataEmissao;
 
+  /// Data e hora de saida formatada (AAAA-MM-DD HH:MM:SS).
+
+  String? dhSaiEnt;
+
   /// Construtor da classe `Ide`.
   ///
   /// ### Parâmetros:
@@ -74,6 +78,7 @@ class Ide {
   /// - [nNF]: Número da nota fiscal.
   /// - [dhEmi]: Data e hora de emissão (UTC).
   /// - [dataEmissao]: Data e hora formatadas.
+  /// - [dhSaiEnt]: Data e hora formatadas.
   Ide({
     this.cUF,
     this.cNF,
@@ -91,6 +96,7 @@ class Ide {
     this.nNF,
     this.dhEmi,
     this.dataEmissao,
+    this.dhSaiEnt,
   });
 
   /// Converte a instância atual em um mapa (`Map<String, dynamic>`).
@@ -121,6 +127,7 @@ class Ide {
       'signAC': signAC,
       'assinaturaQRCODE': assinaturaQRCODE,
       'numeroCaixa': numeroCaixa,
+      'dhSaiEnt': dhSaiEnt,
     };
   }
 
@@ -155,6 +162,7 @@ class Ide {
       numeroCaixa: map['numeroCaixa'],
       nNF: map.containsKey('nCFe') ? map['nCFe'] : map['nNF'],
       dhEmi: map['dhEmi'],
+      dhSaiEnt: map['dhSaiEnt'],
     );
 
     if (map.containsKey('dEmi')) {
