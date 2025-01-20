@@ -1,3 +1,4 @@
+## 0.0.25
 ## 0.0.24
 * Improve: Incrementando o nó transporte e cobrança nos dados de danfe no parses e na impresao!
 * Melhoria na documentacao do componente para melhor visualizaçao na IDE
