@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:danfe/danfe.dart';
 import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 import 'package:flutter/material.dart';
@@ -189,15 +187,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: ElevatedButton(
-                              onPressed: () {
-                                final jsonNormativo = controller.normativeJson(
-                                    _xmlController.text, PaperSize.mm58);
-                                log(jsonNormativo);
-                              },
-                              child: const Text('Json normativo'))),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: ElevatedButton(
                               onPressed: () async {
                                 final profile = await CapabilityProfile.load();
 
@@ -217,6 +206,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                     danfe: _dadosDanfe,
                                     paper: PaperSize.mm80,
                                     profile: profile);
+                              },
+                              child:
+                                  const Text('Imprimir minha customizacao'))),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                final profile = await CapabilityProfile.load();
+
+                                await controller.printImage(
+                                    paper: PaperSize.mm80, profile: profile);
                               },
                               child:
                                   const Text('Imprimir minha customizacao'))),
@@ -251,7 +251,9 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Center(
-                child: Text(nota?.tipo == 'CFe' ? ' Nota SAT' : 'Nota NFC-E')),
+                child: Text(nota?.tipo == TipoDocumento.CFe
+                    ? ' Nota SAT'
+                    : 'Nota NFC-E')),
             Padding(
               padding: const EdgeInsets.only(top: 2.0),
               child: RichText(

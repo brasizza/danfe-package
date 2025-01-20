@@ -5,12 +5,21 @@ import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 import 'danfe.dart';
 
 class DanfePrinter implements IDanfePrinter {
+  /// Define o tamanho do papel utilizado para a impressão (58mm ou 80mm).
   final PaperSize paperSize;
+
+  /// Construtor da classe DanfePrinter.
+  ///
+  /// Recebe o tamanho do papel como parâmetro para configuração da impressão.
   DanfePrinter(this.paperSize);
 
+  /// Gera o buffer de dados para impressão do DANFE em formato ESC/POS.
   ///
-  ///  Metodo que vai pegar o objeto Danfe e converter em esc/pos em um layout pre determinado
-  //
+  /// [danfe] - Dados do DANFE que serão processados para impressão.
+  /// [mostrarMoeda] - Define se o símbolo da moeda deve ser exibido. Valor padrão é `true`.
+  ///
+  /// Retorna uma lista de bytes que representa os comandos de impressão.
+
   @override
   Future<List<int>> bufferDanfe(Danfe? danfe,
       {bool mostrarMoeda = true}) async {
@@ -34,7 +43,7 @@ class DanfePrinter implements IDanfePrinter {
     bytes += generator.rawBytes([27, 97, 48]);
     bytes += generator.hr();
     bytes += generator.rawBytes([27, 97, 49]);
-    if ((danfe?.tipo ?? 'CFe') == 'CFe') {
+    if ((danfe?.tipo ?? TipoDocumento.CFe) == TipoDocumento.CFe) {
       bytes += generator.text('Nota Fiscal Eletronica - SAT ',
           styles: const PosStyles(
               align: PosAlign.center,
@@ -256,6 +265,44 @@ class DanfePrinter implements IDanfePrinter {
               styles: const PosStyles(align: PosAlign.right)),
         ]);
       }
+      bytes += generator.hr();
+    }
+
+    if (danfe?.dados?.transp != null) {
+      bytes += generator.rawBytes([27, 97, 49]);
+      bytes += generator.text('TRANSPORTADORA',
+          styles: const PosStyles(align: PosAlign.center, bold: true));
+
+      bytes += generator.text(danfe?.dados?.transp?.transporta?.xNome ?? '');
+      bytes += generator.text(danfe?.dados?.transp?.transporta?.xEnder ?? '');
+      bytes += generator.text(
+          '${danfe?.dados?.transp?.transporta?.xMun ?? ''} ${danfe?.dados?.transp?.transporta?.uf ?? ''}');
+      bytes += generator.rawBytes([27, 97, 48]);
+
+      bytes += generator.hr();
+    }
+
+    if (danfe?.dados?.cobr != null) {
+      bytes += generator.rawBytes([27, 97, 49]);
+      bytes += generator.text('COBRANCA',
+          styles: const PosStyles(align: PosAlign.center, bold: true));
+
+      bytes += generator.text("Fatura: ${danfe?.dados?.cobr?.fat?.nFat ?? ''}");
+      bytes += generator.text(
+          "Valor Original: ${DanfeUtils.formatMoneyMilhar(danfe?.dados?.cobr?.fat?.vOrig ?? '', modeda: 'pt_BR', simbolo: moeda)}",
+          styles: const PosStyles(align: PosAlign.center));
+      bytes += generator.text(
+          "Valor Liquido: ${DanfeUtils.formatMoneyMilhar(danfe?.dados?.cobr?.fat?.vLiq ?? '', modeda: 'pt_BR', simbolo: moeda)}",
+          styles: const PosStyles(align: PosAlign.center));
+      bytes += generator.hr();
+      bytes +=
+          generator.text("Duplicata: ${danfe?.dados?.cobr?.dup?.nDup ?? ''}");
+      bytes += generator.text(
+          "Vencimento: ${DanfeUtils.formatDate(danfe?.dados?.cobr?.dup?.dVenc ?? '', dateOnly: true)}");
+      bytes += generator.text("Valor: ${danfe?.dados?.cobr?.dup?.nDup ?? ''}");
+
+      bytes += generator.rawBytes([27, 97, 48]);
+
       bytes += generator.hr();
     }
 

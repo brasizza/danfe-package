@@ -1,3 +1,6 @@
+## 0.0.24
+* Improve: Incrementando o nó transporte e cobrança nos dados de danfe no parses e na impresao!
+* Melhoria na documentacao do componente para melhor visualizaçao na IDE
 ## 0.0.23
 * Improve: Arrumando o calculo de desconto/acrescimo no SAT Tks to [@alessandro-amos](https://github.com/alessandro-amos)
 ## 0.0.22
