@@ -26,6 +26,33 @@ class Total {
   /// Valor total pago.
   String? valorPago;
 
+  ///Valor ICMS
+  String? valorIcms;
+
+  ///Valor Frete
+  String? valorFrete;
+
+  ///Valor Pis
+  String? valorPis;
+
+  ///Valor Cofins
+  String? valorCofins;
+
+  ///ValorIpi
+  String? valorIpi;
+
+  ///Valor Substituicao Tributária
+  String? valorSt;
+//Valor total de tributação
+  String? valotTotalTributos;
+
+  //Valor da base de calculo
+  String? valorBaseCalculo;
+
+  String? valorIcmsDesonerado;
+  String? valorBaseCalculoSt;
+  String? valorSeguro;
+
   /// Construtor da classe `Total`.
   ///
   /// ### Parâmetros:
@@ -42,6 +69,17 @@ class Total {
     this.desconto,
     this.acrescimo,
     this.valorPago,
+    this.valorCofins,
+    this.valorFrete,
+    this.valorIcms,
+    this.valorPis,
+    this.valorIpi,
+    this.valorSt,
+    this.valotTotalTributos,
+    this.valorBaseCalculo,
+    this.valorBaseCalculoSt,
+    this.valorIcmsDesonerado,
+    this.valorSeguro,
   });
 
   /// Converte a instância atual em um mapa (`Map<String, dynamic>`).
@@ -63,6 +101,12 @@ class Total {
       'desconto': desconto,
       'acrescimo': acrescimo,
       'valorPago': valorPago,
+      'valorCofins': valorCofins,
+      'valorFrete': valorFrete,
+      'valorIcms': valorIcms,
+      'valorPis': valorPis,
+      'valorIpi': valorIpi,
+      'valorSt': valorSt
     };
   }
 
@@ -90,12 +134,23 @@ class Total {
         '0.00';
 
     return Total(
-      valorTotalIcms: map['ICMSTot']?['vProd'] ?? '0.00',
-      valorTotal: map['vCFe'] ?? map['ICMSTot']?['vProd'] ?? '0.00',
       valorLei12741: map['vCFeLei12741'] ?? '0.00',
+      valorBaseCalculo: map['ICMSTot']?['vBC'] ?? '0.00',
+      valorTotalIcms: map['ICMSTot']?['vICMS'] ?? '0.00',
+      valorIcmsDesonerado: map['ICMSTot']?['vICMSDeson'] ?? '0.00',
+      valorBaseCalculoSt: map['ICMSTot']?['vBCST'] ?? '0.00',
+      valorSt: map['ICMSTot']?['vSt'] ?? '0.00',
+      valorTotal: map['vCFe'] ?? map['ICMSTot']?['vProd'] ?? '0.00',
+      valorFrete: map['ICMSTot']?['vFrete'] ?? '0.00',
+      valorSeguro: map['ICMSTot']?['vSeg'] ?? '0.00',
       desconto: desconto,
+      valorIpi: map['ICMSTot']?['vIPI'] ?? '0.00',
+      valorPis: map['ICMSTot']?['vPIS'] ?? '0.00',
+      valorCofins: map['ICMSTot']?['vCOFINS'] ?? '0.00',
       acrescimo: acrescimo,
       valorPago: map['vCFe'] ?? map['ICMSTot']?['vNF'] ?? '0.00',
+      valorIcms: map['ICMSTot']?['vICMS'] ?? '0.00',
+      valotTotalTributos: map['ICMSTot']?['valotTotalTributos'] ?? '0.00',
     );
   }
 
