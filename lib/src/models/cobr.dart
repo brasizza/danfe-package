@@ -11,7 +11,7 @@ class Cobr {
   Fat? fat;
 
   /// Informações das duplicatas.
-  Dup? dup;
+  List<Dup>? dup;
 
   /// Construtor da classe [Cobr].
   ///
@@ -27,7 +27,7 @@ class Cobr {
   Map<String, dynamic> toMap() {
     return {
       'fat': fat?.toMap(),
-      'dup': dup?.toMap(),
+      'dup': dup?.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -35,7 +35,7 @@ class Cobr {
   factory Cobr.fromMap(Map<String, dynamic> map) {
     return Cobr(
       fat: map['fat'] != null ? Fat.fromMap(map['fat']) : null,
-      dup: map['dup'] != null ? Dup.fromMap(map['dup']) : null,
+      dup: List<Dup>.from(map['dup']?.map((x) => Dup.fromMap(x))),
     );
   }
 

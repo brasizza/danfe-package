@@ -274,17 +274,19 @@ class DanfePrinter implements IDanfePrinter {
     }
 
     if (danfe?.dados?.transp != null) {
-      bytes += generator.rawBytes([27, 97, 49]);
-      bytes += generator.text('TRANSPORTADORA',
-          styles: const PosStyles(align: PosAlign.center, bold: true));
+      if (danfe?.dados?.transp?.transporta?.xNome != null) {
+        bytes += generator.rawBytes([27, 97, 49]);
+        bytes += generator.text('TRANSPORTADORA',
+            styles: const PosStyles(align: PosAlign.center, bold: true));
 
-      bytes += generator.text(danfe?.dados?.transp?.transporta?.xNome ?? '');
-      bytes += generator.text(danfe?.dados?.transp?.transporta?.xEnder ?? '');
-      bytes += generator.text(
-          '${danfe?.dados?.transp?.transporta?.xMun ?? ''} ${danfe?.dados?.transp?.transporta?.uf ?? ''}');
-      bytes += generator.rawBytes([27, 97, 48]);
+        bytes += generator.text(danfe?.dados?.transp?.transporta?.xNome ?? '');
+        bytes += generator.text(danfe?.dados?.transp?.transporta?.xEnder ?? '');
+        bytes += generator.text(
+            '${danfe?.dados?.transp?.transporta?.xMun ?? ''} ${danfe?.dados?.transp?.transporta?.uf ?? ''}');
+        bytes += generator.rawBytes([27, 97, 48]);
 
-      bytes += generator.hr();
+        bytes += generator.hr();
+      }
     }
 
     if (danfe?.dados?.cobr != null) {
@@ -300,15 +302,15 @@ class DanfePrinter implements IDanfePrinter {
           "Valor Liquido: ${DanfeUtils.formatMoneyMilhar(danfe?.dados?.cobr?.fat?.vLiq ?? '', modeda: 'pt_BR', simbolo: moeda)}",
           styles: const PosStyles(align: PosAlign.center));
       bytes += generator.hr();
-      bytes +=
-          generator.text("Duplicata: ${danfe?.dados?.cobr?.dup?.nDup ?? ''}");
-      bytes += generator.text(
-          "Vencimento: ${DanfeUtils.formatDate(danfe?.dados?.cobr?.dup?.dVenc ?? '', dateOnly: true)}");
-      bytes += generator.text("Valor: ${danfe?.dados?.cobr?.dup?.nDup ?? ''}");
+      for (var duplicata in danfe?.dados?.cobr?.dup ?? []) {
+        bytes += generator.text("Duplicata: ${duplicata.nDup ?? ''}");
+        bytes += generator.text(
+            "Vencimento: ${DanfeUtils.formatDate(duplicata.dVenc ?? '', dateOnly: true)}");
+        bytes += generator.text("Valor: ${duplicata.nDup ?? ''}");
 
+        bytes += generator.hr();
+      }
       bytes += generator.rawBytes([27, 97, 48]);
-
-      bytes += generator.hr();
     }
 
     bytes += generator.rawBytes([27, 97, 49]);

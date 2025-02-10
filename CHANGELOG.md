@@ -1,5 +1,8 @@
+## 0.0.27
+* Improve: Duplicatas podem ser uma lista, alterado para receber uma lista de DUP
 ## 0.0.26
 * Improve: A pedidos no git, foi mapeado outros campos no ICMSTOT no model de totais
+
 ## 0.0.25
 ## 0.0.24
 * Improve: Incrementando o nó transporte e cobrança nos dados de danfe no parses e na impresao!
