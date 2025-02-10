@@ -33,6 +33,9 @@ class Cobr {
 
   /// Cria uma instância de [Cobr] a partir de um mapa.
   factory Cobr.fromMap(Map<String, dynamic> map) {
+    if (map['dup'] != null && map['dup'] is Map) {
+      map['dup'] = [map['dup']];
+    }
     return Cobr(
       fat: map['fat'] != null ? Fat.fromMap(map['fat']) : null,
       dup: List<Dup>.from(map['dup']?.map((x) => Dup.fromMap(x))),

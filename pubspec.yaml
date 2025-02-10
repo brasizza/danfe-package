@@ -1,6 +1,6 @@
 name: danfe
 description: Package para parsear e transformar um arquivo de danfe xml em objeto ou buffer para impressao
-version: 0.0.27
+version: 0.0.28
 homepage: https://github.com/brasizza/danfe-package
 environment:
   sdk: ">=3.2.0 <4.0.0"

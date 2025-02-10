@@ -1,3 +1,6 @@
+## 0.0.28
+* fix: Duplicatas podem ser uma lista, alterado para receber uma lista de DUP  mesmo com somente uma duplicata
+
 ## 0.0.27
 * Improve: Duplicatas podem ser uma lista, alterado para receber uma lista de DUP
 ## 0.0.26
