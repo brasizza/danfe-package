@@ -1,3 +1,7 @@
+## 0.0.29
+* change: As versoes mais novas do escpos_utils trocou o size de Size para size, quebrando alguns sistemas. atualizei o meu package para o ultimo escpos_utils, portanto no seu codigo pode haver algum problema do Size do qrcode, somente mudar para size minusculo
+
+
 ## 0.0.28
 * fix: Duplicatas podem ser uma lista, alterado para receber uma lista de DUP  mesmo com somente uma duplicata
 
