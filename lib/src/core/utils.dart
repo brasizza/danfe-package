@@ -20,10 +20,8 @@ class DanfeUtils {
   /// String resultado = DanfeUtils.formatMoneyMilhar('1234.56', modeda: 'pt_BR', simbolo: 'R$');
   /// print(resultado); // Saída: R$1.234,56
   /// ```
-  static formatMoneyMilhar(String number,
-      {String modeda = '', String simbolo = ''}) {
-    NumberFormat formatter = NumberFormat.currency(
-        decimalDigits: 2, locale: modeda, symbol: simbolo);
+  static formatMoneyMilhar(String number, {String modeda = '', String simbolo = ''}) {
+    NumberFormat formatter = NumberFormat.currency(decimalDigits: 2, locale: modeda, symbol: simbolo);
     return formatter.format(double.parse(number));
   }
 
@@ -66,9 +64,7 @@ class DanfeUtils {
   /// ```
   static String formatDate(String date, {bool dateOnly = false}) {
     DateTime data = DateTime.parse(date);
-    var outputFormat = (dateOnly == true)
-        ? DateFormat('dd/MM/yyyy')
-        : DateFormat('dd/MM/yyyy HH:mm:ss');
+    var outputFormat = (dateOnly == true) ? DateFormat('dd/MM/yyyy') : DateFormat('dd/MM/yyyy HH:mm:ss');
     return outputFormat.format(data);
   }
 
@@ -92,8 +88,7 @@ class DanfeUtils {
 
     for (int i = 0; i < value.length; i += length) {
       int offset = i + length;
-      pieces.add(
-          value.substring(i, offset >= value.length ? value.length : offset));
+      pieces.add(value.substring(i, offset >= value.length ? value.length : offset));
     }
     return pieces.join(glue);
   }

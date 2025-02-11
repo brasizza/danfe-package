@@ -92,18 +92,18 @@ packages:
     dependency: "direct main"
     description:
       name: esc_pos_printer_plus
-      sha256: "0e31b98a1412554409f4217dcd5a1420d929f1affa87fc85d7715ece02f4ac9e"
+      sha256: "8acaf329b0f751fea805c9745f728004844c12730ab1af3b349e4179d329a16a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.0.3"
   esc_pos_utils_plus:
     dependency: "direct main"
     description:
       name: esc_pos_utils_plus
-      sha256: "2a22d281cb6f04600ba3ebd607ad8df03a4b2446d814007d22525bab4d50c2ff"
+      sha256: "518a7172ee39221de350619e04a8ea410d875bc27937fd341dd24ba5ef81360c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.3"
   fake_async:
     dependency: transitive
     description:

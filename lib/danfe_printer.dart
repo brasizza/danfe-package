@@ -183,7 +183,7 @@ class DanfePrinter implements IDanfePrinter {
     bytes += generator.text('CHAVE DE ACESSO DA NOTA FISCAL', styles: const PosStyles(align: PosAlign.center));
     bytes += generator.text(DanfeUtils.splitByLength(danfe?.dados?.chaveNota ?? '', 4, ' '), styles: const PosStyles(align: PosAlign.center, bold: true));
     bytes += generator.rawBytes([27, 97, 49]);
-    bytes += generator.qrcode(danfe?.qrcodePrinter ?? '', size: QRSize.size2, cor: QRCorrection.H);
+    bytes += generator.qrcode(danfe?.qrcodePrinter ?? '', size: QRSize.Size2, cor: QRCorrection.H);
 
     bytes += generator.rawBytes([27, 97, 48]);
     bytes += generator.feed(1);
