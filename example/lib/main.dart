@@ -36,29 +36,12 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _xmlController = TextEditingController();
   final HomeController controller = HomeController();
   Danfe? _dadosDanfe;
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const Center(
-                child: Text(
-                  'Testes de danfes',
-                ),
-              ),
-              Column(
-                children: [
-                  const Text('Cole aqui o seu xml da danfe'),
-                  TextField(
-                    controller: _xmlController
-                      ..text = r'''<?xml version="1.0"?>
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _xmlController.text = r'''<?xml version="1.0"?>
 <CFe>
   <infCFe Id="CFe35161261099008000141599000026310003024947916" versao="0.07" versaoDadosEnt="0.07" versaoSB="010300">
     <ide>
@@ -168,7 +151,31 @@ class _MyHomePageState extends State<MyHomePage> {
       </X509Data>
     </KeyInfo>
   </Signature>
-</CFe>''',
+</CFe>''';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const Center(
+                child: Text(
+                  'Testes de danfes',
+                ),
+              ),
+              Column(
+                children: [
+                  const Text('Cole aqui o seu xml da danfe'),
+                  TextField(
+                    controller: _xmlController,
                     maxLines: 10,
                   ),
                   Row(

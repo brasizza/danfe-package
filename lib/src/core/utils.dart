@@ -20,9 +20,84 @@ class DanfeUtils {
   /// String resultado = DanfeUtils.formatMoneyMilhar('1234.56', modeda: 'pt_BR', simbolo: 'R$');
   /// print(resultado); // Saída: R$1.234,56
   /// ```
-  static formatMoneyMilhar(String number, {String modeda = '', String simbolo = ''}) {
-    NumberFormat formatter = NumberFormat.currency(decimalDigits: 2, locale: modeda, symbol: simbolo);
-    return formatter.format(double.parse(number));
+  static String formatMoneyMilhar(String number,
+      {String modeda = '', String simbolo = ''}) {
+    NumberFormat formatter = NumberFormat.currency(
+      decimalDigits: 2,
+      symbol: '',
+      locale: modeda,
+    );
+    final formatterSymbol = formatter.format(double.parse(number));
+
+    return '$simbolo${formatterSymbol.trim()}';
+  }
+
+  /// Remove acentos de uma string, substituindo caracteres acentuados por suas versões sem acento.
+  ///
+  /// ### Parâmetros:
+  /// - [text]: Uma `String` contendo caracteres acentuados.
+  ///
+  /// ### Retorno:
+  /// - Uma `String` sem caracteres acentuados.
+  ///
+  /// ### Exemplo:
+  /// ```dart
+  /// String resultado = DanfeUtils.removeAccents("Olá, mundo!");
+  /// print(resultado); // Saída: Ola, mundo!
+  /// ```
+  static String removeAcentos(String text) {
+    const Map<String, String> accentMap = {
+      'á': 'a',
+      'à': 'a',
+      'ã': 'a',
+      'â': 'a',
+      'ä': 'a',
+      'é': 'e',
+      'è': 'e',
+      'ê': 'e',
+      'ë': 'e',
+      'í': 'i',
+      'ì': 'i',
+      'î': 'i',
+      'ï': 'i',
+      'ó': 'o',
+      'ò': 'o',
+      'õ': 'o',
+      'ô': 'o',
+      'ö': 'o',
+      'ú': 'u',
+      'ù': 'u',
+      'û': 'u',
+      'ü': 'u',
+      'ç': 'c',
+      'ñ': 'n',
+      'Á': 'A',
+      'À': 'A',
+      'Ã': 'A',
+      'Â': 'A',
+      'Ä': 'A',
+      'É': 'E',
+      'È': 'E',
+      'Ê': 'E',
+      'Ë': 'E',
+      'Í': 'I',
+      'Ì': 'I',
+      'Î': 'I',
+      'Ï': 'I',
+      'Ó': 'O',
+      'Ò': 'O',
+      'Õ': 'O',
+      'Ô': 'O',
+      'Ö': 'O',
+      'Ú': 'U',
+      'Ù': 'U',
+      'Û': 'U',
+      'Ü': 'U',
+      'Ç': 'C',
+      'Ñ': 'N'
+    };
+
+    return text.split('').map((char) => accentMap[char] ?? char).join();
   }
 
   /// Formata um número para remover os separadores de milhar e limitar as casas decimais.
@@ -39,9 +114,7 @@ class DanfeUtils {
   /// print(resultado); // Saída: 1234.57
   /// ```
   static String formatNumber(String number) {
-    String result;
-    result = NumberFormat('###.##').format(double.parse(number));
-    return result;
+    return NumberFormat('###.##').format(double.parse(number));
   }
 
   /// Formata uma data em formato ISO (YYYY-MM-DD) para um formato legível, com opção de incluir
@@ -64,7 +137,8 @@ class DanfeUtils {
   /// ```
   static String formatDate(String date, {bool dateOnly = false}) {
     DateTime data = DateTime.parse(date);
-    var outputFormat = (dateOnly == true) ? DateFormat('dd/MM/yyyy') : DateFormat('dd/MM/yyyy HH:mm:ss');
+    var outputFormat =
+        dateOnly ? DateFormat('dd/MM/yyyy') : DateFormat('dd/MM/yyyy HH:mm:ss');
     return outputFormat.format(data);
   }
 
@@ -88,8 +162,45 @@ class DanfeUtils {
 
     for (int i = 0; i < value.length; i += length) {
       int offset = i + length;
-      pieces.add(value.substring(i, offset >= value.length ? value.length : offset));
+      pieces.add(
+          value.substring(i, offset >= value.length ? value.length : offset));
     }
     return pieces.join(glue);
+  }
+
+  /// Formata um CPF no padrão `XXX.XXX.XXX-XX`.
+  ///
+  /// ### Parâmetros:
+  /// - [cpf]: Uma `String` contendo apenas os números do CPF.
+  ///
+  /// ### Retorno:
+  /// - Uma `String` formatada no padrão CPF.
+  ///
+  /// ### Exemplo:
+  /// ```dart
+  /// String resultado = DanfeUtils.formatCPF("12345678901");
+  /// print(resultado); // Saída: 123.456.789-01
+  /// ```
+  static String formatCPF(String cpf) {
+    if (cpf.length != 11) return cpf;
+    return "${cpf.substring(0, 3)}.${cpf.substring(3, 6)}.${cpf.substring(6, 9)}-${cpf.substring(9)}";
+  }
+
+  /// Formata um CNPJ no padrão `XX.XXX.XXX/XXXX-XX`.
+  ///
+  /// ### Parâmetros:
+  /// - [cnpj]: Uma `String` contendo apenas os números do CNPJ.
+  ///
+  /// ### Retorno:
+  /// - Uma `String` formatada no padrão CNPJ.
+  ///
+  /// ### Exemplo:
+  /// ```dart
+  /// String resultado = DanfeUtils.formatCNPJ("12345678000195");
+  /// print(resultado); // Saída: 12.345.678/0001-95
+  /// ```
+  static String formatCNPJ(String cnpj) {
+    if (cnpj.length != 14) return cnpj;
+    return "${cnpj.substring(0, 2)}.${cnpj.substring(2, 5)}.${cnpj.substring(5, 8)}/${cnpj.substring(8, 12)}-${cnpj.substring(12)}";
   }
 }
