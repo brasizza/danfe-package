@@ -1,9 +1,7 @@
-## 0.01.01
-* Melhorias na impressao, aumento do qrcode, inserindo mais dados importantes do emitente no cabeçalho da impressao
 
-## 0.01.00
+## 0.1.0
 * Melhorias na impressao, aumento do qrcode, removendo acentos de onde fui achando
-
+* Melhorias na impressao, aumento do qrcode, inserindo mais dados importantes do emitente no cabeçalho da impressao
 
 ## 0.0.29
 * change: As versoes mais novas do escpos_utils trocou o size de Size para size, quebrando alguns sistemas. atualizei o meu package para o ultimo escpos_utils, portanto no seu codigo pode haver algum problema do Size do qrcode, somente mudar para size minusculo
