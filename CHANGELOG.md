@@ -1,3 +1,6 @@
+## 0.01.01
+* Melhorias na impressao, aumento do qrcode, inserindo mais dados importantes do emitente no cabeçalho da impressao
+
 ## 0.01.00
 * Melhorias na impressao, aumento do qrcode, removendo acentos de onde fui achando
 

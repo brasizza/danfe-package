@@ -39,7 +39,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _xmlController.text = r'''<?xml version="1.0"?>
 <CFe>

@@ -203,4 +203,9 @@ class DanfeUtils {
     if (cnpj.length != 14) return cnpj;
     return "${cnpj.substring(0, 2)}.${cnpj.substring(2, 5)}.${cnpj.substring(5, 8)}/${cnpj.substring(8, 12)}-${cnpj.substring(12)}";
   }
+
+  static String formatCep(String cep) {
+    if (cep.length != 8) return cep;
+    return "${cep.substring(0, 5)}-${cep.substring(5)}";
+  }
 }

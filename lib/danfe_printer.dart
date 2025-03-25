@@ -36,12 +36,18 @@ class DanfePrinter implements IDanfePrinter {
           align: PosAlign.center,
           bold: true,
         ));
+    final String uf = danfe?.dados?.emit?.enderEmit?.uF == null
+        ? ''
+        : ' - ${danfe!.dados!.emit!.enderEmit!.uF}';
     bytes += generator.text(
-        (DanfeUtils.formatCNPJ(danfe?.dados?.emit?.cnpj ?? '')),
+        ('CNPJ - ${DanfeUtils.formatCNPJ(danfe?.dados?.emit?.cnpj ?? '')}'),
         styles: const PosStyles(align: PosAlign.center));
     bytes += generator.text(
         DanfeUtils.removeAcentos(
-            '${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''}, ${danfe?.dados?.emit?.enderEmit?.nro ?? ''}'),
+            '${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''},${danfe?.dados?.emit?.enderEmit?.nro ?? ''} ${danfe?.dados?.emit?.enderEmit?.xBairro ?? ''}$uf'),
+        styles: const PosStyles(align: PosAlign.center));
+    bytes += generator.text(
+        'CEP: ${DanfeUtils.formatCep(danfe?.dados?.emit?.enderEmit?.cEP ?? '')}',
         styles: const PosStyles(align: PosAlign.center));
     bytes += generator.rawBytes([27, 97, 48]);
     bytes += generator.hr();
