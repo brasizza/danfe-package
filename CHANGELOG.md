@@ -1,4 +1,10 @@
 
+
+## 1.0.0
+* Atualizado para a última versão do flutter/dart (foi necessário subir o intl pra 0.20)
+* Atualizado o exemplo pra kts (ultimo gradle do flutter novo)
+
+
 ## 0.1.0
 * Melhorias na impressao, aumento do qrcode, removendo acentos de onde fui achando
 * Melhorias na impressao, aumento do qrcode, inserindo mais dados importantes do emitente no cabeçalho da impressao

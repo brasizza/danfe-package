@@ -1,9 +1,9 @@
 name: danfe
 description: Package para parsear e transformar um arquivo de danfe xml em objeto ou buffer para impressao
-version: 0.1.0
+version: 1.0.0
 homepage: https://github.com/brasizza/danfe-package
 environment:
-  sdk: ">=3.2.0 <4.0.0"
+  sdk: ">=3.8.0 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
     
-  image: ^4.3.0
-  intl: ^0.19.0
-  xml2json: ^6.2.3
+  image: any
+  intl: any
+  xml2json: any
 
 dev_dependencies:
   flutter_test:
