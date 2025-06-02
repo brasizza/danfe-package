@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
     
-  image: any
-  intl: any
-  xml2json: any
+  image: ^4.3.0
+  intl: ^0.20.0
+  xml2json: ^6.2.7
 
 dev_dependencies:
   flutter_test:
