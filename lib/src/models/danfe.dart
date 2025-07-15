@@ -70,12 +70,7 @@ class Danfe {
   /// - [tipo]: Tipo do documento fiscal (obrigatório).
   /// - [infNFeSupl]: Informações suplementares da Nota Fiscal.
   /// - [protNFe]: Protocolo de autorização da Nota Fiscal.
-  Danfe({
-    this.dados,
-    required this.tipo,
-    this.infNFeSupl,
-    this.protNFe,
-  });
+  Danfe({this.dados, required this.tipo, this.infNFeSupl, this.protNFe});
 
   /// Converte a instância atual em um mapa (`Map<String, dynamic>`).
   ///
@@ -142,18 +137,22 @@ class Danfe {
   factory Danfe.fromMapNFce(Map<String, dynamic> map) {
     final parseMap = safeGet<Map<String, dynamic>>(map, 'NFe') ?? map;
     return Danfe(
-      dados: safeGet<Map<String, dynamic>>(parseMap, 'infNFe') != null
-          ? DadosDanfe.fromMap(parseMap['infNFe'])
-          : null,
-      tipo: TipoDocumento.NFe,
-      protNFe: safeGet<Map<String, dynamic>>(map, 'protNFe') != null
-          ? ProtNFe.fromMap(map['protNFe'])
-          : null,
-      infNFeSupl: safeGet<Map<String, dynamic>>(parseMap, 'infNFeSupl') != null
-          ? InfNFeSupl.fromMap(parseMap['infNFeSupl'])
-          : null,
-    )..qrcodePrinter =
-        safeGet<Map<String, dynamic>>(parseMap, 'infNFeSupl')?['qrCode'];
+        dados: safeGet<Map<String, dynamic>>(parseMap, 'infNFe') != null
+            ? DadosDanfe.fromMap(parseMap['infNFe'])
+            : null,
+        tipo: TipoDocumento.NFe,
+        protNFe: safeGet<Map<String, dynamic>>(map, 'protNFe') != null
+            ? ProtNFe.fromMap(map['protNFe'])
+            : null,
+        infNFeSupl:
+            safeGet<Map<String, dynamic>>(parseMap, 'infNFeSupl') != null
+            ? InfNFeSupl.fromMap(parseMap['infNFeSupl'])
+            : null,
+      )
+      ..qrcodePrinter = safeGet<Map<String, dynamic>>(
+        parseMap,
+        'infNFeSupl',
+      )?['qrCode'];
   }
 
   /// Converte a instância atual em uma string JSON.

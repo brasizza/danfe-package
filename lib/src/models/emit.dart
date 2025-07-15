@@ -101,8 +101,9 @@ class Emit {
       iM: map['IM'],
       cRegTrib: map['cRegTrib'],
       indRatISSQN: map['indRatISSQN'],
-      enderEmit:
-          map['enderEmit'] != null ? EnderEmit.fromMap(map['enderEmit']) : null,
+      enderEmit: map['enderEmit'] != null
+          ? EnderEmit.fromMap(map['enderEmit'])
+          : null,
     );
   }
 

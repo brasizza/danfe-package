@@ -14,28 +14,16 @@ class Dup {
   String? vDup;
 
   /// Construtor da classe [Dup].
-  Dup({
-    this.nDup,
-    this.dVenc,
-    this.vDup,
-  });
+  Dup({this.nDup, this.dVenc, this.vDup});
 
   /// Converte a instância de [Dup] para um mapa.
   Map<String, dynamic> toMap() {
-    return {
-      'nDup': nDup,
-      'dVenc': dVenc,
-      'vDup': vDup,
-    };
+    return {'nDup': nDup, 'dVenc': dVenc, 'vDup': vDup};
   }
 
   /// Cria uma instância de [Dup] a partir de um mapa.
   factory Dup.fromMap(Map<String, dynamic> map) {
-    return Dup(
-      nDup: map['nDup'],
-      dVenc: map['dVenc'],
-      vDup: map['vDup'],
-    );
+    return Dup(nDup: map['nDup'], dVenc: map['dVenc'], vDup: map['vDup']);
   }
 
   /// Converte a instância de [Dup] para uma string JSON.

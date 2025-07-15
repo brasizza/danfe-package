@@ -144,8 +144,9 @@ class DadosDanfe {
           ? Pgto.fromMap(map['pgto'] ?? map['pag'])
           : null,
       infAdic: map['infAdic'] != null ? InfAdic.fromMap(map['infAdic']) : null,
-      chaveNota:
-          (map['_Id'] as String).replaceAll('CFe', '').replaceAll('NFe', ''),
+      chaveNota: (map['_Id'] as String)
+          .replaceAll('CFe', '')
+          .replaceAll('NFe', ''),
       sVersao: map['_versao'],
       sVersaoDadosEnt: map['_versaoDadosEnt'],
       sVersaoSB: map['_versaoSB'],

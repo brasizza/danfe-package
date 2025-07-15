@@ -35,11 +35,7 @@ class Dest {
   /// print(mapa); // Saída: {cpf: 12345678901, xNome: Fulano de Tal}
   /// ```
   Map<String, dynamic> toMap() {
-    return {
-      'cpf': cpf,
-      'cnpj': cnpj,
-      'xNome': xNome,
-    };
+    return {'cpf': cpf, 'cnpj': cnpj, 'xNome': xNome};
   }
 
   /// Cria uma instância de `Dest` a partir de um mapa (`Map<String, dynamic>`).
@@ -57,11 +53,7 @@ class Dest {
   /// print(dest.xNome); // Saída: Fulano de Tal
   /// ```
   factory Dest.fromMap(Map<String, dynamic> map) {
-    return Dest(
-      cpf: map['CPF'],
-      cnpj: map['CNPJ'],
-      xNome: map['xNome'],
-    );
+    return Dest(cpf: map['CPF'], cnpj: map['CNPJ'], xNome: map['xNome']);
   }
 
   /// Converte a instância atual em uma string JSON.

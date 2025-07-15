@@ -15,9 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const MyHomePage(title: 'Danfe exemplos'),
     );
   }
@@ -156,76 +154,78 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const Center(
-                child: Text(
-                  'Testes de danfes',
-                ),
-              ),
+              const Center(child: Text('Testes de danfes')),
               Column(
                 children: [
                   const Text('Cole aqui o seu xml da danfe'),
-                  TextField(
-                    controller: _xmlController,
-                    maxLines: 10,
-                  ),
+                  TextField(controller: _xmlController, maxLines: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  _dadosDanfe =
-                                      controller.parseXml(_xmlController.text);
-                                });
-                              },
-                              child: const Text('Processar nota'))),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              _dadosDanfe = controller.parseXml(
+                                _xmlController.text,
+                              );
+                            });
+                          },
+                          child: const Text('Processar nota'),
+                        ),
+                      ),
                       Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                final profile = await CapabilityProfile.load();
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            final profile = await CapabilityProfile.load();
 
-                                await controller.printDefault(
-                                    danfe: _dadosDanfe,
-                                    paper: PaperSize.mm80,
-                                    profile: profile);
-                              },
-                              child: const Text('Imprimir nota'))),
+                            await controller.printDefault(
+                              danfe: _dadosDanfe,
+                              paper: PaperSize.mm80,
+                              profile: profile,
+                            );
+                          },
+                          child: const Text('Imprimir nota'),
+                        ),
+                      ),
                       Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                final profile = await CapabilityProfile.load();
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            final profile = await CapabilityProfile.load();
 
-                                await controller.printCustomLayout(
-                                    danfe: _dadosDanfe,
-                                    paper: PaperSize.mm80,
-                                    profile: profile);
-                              },
-                              child:
-                                  const Text('Imprimir minha customizacao'))),
+                            await controller.printCustomLayout(
+                              danfe: _dadosDanfe,
+                              paper: PaperSize.mm80,
+                              profile: profile,
+                            );
+                          },
+                          child: const Text('Imprimir minha customizacao'),
+                        ),
+                      ),
                       Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                final profile = await CapabilityProfile.load();
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            final profile = await CapabilityProfile.load();
 
-                                await controller.printImage(
-                                    paper: PaperSize.mm80, profile: profile);
-                              },
-                              child:
-                                  const Text('Imprimir minha customizacao'))),
+                            await controller.printImage(
+                              paper: PaperSize.mm80,
+                              profile: profile,
+                            );
+                          },
+                          child: const Text('Imprimir minha customizacao'),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -240,7 +240,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     dadosNota(_dadosDanfe),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -257,76 +257,93 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Center(
-                child: Text(nota?.tipo == TipoDocumento.CFe
-                    ? ' Nota SAT'
-                    : 'Nota NFC-E')),
-            Padding(
-              padding: const EdgeInsets.only(top: 2.0),
-              child: RichText(
-                  text: TextSpan(children: [
-                const TextSpan(
-                  text: 'Nome fantasia:  ',
-                  style: TextStyle(color: Colors.black, fontSize: 10),
-                ),
-                TextSpan(
-                  text: nota?.dados?.emit?.xFant ?? '',
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10),
-                ),
-              ])),
+              child: Text(
+                nota?.tipo == TipoDocumento.CFe ? ' Nota SAT' : 'Nota NFC-E',
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 2.0),
               child: RichText(
-                  text: TextSpan(children: [
-                const TextSpan(
-                  text: 'CNPJ:  ',
-                  style: TextStyle(color: Colors.black, fontSize: 10),
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: 'Nome fantasia:  ',
+                      style: TextStyle(color: Colors.black, fontSize: 10),
+                    ),
+                    TextSpan(
+                      text: nota?.dados?.emit?.xFant ?? '',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
                 ),
-                TextSpan(
-                  text: nota?.dados?.emit?.cnpj ?? '',
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10),
-                ),
-              ])),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 2.0),
               child: RichText(
-                  text: TextSpan(children: [
-                const TextSpan(
-                  text: 'Chave da nota:  ',
-                  style: TextStyle(color: Colors.black, fontSize: 10),
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: 'CNPJ:  ',
+                      style: TextStyle(color: Colors.black, fontSize: 10),
+                    ),
+                    TextSpan(
+                      text: nota?.dados?.emit?.cnpj ?? '',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
                 ),
-                TextSpan(
-                  text: nota?.dados?.chaveNota ?? '',
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10),
-                ),
-              ])),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 2.0),
               child: RichText(
-                  text: TextSpan(children: [
-                const TextSpan(
-                  text: 'Número da nota:  ',
-                  style: TextStyle(color: Colors.black, fontSize: 10),
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: 'Chave da nota:  ',
+                      style: TextStyle(color: Colors.black, fontSize: 10),
+                    ),
+                    TextSpan(
+                      text: nota?.dados?.chaveNota ?? '',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
                 ),
-                TextSpan(
-                  text: nota?.dados?.ide?.nNF ?? '',
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 2.0),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: 'Número da nota:  ',
+                      style: TextStyle(color: Colors.black, fontSize: 10),
+                    ),
+                    TextSpan(
+                      text: nota?.dados?.ide?.nNF ?? '',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
                 ),
-              ])),
+              ),
             ),
             const Center(child: Text('Produtos')),
             ListView.separated(
@@ -338,19 +355,26 @@ class _MyHomePageState extends State<MyHomePage> {
                 return ListTile(
                   leading: Text(prod?.prod?.qCom ?? ''),
                   title: RichText(
-                      text: TextSpan(children: [
-                    TextSpan(
-                      text: prod?.prod?.xProd ?? '',
-                      style: const TextStyle(color: Colors.black, fontSize: 12),
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: prod?.prod?.xProd ?? '',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' (${prod?.prod?.vProd ?? ''}) ',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
                     ),
-                    TextSpan(
-                      text: ' (${prod?.prod?.vProd ?? ''}) ',
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10),
-                    ),
-                  ])),
+                  ),
                   subtitle: (prod?.prod?.vDesc != null)
                       ? Text('Desconto: ${prod?.prod?.vDesc ?? ''}')
                       : const SizedBox(),
@@ -372,55 +396,69 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             Visibility(
-              visible: (nota?.dados?.total?.desconto != '0.00' &&
+              visible:
+                  (nota?.dados?.total?.desconto != '0.00' &&
                   nota?.dados?.total?.desconto != null),
               child: RichText(
-                  text: TextSpan(children: [
-                const TextSpan(
-                  text: 'Desconto na conta: ',
-                  style: TextStyle(color: Colors.black, fontSize: 12),
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: 'Desconto na conta: ',
+                      style: TextStyle(color: Colors.black, fontSize: 12),
+                    ),
+                    TextSpan(
+                      text: nota?.dados?.total?.desconto,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
                 ),
-                TextSpan(
-                  text: nota?.dados?.total?.desconto,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10),
-                ),
-              ])),
+              ),
             ),
             Visibility(
-              visible: (nota?.dados?.pgto?.vTroco != '0.00' &&
+              visible:
+                  (nota?.dados?.pgto?.vTroco != '0.00' &&
                   nota?.dados?.pgto?.vTroco != null),
               child: RichText(
-                  text: TextSpan(children: [
-                const TextSpan(
-                  text: 'Troco: ',
-                  style: TextStyle(color: Colors.black, fontSize: 12),
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: 'Troco: ',
+                      style: TextStyle(color: Colors.black, fontSize: 12),
+                    ),
+                    TextSpan(
+                      text: nota?.dados?.pgto?.vTroco ?? '',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
                 ),
-                TextSpan(
-                  text: nota?.dados?.pgto?.vTroco ?? '',
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10),
-                ),
-              ])),
+              ),
             ),
             RichText(
-                text: TextSpan(children: [
-              const TextSpan(
-                text: 'Total da conta: ',
-                style: TextStyle(color: Colors.black, fontSize: 12),
+              text: TextSpan(
+                children: [
+                  const TextSpan(
+                    text: 'Total da conta: ',
+                    style: TextStyle(color: Colors.black, fontSize: 12),
+                  ),
+                  TextSpan(
+                    text: nota?.dados?.total?.valorTotal,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
+                    ),
+                  ),
+                ],
               ),
-              TextSpan(
-                text: nota?.dados?.total?.valorTotal,
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10),
-              ),
-            ])),
+            ),
           ],
         ),
       ),

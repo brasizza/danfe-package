@@ -17,21 +17,11 @@ class Transporta {
   String? uf;
 
   /// Construtor da classe [Transporta].
-  Transporta({
-    this.xNome,
-    this.xEnder,
-    this.xMun,
-    this.uf,
-  });
+  Transporta({this.xNome, this.xEnder, this.xMun, this.uf});
 
   /// Converte a instância de [Transporta] para um mapa.
   Map<String, dynamic> toMap() {
-    return {
-      'xNome': xNome,
-      'xEnder': xEnder,
-      'xMun': xMun,
-      'UF': uf,
-    };
+    return {'xNome': xNome, 'xEnder': xEnder, 'xMun': xMun, 'UF': uf};
   }
 
   /// Cria uma instância de [Transporta] a partir de um mapa.

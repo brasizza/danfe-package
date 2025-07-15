@@ -17,10 +17,7 @@ class InfNFeSupl {
   /// ### Parâmetros:
   /// - [qrCode]: QR Code da NFe.
   /// - [urlChave]: URL para consulta da chave de acesso.
-  InfNFeSupl({
-    this.qrCode,
-    this.urlChave,
-  });
+  InfNFeSupl({this.qrCode, this.urlChave});
 
   /// Converte a instância atual em um mapa (`Map<String, dynamic>`).
   ///
@@ -34,10 +31,7 @@ class InfNFeSupl {
   /// print(mapa); // Saída: {qrCode: 12345, urlChave: https://url.com}
   /// ```
   Map<String, dynamic> toMap() {
-    return {
-      'qrCode': qrCode,
-      'urlChave': urlChave,
-    };
+    return {'qrCode': qrCode, 'urlChave': urlChave};
   }
 
   /// Cria uma instância de `InfNFeSupl` a partir de um mapa (`Map<String, dynamic>`).
@@ -55,10 +49,7 @@ class InfNFeSupl {
   /// print(infNFeSupl.qrCode); // Saída: 12345
   /// ```
   factory InfNFeSupl.fromMap(Map<String, dynamic> map) {
-    return InfNFeSupl(
-      qrCode: map['qrCode'],
-      urlChave: map['urlChave'],
-    );
+    return InfNFeSupl(qrCode: map['qrCode'], urlChave: map['urlChave']);
   }
 
   /// Converte a instância atual em uma string JSON.

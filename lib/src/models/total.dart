@@ -43,7 +43,7 @@ class Total {
 
   ///Valor Substituicao Tributária
   String? valorSt;
-//Valor total de tributação
+  //Valor total de tributação
   String? valotTotalTributos;
 
   //Valor da base de calculo
@@ -106,7 +106,7 @@ class Total {
       'valorIcms': valorIcms,
       'valorPis': valorPis,
       'valorIpi': valorIpi,
-      'valorSt': valorSt
+      'valorSt': valorSt,
     };
   }
 
@@ -125,11 +125,13 @@ class Total {
   /// print(total.valorTotal); // Saída: 100.00
   /// ```
   factory Total.fromMap(Map<String, dynamic> map) {
-    final desconto = map['DescAcrEntr']?['vDescSubtot'] ??
+    final desconto =
+        map['DescAcrEntr']?['vDescSubtot'] ??
         map['ICMSTot']?['vDesc'] ??
         '0.00';
 
-    final acrescimo = map['DescAcrEntr']?['vAcresSubtot'] ??
+    final acrescimo =
+        map['DescAcrEntr']?['vAcresSubtot'] ??
         map['ICMSTot']?['vOutro'] ??
         '0.00';
 

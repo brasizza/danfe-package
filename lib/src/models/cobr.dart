@@ -18,17 +18,11 @@ class Cobr {
   /// Recebe:
   /// - [fat]: Informações da fatura.
   /// - [dup]: Lista de duplicatas.
-  Cobr({
-    this.fat,
-    this.dup,
-  });
+  Cobr({this.fat, this.dup});
 
   /// Converte a instância de [Cobr] para um mapa.
   Map<String, dynamic> toMap() {
-    return {
-      'fat': fat?.toMap(),
-      'dup': dup?.map((x) => x.toMap()).toList(),
-    };
+    return {'fat': fat?.toMap(), 'dup': dup?.map((x) => x.toMap()).toList()};
   }
 
   /// Cria uma instância de [Cobr] a partir de um mapa.
@@ -36,9 +30,12 @@ class Cobr {
     if (map['dup'] != null && map['dup'] is Map) {
       map['dup'] = [map['dup']];
     }
+    print(map);
     return Cobr(
       fat: map['fat'] != null ? Fat.fromMap(map['fat']) : null,
-      dup: List<Dup>.from(map['dup']?.map((x) => Dup.fromMap(x))),
+      dup: (map['dup'] != null && map['dup'].isNotEmpty)
+          ? List<Dup>.from(map['dup']?.map((x) => Dup.fromMap(x)))
+          : null,
     );
   }
 

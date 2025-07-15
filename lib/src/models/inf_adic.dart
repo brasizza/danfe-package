@@ -33,10 +33,7 @@ class InfAdic {
   /// print(mapa); // Saída: {infCpl: Informações adicionais aqui, obsFisco: null}
   /// ```
   Map<String, dynamic> toMap() {
-    return {
-      'infCpl': infCpl,
-      'obsFisco': obsFisco?.toMap(),
-    };
+    return {'infCpl': infCpl, 'obsFisco': obsFisco?.toMap()};
   }
 
   /// Cria uma instância de `InfAdic` a partir de um mapa (`Map<String, dynamic>`).
@@ -56,8 +53,9 @@ class InfAdic {
   factory InfAdic.fromMap(Map<String, dynamic> map) {
     return InfAdic(
       infCpl: map['infCpl'],
-      obsFisco:
-          map['obsFisco'] != null ? ObsFisco.fromMap(map['obsFisco']) : null,
+      obsFisco: map['obsFisco'] != null
+          ? ObsFisco.fromMap(map['obsFisco'])
+          : null,
     );
   }
 

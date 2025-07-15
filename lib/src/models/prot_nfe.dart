@@ -33,10 +33,7 @@ class ProtNFe {
   /// print(mapa); // Saída: {sVersao: 4.0, infProt: {tpAmb: 1}}
   /// ```
   Map<String, dynamic> toMap() {
-    return {
-      'sVersao': sVersao,
-      'infProt': infProt?.toMap(),
-    };
+    return {'sVersao': sVersao, 'infProt': infProt?.toMap()};
   }
 
   /// Cria uma instância de `ProtNFe` a partir de um mapa (`Map<String, dynamic>`).

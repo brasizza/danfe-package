@@ -22,11 +22,7 @@ class Transp {
   /// - [modFrete]: Modalidade do frete.
   /// - [transporta]: Informações do transportador.
   /// - [vol]: Informações do volume transportado.
-  Transp({
-    this.modFrete,
-    this.transporta,
-    this.vol,
-  });
+  Transp({this.modFrete, this.transporta, this.vol});
 
   /// Converte a instância de [Transp] para um mapa.
   Map<String, dynamic> toMap() {
@@ -41,7 +37,7 @@ class Transp {
   factory Transp.fromMap(Map<String, dynamic> map) {
     return Transp(
       modFrete: map['modFrete'],
-      transporta: map['transporta'] != null
+      transporta: (map['transporta'] != null && map['transporta'].isNotEmpty)
           ? Transporta.fromMap(map['transporta'])
           : null,
       vol: map['vol'] != null ? Vol.fromMap(map['vol']) : null,

@@ -14,28 +14,16 @@ class Fat {
   String? vLiq;
 
   /// Construtor da classe [Fat].
-  Fat({
-    this.nFat,
-    this.vOrig,
-    this.vLiq,
-  });
+  Fat({this.nFat, this.vOrig, this.vLiq});
 
   /// Converte a instância de [Fat] para um mapa.
   Map<String, dynamic> toMap() {
-    return {
-      'nFat': nFat,
-      'vOrig': vOrig,
-      'vLiq': vLiq,
-    };
+    return {'nFat': nFat, 'vOrig': vOrig, 'vLiq': vLiq};
   }
 
   /// Cria uma instância de [Fat] a partir de um mapa.
   factory Fat.fromMap(Map<String, dynamic> map) {
-    return Fat(
-      nFat: map['nFat'],
-      vOrig: map['vOrig'],
-      vLiq: map['vLiq'],
-    );
+    return Fat(nFat: map['nFat'], vOrig: map['vOrig'], vLiq: map['vLiq']);
   }
 
   /// Converte a instância de [Fat] para uma string JSON.

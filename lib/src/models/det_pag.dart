@@ -37,11 +37,7 @@ class DetPag {
   /// print(mapa); // Saída: {tPag: 01, vPag: 100.00}
   /// ```
   Map<String, dynamic> toMap() {
-    return {
-      'tPag': tPag,
-      'vPag': vPag,
-      'card': card?.toMap(),
-    };
+    return {'tPag': tPag, 'vPag': vPag, 'card': card?.toMap()};
   }
 
   /// Cria uma instância de `DetPag` a partir de um mapa (`Map<String, dynamic>`).

@@ -34,10 +34,7 @@ class Pgto {
   /// print(mapa); // Saída: {MP: [{cMP: 01, vMP: 100.00}], vTroco: 0.00}
   /// ```
   Map<String, dynamic> toMap() {
-    return {
-      'MP': formas?.map((x) => x.toMap()).toList(),
-      'vTroco': vTroco,
-    };
+    return {'MP': formas?.map((x) => x.toMap()).toList(), 'vTroco': vTroco};
   }
 
   /// Cria uma instância de `Pgto` a partir de um mapa (`Map<String, dynamic>`).
@@ -61,13 +58,10 @@ class Pgto {
     final List<MP>? formasPagamento = (map['MP'] ?? map['detPag']) is List
         ? List<MP>.from((map['MP'] ?? map['detPag']).map((x) => MP.fromMap(x)))
         : map['MP'] != null || map['detPag'] != null
-            ? [MP.fromMap(map['MP'] ?? map['detPag'])]
-            : null;
+        ? [MP.fromMap(map['MP'] ?? map['detPag'])]
+        : null;
 
-    return Pgto(
-      formas: formasPagamento,
-      vTroco: map['vTroco'],
-    );
+    return Pgto(formas: formasPagamento, vTroco: map['vTroco']);
   }
 
   /// Converte a instância atual em uma string JSON.

@@ -1,5 +1,8 @@
 
 
+## 1.0.1
+* Atualizando (NFE) para notas que o TRANSPORTA está vazio e tambem quando a nota nao contém duplicata!
+
 ## 1.0.0
 * Atualizado para a última versão do flutter/dart (foi necessário subir o intl pra 0.20)
 * Atualizado o exemplo pra kts (ultimo gradle do flutter novo)

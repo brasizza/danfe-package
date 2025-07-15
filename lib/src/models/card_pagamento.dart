@@ -46,11 +46,7 @@ class CardPagamento {
   /// print(mapa); // Saída: {tpIntegra: 2, cNPJ: 12345678000123, tBand: Visa}
   /// ```
   Map<String, dynamic> toMap() {
-    return {
-      'tpIntegra': tpIntegra,
-      'cNPJ': cNPJ,
-      'tBand': tBand,
-    };
+    return {'tpIntegra': tpIntegra, 'cNPJ': cNPJ, 'tBand': tBand};
   }
 
   /// Cria uma instância de `CardPagamento` a partir de um mapa (`Map<String, dynamic>`).

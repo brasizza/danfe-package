@@ -31,10 +31,7 @@ class MP {
   /// print(mapa); // Saída: {cMP: 01, vMP: 100.00}
   /// ```
   Map<String, dynamic> toMap() {
-    return {
-      'cMP': cMP,
-      'vMP': vMP,
-    };
+    return {'cMP': cMP, 'vMP': vMP};
   }
 
   /// Cria uma instância de `MP` a partir de um mapa (`Map<String, dynamic>`).

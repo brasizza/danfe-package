@@ -33,10 +33,7 @@ class Det {
   /// print(mapa); // Saída: {prod: {...}, sNItem: 001}
   /// ```
   Map<String, dynamic> toMap() {
-    return {
-      'prod': prod?.toMap(),
-      'sNItem': sNItem,
-    };
+    return {'prod': prod?.toMap(), 'sNItem': sNItem};
   }
 
   /// Cria uma instância de `Det` a partir de um mapa (`Map<String, dynamic>`).

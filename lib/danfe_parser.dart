@@ -38,12 +38,14 @@ class DanfeParser {
   ///   se o XML fornecido for inválido ou malformado.
   static Danfe? _parseDanfe(String xml) {
     final myTransformer = Xml2Json();
-    myTransformer
-        .parse(xml); // Transforma o XML em uma representação manipulável.
+    myTransformer.parse(
+      xml,
+    ); // Transforma o XML em uma representação manipulável.
     String json = myTransformer
         .toParkerWithAttrs(); // Converte o XML para JSON no formato Parker.
-    Map<String, dynamic> converter =
-        jsonDecode(json); // Decodifica o JSON em um mapa.
+    Map<String, dynamic> converter = jsonDecode(
+      json,
+    ); // Decodifica o JSON em um mapa.
 
     // Verifica as possíveis estruturas do XML e as converte em `Danfe`.
     if (converter.containsKey('CFe')) {

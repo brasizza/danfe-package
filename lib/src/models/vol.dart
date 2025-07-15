@@ -20,13 +20,7 @@ class Vol {
   String? pesoB;
 
   /// Construtor da classe [Vol].
-  Vol({
-    this.qVol,
-    this.marca,
-    this.nVol,
-    this.pesoL,
-    this.pesoB,
-  });
+  Vol({this.qVol, this.marca, this.nVol, this.pesoL, this.pesoB});
 
   /// Converte a instância de [Vol] para um mapa.
   Map<String, dynamic> toMap() {
