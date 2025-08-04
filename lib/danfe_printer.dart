@@ -37,9 +37,7 @@ class DanfePrinter implements IDanfePrinter {
       ),
       styles: const PosStyles(align: PosAlign.center, bold: true),
     );
-    final String uf = danfe?.dados?.emit?.enderEmit?.uF == null
-        ? ''
-        : ' - ${danfe!.dados!.emit!.enderEmit!.uF}';
+    final String uf = danfe?.dados?.emit?.enderEmit?.uF == null ? '' : ' - ${danfe!.dados!.emit!.enderEmit!.uF}';
     bytes += generator.text(
       ('CNPJ - ${DanfeUtils.formatCNPJ(danfe?.dados?.emit?.cnpj ?? '')}'),
       styles: const PosStyles(align: PosAlign.center),
@@ -67,7 +65,7 @@ class DanfePrinter implements IDanfePrinter {
           width: PosTextSize.size1,
         ),
       );
-    } else {
+    } else if ((danfe?.tipo ?? TipoDocumento.NFCe) == TipoDocumento.NFCe) {
       bytes += generator.text(
         'Nota Fiscal Eletronica - NFC-E ',
         styles: const PosStyles(
@@ -77,11 +75,19 @@ class DanfePrinter implements IDanfePrinter {
           width: PosTextSize.size1,
         ),
       );
+    } else {
+      bytes += generator.text(
+        'Nota Fiscal Eletronica - NFe ',
+        styles: const PosStyles(
+          align: PosAlign.center,
+          bold: true,
+          height: PosTextSize.size1,
+          width: PosTextSize.size1,
+        ),
+      );
     }
     bytes += generator.rawBytes([27, 97, 48]);
-    var documentoConsumidor = (danfe?.dados?.dest?.cpf != null)
-        ? DanfeUtils.formatCPF(danfe?.dados?.dest?.cpf ?? '')
-        : DanfeUtils.formatCNPJ(danfe?.dados?.dest?.cnpj ?? '');
+    var documentoConsumidor = (danfe?.dados?.dest?.cpf != null) ? DanfeUtils.formatCPF(danfe?.dados?.dest?.cpf ?? '') : DanfeUtils.formatCNPJ(danfe?.dados?.dest?.cnpj ?? '');
     bytes += generator.text(
       "CPF/CNPJ do consumidor: $documentoConsumidor",
       styles: const PosStyles(align: PosAlign.left),
@@ -248,6 +254,25 @@ class DanfePrinter implements IDanfePrinter {
       ),
     ]);
 
+    if ((danfe?.dados?.total?.valorFrete ?? '0.00') != '0.00') {
+      bytes += generator.row([
+        PosColumn(
+          text: 'FRETE',
+          width: 6,
+          styles: const PosStyles(align: PosAlign.left),
+        ),
+        PosColumn(
+          text: DanfeUtils.formatMoneyMilhar(
+            danfe?.dados?.total?.valorFrete ?? '',
+            modeda: 'pt_BR',
+            simbolo: moeda,
+          ),
+          width: 6,
+          styles: const PosStyles(align: PosAlign.right),
+        ),
+      ]);
+    }
+
     if ((danfe?.dados?.total?.desconto ?? '0.00') != '0.00') {
       bytes += generator.row([
         PosColumn(
@@ -333,7 +358,7 @@ class DanfePrinter implements IDanfePrinter {
       for (MP pagamento in danfe!.dados!.pgto!.formas!) {
         bytes += generator.row([
           PosColumn(
-            text: pagamento.cMP ?? '',
+            text: DanfeUtils.removeAcentos(pagamento.cMP ?? ''),
             width: 6,
             styles: const PosStyles(align: PosAlign.left),
           ),
@@ -359,10 +384,10 @@ class DanfePrinter implements IDanfePrinter {
           styles: const PosStyles(align: PosAlign.center, bold: true),
         );
 
-        bytes += generator.text(danfe?.dados?.transp?.transporta?.xNome ?? '');
-        bytes += generator.text(danfe?.dados?.transp?.transporta?.xEnder ?? '');
+        bytes += generator.text(DanfeUtils.removeAcentos((danfe?.dados?.transp?.transporta?.xNome ?? '')));
+        bytes += generator.text(DanfeUtils.removeAcentos((danfe?.dados?.transp?.transporta?.xEnder ?? '')));
         bytes += generator.text(
-          '${danfe?.dados?.transp?.transporta?.xMun ?? ''} ${danfe?.dados?.transp?.transporta?.uf ?? ''}',
+          DanfeUtils.removeAcentos('${danfe?.dados?.transp?.transporta?.xMun ?? ''} ${danfe?.dados?.transp?.transporta?.uf ?? ''}'),
         );
         bytes += generator.rawBytes([27, 97, 48]);
 
@@ -408,14 +433,16 @@ class DanfePrinter implements IDanfePrinter {
       DanfeUtils.splitByLength(danfe?.dados?.chaveNota ?? '', 4, ' '),
       styles: const PosStyles(align: PosAlign.center, bold: true),
     );
-    bytes += generator.rawBytes([27, 97, 49]);
-    bytes += generator.qrcode(
-      danfe?.qrcodePrinter ?? '',
-      size: QRSize.size4,
-      cor: QRCorrection.M,
-    );
+    if ((danfe?.tipo ?? TipoDocumento.NFCe) != TipoDocumento.NFe) {
+      bytes += generator.rawBytes([27, 97, 49]);
+      bytes += generator.qrcode(
+        danfe?.qrcodePrinter ?? '',
+        size: QRSize.size4,
+        cor: QRCorrection.M,
+      );
 
-    bytes += generator.rawBytes([27, 97, 48]);
+      bytes += generator.rawBytes([27, 97, 48]);
+    }
     bytes += generator.feed(1);
 
     if (danfe?.dados?.ide?.serie != null) {
@@ -461,8 +488,7 @@ class DanfePrinter implements IDanfePrinter {
       DateTime dateTime = DateTime.parse(
         danfe?.protNFe?.infProt?.dhRecbto ?? DateTime.now().toIso8601String(),
       );
-      String formattedDate =
-          "${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
+      String formattedDate = "${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
 
       bytes += generator.row([
         PosColumn(
@@ -522,8 +548,7 @@ class DanfePrinter implements IDanfePrinter {
         bold: false,
         fontSize: 10,
         italic: false,
-        content:
-            '${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''}, ${danfe?.dados?.emit?.enderEmit?.nro ?? ''}',
+        content: '${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''}, ${danfe?.dados?.emit?.enderEmit?.nro ?? ''}',
       ),
     );
     danfeJson.add(_divider());
@@ -554,8 +579,7 @@ class DanfePrinter implements IDanfePrinter {
         bold: false,
         fontSize: 10,
         italic: false,
-        content:
-            "CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? danfe?.dados?.dest?.cnpj ?? ''}",
+        content: "CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? danfe?.dados?.dest?.cnpj ?? ''}",
       ),
     );
     if (danfe?.dados?.dest?.xNome != '' && danfe?.dados?.dest?.xNome != null) {
@@ -584,8 +608,7 @@ class DanfePrinter implements IDanfePrinter {
         bold: false,
         fontSize: 10,
         italic: false,
-        content:
-            ('Data: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? '')}'),
+        content: ('Data: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? '')}'),
       ),
     );
     danfeJson.add(_divider());
@@ -766,7 +789,7 @@ class DanfePrinter implements IDanfePrinter {
             paperSize: paperSize,
             rows: [
               _createRow(
-                row: {'text': pagamento.cMP ?? '', 'alignment': 0},
+                row: {'text': DanfeUtils.removeAcentos(pagamento.cMP ?? ''), 'alignment': 0},
                 paperSize: paperSize,
               ),
               _createRow(
@@ -829,8 +852,7 @@ class DanfePrinter implements IDanfePrinter {
       DateTime dateTime = DateTime.parse(
         danfe?.protNFe?.infProt?.dhRecbto ?? DateTime.now().toIso8601String(),
       );
-      String formattedDate =
-          "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}";
+      String formattedDate = "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}";
       danfeJson.add(_prepareLine(content: 'Data: $formattedDate '));
     }
 
@@ -849,17 +871,11 @@ class DanfePrinter implements IDanfePrinter {
     final lineRow = {};
     lineRow['row'] = {};
     lineRow['row']['customization'] = {};
-    lineRow['row']['customization']['font_size'] = paperSize == PaperSize.mm58
-        ? 10
-        : 12;
-    lineRow['row']['customization']['alignment'] = row.containsKey('alignment')
-        ? row['alignment']
-        : 0;
+    lineRow['row']['customization']['font_size'] = paperSize == PaperSize.mm58 ? 10 : 12;
+    lineRow['row']['customization']['alignment'] = row.containsKey('alignment') ? row['alignment'] : 0;
     lineRow['row']['customization']['font_style'] = {};
-    lineRow['row']['customization']['font_style']['bold'] =
-        row.containsKey('bold') ? row['bold'] : false;
-    lineRow['row']['customization']['font_style']['italic'] =
-        row.containsKey('italic') ? row['italic'] : false;
+    lineRow['row']['customization']['font_style']['bold'] = row.containsKey('bold') ? row['bold'] : false;
+    lineRow['row']['customization']['font_style']['italic'] = row.containsKey('italic') ? row['italic'] : false;
     lineRow['row']['content'] = row['text'];
     lineRow['row']['size'] = row['size'];
     return lineRow;

@@ -1,5 +1,7 @@
 
 
+## 1.0.2
+* Melhoria na diferenciação entre NFE/NFC-E , com a inclusão da impressão do frete, inibição do QRCODE e identificação correta entre NFE/NFC-E no cabeçalho!
 ## 1.0.1
 * Atualizando (NFE) para notas que o TRANSPORTA está vazio e tambem quando a nota nao contém duplicata!
 

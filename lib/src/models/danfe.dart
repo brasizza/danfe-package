@@ -6,7 +6,7 @@ import 'prot_nfe.dart';
 
 /// Enum que representa os tipos de documentos fiscais.
 // ignore: constant_identifier_names
-enum TipoDocumento { CFe, NFe }
+enum TipoDocumento { CFe, NFe, NFCe }
 
 /// Extensão para facilitar a conversão entre `TipoDocumento` e `String`.
 extension TipoDocumentoExtension on TipoDocumento {
@@ -17,6 +17,8 @@ extension TipoDocumentoExtension on TipoDocumento {
         return 'CFe';
       case TipoDocumento.NFe:
         return 'NFe';
+      case TipoDocumento.NFCe:
+        return 'NFCe';
     }
   }
 
@@ -27,6 +29,8 @@ extension TipoDocumentoExtension on TipoDocumento {
         return TipoDocumento.CFe;
       case 'NFe':
         return TipoDocumento.NFe;
+      case 'NFCe':
+        return TipoDocumento.NFCe;
       default:
         throw ArgumentError('Tipo de documento desconhecido: $value');
     }
@@ -84,13 +88,7 @@ class Danfe {
   /// print(mapa); // Saída: {dados: {...}}
   /// ```
   Map<String, dynamic> toMap() {
-    return {
-      'dados': dados?.toMap(),
-      'tipo': tipo.value,
-      'infNFeSupl': infNFeSupl?.toMap(),
-      'protNFe': protNFe?.toMap(),
-      'qrcodePrinter': qrcodePrinter,
-    };
+    return {'dados': dados?.toMap(), 'tipo': tipo.value, 'infNFeSupl': infNFeSupl?.toMap(), 'protNFe': protNFe?.toMap(), 'qrcodePrinter': qrcodePrinter};
   }
 
   /// Método utilitário para obter um valor de forma segura de um mapa.
@@ -117,10 +115,7 @@ class Danfe {
   /// - O QR Code é extraído do campo `assinaturaQRCODE` do campo `ide` e ajustado para impressão.
   factory Danfe.fromMapSat(Map<String, dynamic> map) {
     final dados = safeGet<Map<String, dynamic>>(map, 'infCFe');
-    return Danfe(
-      dados: dados != null ? DadosDanfe.fromMap(dados) : null,
-      tipo: TipoDocumento.CFe,
-    )..qrcodePrinter = extractQrCode(dados?['ide']?['assinaturaQRCODE']);
+    return Danfe(dados: dados != null ? DadosDanfe.fromMap(dados) : null, tipo: TipoDocumento.CFe)..qrcodePrinter = extractQrCode(dados?['ide']?['assinaturaQRCODE']);
   }
 
   /// Cria uma instância de `Danfe` a partir de um mapa no formato NFC-e.
@@ -137,22 +132,11 @@ class Danfe {
   factory Danfe.fromMapNFce(Map<String, dynamic> map) {
     final parseMap = safeGet<Map<String, dynamic>>(map, 'NFe') ?? map;
     return Danfe(
-        dados: safeGet<Map<String, dynamic>>(parseMap, 'infNFe') != null
-            ? DadosDanfe.fromMap(parseMap['infNFe'])
-            : null,
-        tipo: TipoDocumento.NFe,
-        protNFe: safeGet<Map<String, dynamic>>(map, 'protNFe') != null
-            ? ProtNFe.fromMap(map['protNFe'])
-            : null,
-        infNFeSupl:
-            safeGet<Map<String, dynamic>>(parseMap, 'infNFeSupl') != null
-            ? InfNFeSupl.fromMap(parseMap['infNFeSupl'])
-            : null,
-      )
-      ..qrcodePrinter = safeGet<Map<String, dynamic>>(
-        parseMap,
-        'infNFeSupl',
-      )?['qrCode'];
+      dados: safeGet<Map<String, dynamic>>(parseMap, 'infNFe') != null ? DadosDanfe.fromMap(parseMap['infNFe']) : null,
+      tipo: findTypeByMap(parseMap) ?? TipoDocumento.NFCe,
+      protNFe: safeGet<Map<String, dynamic>>(map, 'protNFe') != null ? ProtNFe.fromMap(map['protNFe']) : null,
+      infNFeSupl: safeGet<Map<String, dynamic>>(parseMap, 'infNFeSupl') != null ? InfNFeSupl.fromMap(parseMap['infNFeSupl']) : null,
+    )..qrcodePrinter = safeGet<Map<String, dynamic>>(parseMap, 'infNFeSupl')?['qrCode'];
   }
 
   /// Converte a instância atual em uma string JSON.
@@ -167,4 +151,16 @@ class Danfe {
   /// print(json); // Saída: {"dados":{...}}
   /// ```
   String toJson() => json.encode(toMap());
+
+  static TipoDocumento? findTypeByMap(Map<String, dynamic> map) {
+    if (map.containsKey('CFe')) {
+      return TipoDocumento.CFe;
+    } else if (map.containsKey('infNFe')) {
+      if (map['infNFe']?['ide']?['mod'] == '55') {
+        return TipoDocumento.NFe;
+      }
+      return TipoDocumento.NFCe;
+    }
+    return TipoDocumento.NFe;
+  }
 }

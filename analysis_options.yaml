@@ -1,4 +1,50 @@
-include: package:flutter_lints/flutter.yaml
+# analysis_options.yaml
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+# Optional: Linter rules can be defined here. This example uses recommended rules.
+linter:
+  rules:
+    # Use recommended set of lints (optional but useful).
+    - prefer_const_constructors
+    # - avoid_print
+    - unnecessary_this
+    - prefer_final_fields
+formatter:
+  trailing_commas: preserve
+analyzer:
+  # Enable stronger type checks and analysis.
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+
+  # Exclude specific files or folders from analysis.
+  exclude:
+    - build/**
+    - test/**       # Exclude test folder if you don't want to analyze test files.
+    - lib/generated_plugin_registrant.dart # Example of excluding a specific file.
+    - isar_flutter_libs/**
+    - isar-4.0.0-dev.14/**
+    - epoc-nfc-system/**
+    - pos_package/**
+    - epoc-nfc-system/**
+    - printer_gateway/**
+    - pos_package/**
+    - isar_flutter_libs/**
+    - isar-4.0.0-dev.14/**
+    - test/**       # Exclude test folder if you don't want to analyze test files.
+    - lib/generated_plugin_registrant.dart # Example of excluding a specific file.
+    - lib/some_other_folder/**
+  
+# You can also define specific settings for errors, warnings, and information.
+# For example, treat certain rules as errors or warnings.
+error:
+  # Treat missing return types as errors.
+  missing_return: error
+
+# Treat import order warnings.
+warnings:
+  - always_put_control_body_on_new_line
+  - always_specify_types
+  - avoid_redundant_argument_values
+
+# For local rules, like ignoring specific lints in certain parts of the code, you can use
+# ignore_for_file or ignore: comments in the Dart files.
