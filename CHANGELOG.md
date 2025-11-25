@@ -1,7 +1,11 @@
 
 
+## 1.0.3
+* Inclusão da tag de totais de tributos incidentes na impressao da danfe
+
 ## 1.0.2
 * Melhoria na diferenciação entre NFE/NFC-E , com a inclusão da impressão do frete, inibição do QRCODE e identificação correta entre NFE/NFC-E no cabeçalho!
+
 ## 1.0.1
 * Atualizando (NFE) para notas que o TRANSPORTA está vazio e tambem quando a nota nao contém duplicata!
 

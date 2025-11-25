@@ -374,6 +374,31 @@ class DanfePrinter implements IDanfePrinter {
         ]);
       }
       bytes += generator.hr();
+    } 
+
+      if (danfe?.dados?.total?.valotTotalTributos != null) {
+      if(danfe!.dados!.total!.valotTotalTributos != '0.00'){
+        bytes += generator.row([
+        PosColumn(
+          text: 'Tributos totais incidentes:',
+          width: 9,
+          styles: const PosStyles(bold: false),
+        ),
+        PosColumn(
+          text: DanfeUtils.formatMoneyMilhar(
+            danfe.dados!.total!.valotTotalTributos ?? '',
+            modeda: 'pt_BR',
+            simbolo: moeda,
+          ),
+          width: 3,
+          styles: const PosStyles(align: PosAlign.right),
+        ),
+      ]);
+      bytes += generator.feed(1);
+
+        
+      }
+     
     }
 
     if (danfe?.dados?.transp != null) {
@@ -511,6 +536,11 @@ class DanfePrinter implements IDanfePrinter {
         styles: const PosStyles(align: PosAlign.center),
       );
     }
+
+
+   
+
+ 
 
     bytes += generator.cut();
     bytes += generator.reset();
