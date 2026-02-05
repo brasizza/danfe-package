@@ -101,7 +101,9 @@ class ImageDanfe {
     Uint8List? headerImage,
     Uint8List? footerImage,
   }) {
-    final escPosPaperSize = paperSize == DanfePaperSize.mm58 ? PaperSize.mm58 : PaperSize.mm80;
+    final escPosPaperSize = paperSize == DanfePaperSize.mm58
+        ? PaperSize.mm58
+        : PaperSize.mm80;
     final danfePrinter = DanfePrinter(escPosPaperSize);
     final jsonData = danfePrinter.normativeJsonDanfe(
       danfe,

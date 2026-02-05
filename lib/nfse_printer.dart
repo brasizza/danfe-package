@@ -332,7 +332,7 @@ class NfsePrinter {
     // Tributos
     if (nfse?.infDPS?.valores?.trib?.totTrib != null) {
       final totTrib = nfse!.infDPS?.valores?.trib?.totTrib;
-      final tribMun  = nfse.infDPS?.valores?.trib?.tribMun;
+      final tribMun = nfse.infDPS?.valores?.trib?.tribMun;
 
       bytes += generator.rawBytes([27, 97, 49]); // Centralizado
       bytes += generator.text(
@@ -341,7 +341,6 @@ class NfsePrinter {
       );
       bytes += generator.rawBytes([27, 97, 48]); // Alinhamento à esquerda
 
-      
       if (tribMun?.pAliq != null) {
         bytes += generator.row([
           PosColumn(
@@ -350,11 +349,12 @@ class NfsePrinter {
             styles: const PosStyles(align: PosAlign.left),
           ),
           PosColumn(
-            text: '${DanfeUtils.formatMoneyMilhar(
-              tribMun!.pAliq!,
-              modeda: 'pt_BR',
-              simbolo: '',
-            )}%',
+            text:
+                '${DanfeUtils.formatMoneyMilhar(
+                  tribMun!.pAliq!,
+                  modeda: 'pt_BR',
+                  simbolo: '',
+                )}%',
             width: 6,
             styles: const PosStyles(align: PosAlign.right),
           ),
@@ -378,7 +378,7 @@ class NfsePrinter {
             styles: const PosStyles(align: PosAlign.right),
           ),
         ]);
-      } 
+      }
 
       bytes += generator.hr();
     }
@@ -421,7 +421,7 @@ class NfsePrinter {
           content: DanfeUtils.removeAcentos(nfse!.emit!.xNome ?? ''),
         ),
       );
-      
+
       nfseJson.add(
         _prepareLine(
           aligment: 1,
@@ -435,7 +435,7 @@ class NfsePrinter {
       if (nfse.emit!.enderNac != null) {
         final endereco = nfse.emit!.enderNac!;
         final String uf = endereco.uf == null ? '' : ' - ${endereco.uf}';
-        
+
         nfseJson.add(
           _prepareLine(
             aligment: 1,
@@ -532,7 +532,8 @@ class NfsePrinter {
           bold: false,
           fontSize: 12,
           italic: false,
-          content: 'Data Processamento: ${DanfeUtils.formatDate(nfse!.dhProc!, dateOnly: false)}',
+          content:
+              'Data Processamento: ${DanfeUtils.formatDate(nfse!.dhProc!, dateOnly: false)}',
         ),
       );
     }
@@ -579,7 +580,7 @@ class NfsePrinter {
       );
 
       final prestador = nfse!.infDPS!.prest!;
-      
+
       nfseJson.add(
         _prepareLine(
           aligment: 0,
@@ -757,7 +758,8 @@ class NfsePrinter {
             bold: false,
             fontSize: 12,
             italic: false,
-            content: 'Valor Servicos: ${DanfeUtils.formatMoneyMilhar(vServPrest.vServ!, modeda: 'pt_BR', simbolo: moeda)}',
+            content:
+                'Valor Servicos: ${DanfeUtils.formatMoneyMilhar(vServPrest.vServ!, modeda: 'pt_BR', simbolo: moeda)}',
           ),
         );
       }
@@ -769,7 +771,8 @@ class NfsePrinter {
             bold: false,
             fontSize: 12,
             italic: false,
-            content: 'Deducoes: ${DanfeUtils.formatMoneyMilhar(vServPrest.vDed!, modeda: 'pt_BR', simbolo: moeda)}',
+            content:
+                'Deducoes: ${DanfeUtils.formatMoneyMilhar(vServPrest.vDed!, modeda: 'pt_BR', simbolo: moeda)}',
           ),
         );
       }
@@ -781,7 +784,8 @@ class NfsePrinter {
             bold: true,
             fontSize: 12,
             italic: false,
-            content: 'Base Calculo: ${DanfeUtils.formatMoneyMilhar(vServPrest.vBC!, modeda: 'pt_BR', simbolo: moeda)}',
+            content:
+                'Base Calculo: ${DanfeUtils.formatMoneyMilhar(vServPrest.vBC!, modeda: 'pt_BR', simbolo: moeda)}',
           ),
         );
       }
@@ -792,7 +796,7 @@ class NfsePrinter {
     // Tributos
     if (nfse?.infDPS?.valores?.trib != null) {
       final trib = nfse!.infDPS!.valores!.trib!;
-      
+
       nfseJson.add(
         _prepareLine(
           aligment: 0,
@@ -803,7 +807,6 @@ class NfsePrinter {
         ),
       );
 
-    
       if (trib.tribMun?.pAliq != null) {
         nfseJson.add(
           _prepareLine(
@@ -811,28 +814,25 @@ class NfsePrinter {
             bold: false,
             fontSize: 12,
             italic: false,
-            content: 'Percentual da alíquota: ${DanfeUtils.formatMoneyMilhar(trib.tribMun!.pAliq!, modeda: 'pt_BR', simbolo: '')}%',
+            content:
+                'Percentual da alíquota: ${DanfeUtils.formatMoneyMilhar(trib.tribMun!.pAliq!, modeda: 'pt_BR', simbolo: '')}%',
           ),
         );
-
       }
 
-
-        if (trib.totTrib?.vTotTrib != null) {
+      if (trib.totTrib?.vTotTrib != null) {
         nfseJson.add(
           _prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
             italic: false,
-            content: 'Total Tributos: ${DanfeUtils.formatMoneyMilhar(trib.totTrib!.vTotTrib!, modeda: 'pt_BR', simbolo: moeda)}',
+            content:
+                'Total Tributos: ${DanfeUtils.formatMoneyMilhar(trib.totTrib!.vTotTrib!, modeda: 'pt_BR', simbolo: moeda)}',
           ),
         );
-
       }
       nfseJson.add(_divider());
-
-
     }
 
     return json.encode(nfseJson);

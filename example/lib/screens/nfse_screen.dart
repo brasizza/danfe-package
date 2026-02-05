@@ -12,7 +12,7 @@ class NfseScreen extends StatefulWidget {
 
 class _NfseScreenState extends State<NfseScreen> {
   Nfse? _dadosNfse;
-  final NfseController  controller = NfseController();
+  final NfseController controller = NfseController();
   final TextEditingController _xmlController = TextEditingController();
 
   @override
@@ -131,7 +131,9 @@ class _NfseScreenState extends State<NfseScreen> {
                       child: ElevatedButton.icon(
                         onPressed: () {
                           setState(() {
-                            _dadosNfse = controller.parseXml(_xmlController.text);
+                            _dadosNfse = controller.parseXml(
+                              _xmlController.text,
+                            );
                           });
                         },
                         icon: const Icon(Icons.receipt_long),
@@ -185,7 +187,7 @@ class _NfseScreenState extends State<NfseScreen> {
                             ),
                           ),
 
-                           ElevatedButton.icon(
+                          ElevatedButton.icon(
                             onPressed: () async {
                               final profile = await CapabilityProfile.load();
                               await controller.printDefault(
@@ -310,7 +312,7 @@ class _NfseScreenState extends State<NfseScreen> {
     );
 
     try {
-       final imageBytes = await imageDanfe.toImage(
+      final imageBytes = await imageDanfe.toImage(
         context,
         fixedRatio: 2.0,
       );
@@ -337,7 +339,7 @@ class _NfseScreenState extends State<NfseScreen> {
                     title: const Text('Preview - Imagem NFSe'),
                     automaticallyImplyLeading: false,
                     actions: [
-                       IconButton(
+                      IconButton(
                         icon: const Icon(Icons.print),
                         onPressed: () async {
                           controller.printImagePos(

@@ -64,23 +64,23 @@ class NfseController {
     printer.disconnect();
   }
 
-
-
-
-  
-
-  void printImagePos({required List<Image> images
-, required PaperSize paper, required CapabilityProfile profile}) async  {
-      NetworkPrinter printer = NetworkPrinter(paper, profile);
-      await printer.connect('192.168.5.111', port: 9100);
-      printer.reset();
-       for (var image in images) {
-       printer.imageRaster(image, align: PosAlign.left, );
-           await Future.delayed(const Duration(milliseconds: 200));
-
+  void printImagePos({
+    required List<Image> images,
+    required PaperSize paper,
+    required CapabilityProfile profile,
+  }) async {
+    NetworkPrinter printer = NetworkPrinter(paper, profile);
+    await printer.connect('192.168.5.111', port: 9100);
+    printer.reset();
+    for (var image in images) {
+      printer.imageRaster(
+        image,
+        align: PosAlign.left,
+      );
+      await Future.delayed(const Duration(milliseconds: 200));
     }
     printer.feed(2);
     printer.cut();
-      printer.disconnect();
-  } 
+    printer.disconnect();
+  }
 }

@@ -52,7 +52,9 @@ class Nfse {
   /// Cria uma instância de Nfse a partir de um Map.
   factory Nfse.fromMap(Map<String, dynamic> map) {
     return Nfse(
-      infDPS: map['infDPS'] != null ? InfDPS.fromMap(map['infDPS'], map['valores']) : null,
+      infDPS: map['infDPS'] != null
+          ? InfDPS.fromMap(map['infDPS'], map['valores'])
+          : null,
       nNFSe: map['nNFSe']?.toString(),
       cLocIncid: map['cLocIncid']?.toString(),
       xLocIncid: map['xLocIncid']?.toString(),

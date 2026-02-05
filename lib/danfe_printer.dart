@@ -37,7 +37,9 @@ class DanfePrinter implements IDanfePrinter {
       ),
       styles: const PosStyles(align: PosAlign.center, bold: true),
     );
-    final String uf = danfe?.dados?.emit?.enderEmit?.uF == null ? '' : ' - ${danfe!.dados!.emit!.enderEmit!.uF}';
+    final String uf = danfe?.dados?.emit?.enderEmit?.uF == null
+        ? ''
+        : ' - ${danfe!.dados!.emit!.enderEmit!.uF}';
     bytes += generator.text(
       ('CNPJ - ${DanfeUtils.formatCNPJ(danfe?.dados?.emit?.cnpj ?? '')}'),
       styles: const PosStyles(align: PosAlign.center),
@@ -87,7 +89,9 @@ class DanfePrinter implements IDanfePrinter {
       );
     }
     bytes += generator.rawBytes([27, 97, 48]);
-    var documentoConsumidor = (danfe?.dados?.dest?.cpf != null) ? DanfeUtils.formatCPF(danfe?.dados?.dest?.cpf ?? '') : DanfeUtils.formatCNPJ(danfe?.dados?.dest?.cnpj ?? '');
+    var documentoConsumidor = (danfe?.dados?.dest?.cpf != null)
+        ? DanfeUtils.formatCPF(danfe?.dados?.dest?.cpf ?? '')
+        : DanfeUtils.formatCNPJ(danfe?.dados?.dest?.cnpj ?? '');
     bytes += generator.text(
       "CPF/CNPJ do consumidor: $documentoConsumidor",
       styles: const PosStyles(align: PosAlign.left),
@@ -406,10 +410,20 @@ class DanfePrinter implements IDanfePrinter {
           styles: const PosStyles(align: PosAlign.center, bold: true),
         );
 
-        bytes += generator.text(DanfeUtils.removeAcentos((danfe?.dados?.transp?.transporta?.xNome ?? '')));
-        bytes += generator.text(DanfeUtils.removeAcentos((danfe?.dados?.transp?.transporta?.xEnder ?? '')));
         bytes += generator.text(
-          DanfeUtils.removeAcentos('${danfe?.dados?.transp?.transporta?.xMun ?? ''} ${danfe?.dados?.transp?.transporta?.uf ?? ''}'),
+          DanfeUtils.removeAcentos(
+            (danfe?.dados?.transp?.transporta?.xNome ?? ''),
+          ),
+        );
+        bytes += generator.text(
+          DanfeUtils.removeAcentos(
+            (danfe?.dados?.transp?.transporta?.xEnder ?? ''),
+          ),
+        );
+        bytes += generator.text(
+          DanfeUtils.removeAcentos(
+            '${danfe?.dados?.transp?.transporta?.xMun ?? ''} ${danfe?.dados?.transp?.transporta?.uf ?? ''}',
+          ),
         );
         bytes += generator.rawBytes([27, 97, 48]);
 
@@ -510,7 +524,8 @@ class DanfePrinter implements IDanfePrinter {
       DateTime dateTime = DateTime.parse(
         danfe?.protNFe?.infProt?.dhRecbto ?? DateTime.now().toIso8601String(),
       );
-      String formattedDate = "${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
+      String formattedDate =
+          "${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
 
       bytes += generator.row([
         PosColumn(
@@ -561,10 +576,13 @@ class DanfePrinter implements IDanfePrinter {
         bold: false,
         fontSize: 10,
         italic: false,
-        content: 'CNPJ - ${DanfeUtils.formatCNPJ(danfe?.dados?.emit?.cnpj ?? '')}',
+        content:
+            'CNPJ - ${DanfeUtils.formatCNPJ(danfe?.dados?.emit?.cnpj ?? '')}',
       ),
     );
-    final String uf = danfe?.dados?.emit?.enderEmit?.uF == null ? '' : ' - ${danfe!.dados!.emit!.enderEmit!.uF}';
+    final String uf = danfe?.dados?.emit?.enderEmit?.uF == null
+        ? ''
+        : ' - ${danfe!.dados!.emit!.enderEmit!.uF}';
     danfeJson.add(
       _prepareLine(
         aligment: 1,
@@ -582,7 +600,8 @@ class DanfePrinter implements IDanfePrinter {
         bold: false,
         fontSize: 10,
         italic: false,
-        content: 'CEP: ${DanfeUtils.formatCep(danfe?.dados?.emit?.enderEmit?.cEP ?? '')}',
+        content:
+            'CEP: ${DanfeUtils.formatCep(danfe?.dados?.emit?.enderEmit?.cEP ?? '')}',
       ),
     );
     danfeJson.add(_divider());
@@ -623,7 +642,8 @@ class DanfePrinter implements IDanfePrinter {
         bold: false,
         fontSize: 10,
         italic: false,
-        content: "CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? danfe?.dados?.dest?.cnpj ?? ''}",
+        content:
+            "CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? danfe?.dados?.dest?.cnpj ?? ''}",
       ),
     );
     if (danfe?.dados?.dest?.xNome != '' && danfe?.dados?.dest?.xNome != null) {
@@ -652,7 +672,8 @@ class DanfePrinter implements IDanfePrinter {
         bold: false,
         fontSize: 10,
         italic: false,
-        content: ('Data: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? '')}'),
+        content:
+            ('Data: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? '')}'),
       ),
     );
     if (danfe?.dados?.ide?.dhSaiEnt != null) {
@@ -662,7 +683,8 @@ class DanfePrinter implements IDanfePrinter {
           bold: false,
           fontSize: 10,
           italic: false,
-          content: ('Data E/S: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dhSaiEnt ?? '')}'),
+          content:
+              ('Data E/S: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dhSaiEnt ?? '')}'),
         ),
       );
     }
@@ -845,7 +867,6 @@ class DanfePrinter implements IDanfePrinter {
     danfeJson.add(_divider());
 
     if (danfe?.dados?.pgto != null) {
-
       danfeJson.add(
         _createColumn(
           paperSize: paperSize,
@@ -872,7 +893,10 @@ class DanfePrinter implements IDanfePrinter {
             paperSize: paperSize,
             rows: [
               _createRow(
-                row: {'text': DanfeUtils.removeAcentos(pagamento.cMP ?? ''), 'alignment': 0},
+                row: {
+                  'text': DanfeUtils.removeAcentos(pagamento.cMP ?? ''),
+                  'alignment': 0,
+                },
                 paperSize: paperSize,
               ),
               _createRow(
@@ -933,13 +957,17 @@ class DanfePrinter implements IDanfePrinter {
         danfeJson.add(
           _prepareLine(
             aligment: 1,
-            content: DanfeUtils.removeAcentos(danfe?.dados?.transp?.transporta?.xNome ?? ''),
+            content: DanfeUtils.removeAcentos(
+              danfe?.dados?.transp?.transporta?.xNome ?? '',
+            ),
           ),
         );
         danfeJson.add(
           _prepareLine(
             aligment: 1,
-            content: DanfeUtils.removeAcentos(danfe?.dados?.transp?.transporta?.xEnder ?? ''),
+            content: DanfeUtils.removeAcentos(
+              danfe?.dados?.transp?.transporta?.xEnder ?? '',
+            ),
           ),
         );
         danfeJson.add(
@@ -971,13 +999,15 @@ class DanfePrinter implements IDanfePrinter {
       danfeJson.add(
         _prepareLine(
           aligment: 1,
-          content: "Valor Original: ${DanfeUtils.formatMoneyMilhar(danfe?.dados?.cobr?.fat?.vOrig ?? '', modeda: 'pt_BR', simbolo: moeda)}",
+          content:
+              "Valor Original: ${DanfeUtils.formatMoneyMilhar(danfe?.dados?.cobr?.fat?.vOrig ?? '', modeda: 'pt_BR', simbolo: moeda)}",
         ),
       );
       danfeJson.add(
         _prepareLine(
           aligment: 1,
-          content: "Valor Liquido: ${DanfeUtils.formatMoneyMilhar(danfe?.dados?.cobr?.fat?.vLiq ?? '', modeda: 'pt_BR', simbolo: moeda)}",
+          content:
+              "Valor Liquido: ${DanfeUtils.formatMoneyMilhar(danfe?.dados?.cobr?.fat?.vLiq ?? '', modeda: 'pt_BR', simbolo: moeda)}",
         ),
       );
       danfeJson.add(_divider());
@@ -991,13 +1021,15 @@ class DanfePrinter implements IDanfePrinter {
         danfeJson.add(
           _prepareLine(
             aligment: 1,
-            content: "Vencimento: ${DanfeUtils.formatDate(duplicata.dVenc ?? '', dateOnly: true)}",
+            content:
+                "Vencimento: ${DanfeUtils.formatDate(duplicata.dVenc ?? '', dateOnly: true)}",
           ),
         );
         danfeJson.add(
           _prepareLine(
             aligment: 1,
-            content: "Valor: ${DanfeUtils.formatMoneyMilhar(duplicata.vDup ?? '', modeda: 'pt_BR', simbolo: moeda)}",
+            content:
+                "Valor: ${DanfeUtils.formatMoneyMilhar(duplicata.vDup ?? '', modeda: 'pt_BR', simbolo: moeda)}",
           ),
         );
         danfeJson.add(_divider());
@@ -1067,11 +1099,17 @@ class DanfePrinter implements IDanfePrinter {
     final lineRow = {};
     lineRow['row'] = {};
     lineRow['row']['customization'] = {};
-    lineRow['row']['customization']['font_size'] = paperSize == PaperSize.mm58 ? 10 : 12;
-    lineRow['row']['customization']['alignment'] = row.containsKey('alignment') ? row['alignment'] : 0;
+    lineRow['row']['customization']['font_size'] = paperSize == PaperSize.mm58
+        ? 10
+        : 12;
+    lineRow['row']['customization']['alignment'] = row.containsKey('alignment')
+        ? row['alignment']
+        : 0;
     lineRow['row']['customization']['font_style'] = {};
-    lineRow['row']['customization']['font_style']['bold'] = row.containsKey('bold') ? row['bold'] : false;
-    lineRow['row']['customization']['font_style']['italic'] = row.containsKey('italic') ? row['italic'] : false;
+    lineRow['row']['customization']['font_style']['bold'] =
+        row.containsKey('bold') ? row['bold'] : false;
+    lineRow['row']['customization']['font_style']['italic'] =
+        row.containsKey('italic') ? row['italic'] : false;
     lineRow['row']['content'] = row['text'];
     lineRow['row']['size'] = row['size'];
     return lineRow;

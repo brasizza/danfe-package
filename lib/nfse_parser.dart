@@ -236,11 +236,15 @@ class NfseParser {
         'dataCompetencia': _getElementText(infDPS, 'dCompet'),
         'cnpjPrestador': _getElementText(infDPS, 'CNPJ'),
         'valorServico': _getElementText(
-          infDPS.findAllElements('vServ').isNotEmpty ? infDPS.findAllElements('vServ').first.parent as XmlElement : infDPS,
+          infDPS.findAllElements('vServ').isNotEmpty
+              ? infDPS.findAllElements('vServ').first.parent as XmlElement
+              : infDPS,
           'vServ',
         ),
         'descricaoServico': _getElementText(
-          infDPS.findAllElements('xDescServ').isNotEmpty ? infDPS.findAllElements('xDescServ').first.parent as XmlElement : infDPS,
+          infDPS.findAllElements('xDescServ').isNotEmpty
+              ? infDPS.findAllElements('xDescServ').first.parent as XmlElement
+              : infDPS,
           'xDescServ',
         ),
       };

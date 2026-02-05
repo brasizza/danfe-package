@@ -51,7 +51,8 @@ class EmitNfse {
 
   String toJson() => json.encode(toMap());
 
-  factory EmitNfse.fromJson(String source) => EmitNfse.fromMap(json.decode(source));
+  factory EmitNfse.fromJson(String source) =>
+      EmitNfse.fromMap(json.decode(source));
 }
 
 /// Classe que representa o Endereço do Emitente na NFSe Nacional.
@@ -113,5 +114,6 @@ class EnderecoEmitNfse {
 
   String toJson() => json.encode(toMap());
 
-  factory EnderecoEmitNfse.fromJson(String source) => EnderecoEmitNfse.fromMap(json.decode(source));
+  factory EnderecoEmitNfse.fromJson(String source) =>
+      EnderecoEmitNfse.fromMap(json.decode(source));
 }

@@ -556,7 +556,9 @@ class _DanfeScreenState extends State<DanfeScreen> {
                       ],
                     ),
                   ),
-                  subtitle: (prod?.prod?.vDesc != null) ? Text('Desconto: ${prod?.prod?.vDesc ?? ''}') : const SizedBox(),
+                  subtitle: (prod?.prod?.vDesc != null)
+                      ? Text('Desconto: ${prod?.prod?.vDesc ?? ''}')
+                      : const SizedBox(),
                   trailing: Text(prod?.prod?.vItem ?? ''),
                 );
               },
@@ -575,7 +577,9 @@ class _DanfeScreenState extends State<DanfeScreen> {
               },
             ),
             Visibility(
-              visible: (nota?.dados?.total?.desconto != '0.00' && nota?.dados?.total?.desconto != null),
+              visible:
+                  (nota?.dados?.total?.desconto != '0.00' &&
+                  nota?.dados?.total?.desconto != null),
               child: RichText(
                 text: TextSpan(
                   children: [
@@ -596,7 +600,9 @@ class _DanfeScreenState extends State<DanfeScreen> {
               ),
             ),
             Visibility(
-              visible: (nota?.dados?.pgto?.vTroco != '0.00' && nota?.dados?.pgto?.vTroco != null),
+              visible:
+                  (nota?.dados?.pgto?.vTroco != '0.00' &&
+                  nota?.dados?.pgto?.vTroco != null),
               child: RichText(
                 text: TextSpan(
                   children: [

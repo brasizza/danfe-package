@@ -152,7 +152,10 @@ class Total {
       acrescimo: acrescimo,
       valorPago: map['vCFe'] ?? map['ICMSTot']?['vNF'] ?? '0.00',
       valorIcms: map['ICMSTot']?['vICMS'] ?? '0.00',
-      valotTotalTributos: map['ICMSTot']?['valotTotalTributos'] ?? map['ICMSTot']?['vTotTrib'] ?? '0.00',
+      valotTotalTributos:
+          map['ICMSTot']?['valotTotalTributos'] ??
+          map['ICMSTot']?['vTotTrib'] ??
+          '0.00',
     );
   }
 

@@ -62,9 +62,13 @@ class InfDPS {
   });
 
   /// Cria uma instância a partir de um Map.
-  factory InfDPS.fromMap(Map<String, dynamic> map, Map<String, dynamic>? valoresMap) {
+  factory InfDPS.fromMap(
+    Map<String, dynamic> map,
+    Map<String, dynamic>? valoresMap,
+  ) {
     final merged = <String, dynamic>{
-      if (map['valores'] is Map<String, dynamic>) ...map['valores'] as Map<String, dynamic>,
+      if (map['valores'] is Map<String, dynamic>)
+        ...map['valores'] as Map<String, dynamic>,
       ...valoresMap ?? {},
     };
     return InfDPS(

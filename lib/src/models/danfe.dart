@@ -88,7 +88,13 @@ class Danfe {
   /// print(mapa); // Saída: {dados: {...}}
   /// ```
   Map<String, dynamic> toMap() {
-    return {'dados': dados?.toMap(), 'tipo': tipo.value, 'infNFeSupl': infNFeSupl?.toMap(), 'protNFe': protNFe?.toMap(), 'qrcodePrinter': qrcodePrinter};
+    return {
+      'dados': dados?.toMap(),
+      'tipo': tipo.value,
+      'infNFeSupl': infNFeSupl?.toMap(),
+      'protNFe': protNFe?.toMap(),
+      'qrcodePrinter': qrcodePrinter,
+    };
   }
 
   /// Método utilitário para obter um valor de forma segura de um mapa.
@@ -115,7 +121,10 @@ class Danfe {
   /// - O QR Code é extraído do campo `assinaturaQRCODE` do campo `ide` e ajustado para impressão.
   factory Danfe.fromMapSat(Map<String, dynamic> map) {
     final dados = safeGet<Map<String, dynamic>>(map, 'infCFe');
-    return Danfe(dados: dados != null ? DadosDanfe.fromMap(dados) : null, tipo: TipoDocumento.CFe)..qrcodePrinter = extractQrCode(dados?['ide']?['assinaturaQRCODE']);
+    return Danfe(
+      dados: dados != null ? DadosDanfe.fromMap(dados) : null,
+      tipo: TipoDocumento.CFe,
+    )..qrcodePrinter = extractQrCode(dados?['ide']?['assinaturaQRCODE']);
   }
 
   /// Cria uma instância de `Danfe` a partir de um mapa no formato NFC-e.
@@ -132,11 +141,22 @@ class Danfe {
   factory Danfe.fromMapNFce(Map<String, dynamic> map) {
     final parseMap = safeGet<Map<String, dynamic>>(map, 'NFe') ?? map;
     return Danfe(
-      dados: safeGet<Map<String, dynamic>>(parseMap, 'infNFe') != null ? DadosDanfe.fromMap(parseMap['infNFe']) : null,
-      tipo: findTypeByMap(parseMap) ?? TipoDocumento.NFCe,
-      protNFe: safeGet<Map<String, dynamic>>(map, 'protNFe') != null ? ProtNFe.fromMap(map['protNFe']) : null,
-      infNFeSupl: safeGet<Map<String, dynamic>>(parseMap, 'infNFeSupl') != null ? InfNFeSupl.fromMap(parseMap['infNFeSupl']) : null,
-    )..qrcodePrinter = safeGet<Map<String, dynamic>>(parseMap, 'infNFeSupl')?['qrCode'];
+        dados: safeGet<Map<String, dynamic>>(parseMap, 'infNFe') != null
+            ? DadosDanfe.fromMap(parseMap['infNFe'])
+            : null,
+        tipo: findTypeByMap(parseMap) ?? TipoDocumento.NFCe,
+        protNFe: safeGet<Map<String, dynamic>>(map, 'protNFe') != null
+            ? ProtNFe.fromMap(map['protNFe'])
+            : null,
+        infNFeSupl:
+            safeGet<Map<String, dynamic>>(parseMap, 'infNFeSupl') != null
+            ? InfNFeSupl.fromMap(parseMap['infNFeSupl'])
+            : null,
+      )
+      ..qrcodePrinter = safeGet<Map<String, dynamic>>(
+        parseMap,
+        'infNFeSupl',
+      )?['qrCode'];
   }
 
   /// Converte a instância atual em uma string JSON.
