@@ -3,13 +3,14 @@ import 'package:esc_pos_printer_plus/esc_pos_printer_plus.dart';
 import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
+import 'package:image/image.dart';
 
 import 'custom_printer.dart';
 
-class HomeController {
-  Danfe? parseXml(String xml) {
+class NfseController {
+  Nfse? parseXml(String xml) {
     try {
-      Danfe? danfe = DanfeParser.readFromString(xml);
+      Nfse? danfe = NfseParser.readFromString(xml);
       return danfe;
     } catch (_) {
       return null;
@@ -26,12 +27,12 @@ class HomeController {
   }
 
   Future<void> printDefault({
-    Danfe? danfe,
+    Nfse? danfe,
     required PaperSize paper,
     required CapabilityProfile profile,
   }) async {
-    DanfePrinter danfePrinter = DanfePrinter(paper);
-    List<int> dados = await danfePrinter.bufferDanfe(
+    NfsePrinter danfePrinter = NfsePrinter(paper);
+    List<int> dados = await danfePrinter.bufferNfse(
       danfe,
       mostrarMoeda: false,
     );
@@ -63,16 +64,23 @@ class HomeController {
     printer.disconnect();
   }
 
-  printCustomLayout({
-    Danfe? danfe,
-    required PaperSize paper,
-    required CapabilityProfile profile,
-  }) async {
-    final CustomPrinter custom = CustomPrinter(paper);
-    List<int> dados = await custom.bufferDanfe(danfe);
-    NetworkPrinter printer = NetworkPrinter(paper, profile);
-    await printer.connect('192.168.5.111', port: 9100);
-    printer.rawBytes(dados);
-    printer.disconnect();
-  }
+
+
+
+  
+
+  void printImagePos({required List<Image> images
+, required PaperSize paper, required CapabilityProfile profile}) async  {
+      NetworkPrinter printer = NetworkPrinter(paper, profile);
+      await printer.connect('192.168.5.111', port: 9100);
+      printer.reset();
+       for (var image in images) {
+       printer.imageRaster(image, align: PosAlign.left, );
+           await Future.delayed(const Duration(milliseconds: 200));
+
+    }
+    printer.feed(2);
+    printer.cut();
+      printer.disconnect();
+  } 
 }

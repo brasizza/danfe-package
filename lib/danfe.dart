@@ -2,7 +2,18 @@ library danfe;
 
 export 'danfe_parser.dart';
 export 'danfe_printer.dart';
+export 'image_danfe.dart';
+export 'nfse_parser.dart';
+export 'nfse_printer.dart';
 export 'src/models/danfe.dart';
+export 'src/models/nfse/nfse.dart';
+export 'src/models/nfse/inf_dps.dart';
+export 'src/models/nfse/prestador.dart';
+export 'src/models/nfse/tomador.dart';
+export 'src/models/nfse/servico.dart';
+export 'src/models/nfse/valores.dart';
+export 'src/models/nfse/tributos.dart';
+export 'src/models/nfse/emit_nfse.dart';
 export 'src/models/card_pagamento.dart';
 export 'src/models/dados_danfe.dart';
 export 'src/models/dest.dart';

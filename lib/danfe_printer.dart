@@ -374,31 +374,28 @@ class DanfePrinter implements IDanfePrinter {
         ]);
       }
       bytes += generator.hr();
-    } 
+    }
 
-      if (danfe?.dados?.total?.valotTotalTributos != null) {
-      if(danfe!.dados!.total!.valotTotalTributos != '0.00'){
+    if (danfe?.dados?.total?.valotTotalTributos != null) {
+      if (danfe!.dados!.total!.valotTotalTributos != '0.00') {
         bytes += generator.row([
-        PosColumn(
-          text: 'Tributos totais incidentes:',
-          width: 9,
-          styles: const PosStyles(bold: false),
-        ),
-        PosColumn(
-          text: DanfeUtils.formatMoneyMilhar(
-            danfe.dados!.total!.valotTotalTributos ?? '',
-            modeda: 'pt_BR',
-            simbolo: moeda,
+          PosColumn(
+            text: 'Tributos totais incidentes:',
+            width: 9,
+            styles: const PosStyles(bold: false),
           ),
-          width: 3,
-          styles: const PosStyles(align: PosAlign.right),
-        ),
-      ]);
-      bytes += generator.feed(1);
-
-        
+          PosColumn(
+            text: DanfeUtils.formatMoneyMilhar(
+              danfe.dados!.total!.valotTotalTributos ?? '',
+              modeda: 'pt_BR',
+              simbolo: moeda,
+            ),
+            width: 3,
+            styles: const PosStyles(align: PosAlign.right),
+          ),
+        ]);
+        bytes += generator.feed(1);
       }
-     
     }
 
     if (danfe?.dados?.transp != null) {
@@ -537,11 +534,6 @@ class DanfePrinter implements IDanfePrinter {
       );
     }
 
-
-   
-
- 
-
     bytes += generator.cut();
     bytes += generator.reset();
 
@@ -569,7 +561,19 @@ class DanfePrinter implements IDanfePrinter {
         bold: false,
         fontSize: 10,
         italic: false,
-        content: danfe?.dados?.emit?.cnpj ?? '',
+        content: 'CNPJ - ${DanfeUtils.formatCNPJ(danfe?.dados?.emit?.cnpj ?? '')}',
+      ),
+    );
+    final String uf = danfe?.dados?.emit?.enderEmit?.uF == null ? '' : ' - ${danfe!.dados!.emit!.enderEmit!.uF}';
+    danfeJson.add(
+      _prepareLine(
+        aligment: 1,
+        bold: false,
+        fontSize: 10,
+        italic: false,
+        content: DanfeUtils.removeAcentos(
+          '${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''},${danfe?.dados?.emit?.enderEmit?.nro ?? ''} ${danfe?.dados?.emit?.enderEmit?.xBairro ?? ''}$uf',
+        ),
       ),
     );
     danfeJson.add(
@@ -578,11 +582,11 @@ class DanfePrinter implements IDanfePrinter {
         bold: false,
         fontSize: 10,
         italic: false,
-        content: '${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''}, ${danfe?.dados?.emit?.enderEmit?.nro ?? ''}',
+        content: 'CEP: ${DanfeUtils.formatCep(danfe?.dados?.emit?.enderEmit?.cEP ?? '')}',
       ),
     );
     danfeJson.add(_divider());
-    if ((danfe?.tipo ?? 'CFe') == 'CFe') {
+    if ((danfe?.tipo ?? TipoDocumento.CFe) == TipoDocumento.CFe) {
       danfeJson.add(
         _prepareLine(
           aligment: 1,
@@ -592,7 +596,7 @@ class DanfePrinter implements IDanfePrinter {
           content: ('Nota Fiscal Eletronica - SAT '),
         ),
       );
-    } else {
+    } else if ((danfe?.tipo ?? TipoDocumento.NFCe) == TipoDocumento.NFCe) {
       danfeJson.add(
         _prepareLine(
           aligment: 1,
@@ -600,6 +604,16 @@ class DanfePrinter implements IDanfePrinter {
           fontSize: 10,
           italic: false,
           content: ('Nota Fiscal Eletronica - NFC-E '),
+        ),
+      );
+    } else {
+      danfeJson.add(
+        _prepareLine(
+          aligment: 1,
+          bold: true,
+          fontSize: 10,
+          italic: false,
+          content: ('Nota Fiscal Eletronica - NFe '),
         ),
       );
     }
@@ -641,6 +655,17 @@ class DanfePrinter implements IDanfePrinter {
         content: ('Data: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? '')}'),
       ),
     );
+    if (danfe?.dados?.ide?.dhSaiEnt != null) {
+      danfeJson.add(
+        _prepareLine(
+          aligment: 0,
+          bold: false,
+          fontSize: 10,
+          italic: false,
+          content: ('Data E/S: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dhSaiEnt ?? '')}'),
+        ),
+      );
+    }
     danfeJson.add(_divider());
 
     danfeJson.add(
@@ -675,7 +700,7 @@ class DanfePrinter implements IDanfePrinter {
         paperSize: paperSize,
         rows: [
           _createRow(
-            row: {'text': 'SUBTOTAL', 'alignment': 0},
+            row: {'text': 'SUBTOTAL', 'alignment': 0, 'bold': true},
             paperSize: paperSize,
           ),
           _createRow(
@@ -686,12 +711,38 @@ class DanfePrinter implements IDanfePrinter {
                 simbolo: moeda,
               ),
               'alignment': 2,
+              'bold': true,
             },
             paperSize: paperSize,
           ),
         ],
       ),
     );
+
+    if ((danfe?.dados?.total?.valorFrete ?? '0.00') != '0.00') {
+      danfeJson.add(
+        _createColumn(
+          paperSize: paperSize,
+          rows: [
+            _createRow(
+              row: {'text': 'FRETE', 'alignment': 0},
+              paperSize: paperSize,
+            ),
+            _createRow(
+              row: {
+                'text': DanfeUtils.formatMoneyMilhar(
+                  danfe?.dados?.total?.valorFrete ?? '',
+                  modeda: 'pt_BR',
+                  simbolo: moeda,
+                ),
+                'alignment': 2,
+              },
+              paperSize: paperSize,
+            ),
+          ],
+        ),
+      );
+    }
 
     if ((danfe?.dados?.total?.desconto ?? '0.00') != '0.00') {
       danfeJson.add(
@@ -772,7 +823,7 @@ class DanfePrinter implements IDanfePrinter {
         paperSize: paperSize,
         rows: [
           _createRow(
-            row: {'text': 'Total', 'alignment': 0},
+            row: {'text': 'Total', 'alignment': 0, 'bold': true},
             paperSize: paperSize,
           ),
           _createRow(
@@ -783,6 +834,7 @@ class DanfePrinter implements IDanfePrinter {
                 simbolo: moeda,
               ),
               'alignment': 2,
+              'bold': true,
             },
             paperSize: paperSize,
           ),
@@ -790,8 +842,9 @@ class DanfePrinter implements IDanfePrinter {
       ),
     );
 
+    danfeJson.add(_divider());
+
     if (danfe?.dados?.pgto != null) {
-      danfeJson.add(_divider());
 
       danfeJson.add(
         _createColumn(
@@ -837,8 +890,120 @@ class DanfePrinter implements IDanfePrinter {
           ),
         );
       }
+      danfeJson.add(_divider());
     }
-    danfeJson.add(_divider());
+
+    if (danfe?.dados?.total?.valotTotalTributos != null) {
+      if (danfe!.dados!.total!.valotTotalTributos != '0.00') {
+        danfeJson.add(
+          _createColumn(
+            paperSize: paperSize,
+            rows: [
+              _createRow(
+                row: {'text': 'Tributos totais incidentes:', 'alignment': 0},
+                paperSize: paperSize,
+              ),
+              _createRow(
+                row: {
+                  'text': DanfeUtils.formatMoneyMilhar(
+                    danfe.dados!.total!.valotTotalTributos ?? '',
+                    modeda: 'pt_BR',
+                    simbolo: moeda,
+                  ),
+                  'alignment': 2,
+                },
+                paperSize: paperSize,
+              ),
+            ],
+          ),
+        );
+        danfeJson.add(_prepareJump(1));
+      }
+    }
+
+    if (danfe?.dados?.transp != null) {
+      if (danfe?.dados?.transp?.transporta?.xNome != null) {
+        danfeJson.add(
+          _prepareLine(
+            aligment: 1,
+            bold: true,
+            content: 'TRANSPORTADORA',
+          ),
+        );
+        danfeJson.add(
+          _prepareLine(
+            aligment: 1,
+            content: DanfeUtils.removeAcentos(danfe?.dados?.transp?.transporta?.xNome ?? ''),
+          ),
+        );
+        danfeJson.add(
+          _prepareLine(
+            aligment: 1,
+            content: DanfeUtils.removeAcentos(danfe?.dados?.transp?.transporta?.xEnder ?? ''),
+          ),
+        );
+        danfeJson.add(
+          _prepareLine(
+            aligment: 1,
+            content: DanfeUtils.removeAcentos(
+              '${danfe?.dados?.transp?.transporta?.xMun ?? ''} ${danfe?.dados?.transp?.transporta?.uf ?? ''}',
+            ),
+          ),
+        );
+        danfeJson.add(_divider());
+      }
+    }
+
+    if (danfe?.dados?.cobr != null) {
+      danfeJson.add(
+        _prepareLine(
+          aligment: 1,
+          bold: true,
+          content: 'COBRANCA',
+        ),
+      );
+      danfeJson.add(
+        _prepareLine(
+          aligment: 1,
+          content: "Fatura: ${danfe?.dados?.cobr?.fat?.nFat ?? ''}",
+        ),
+      );
+      danfeJson.add(
+        _prepareLine(
+          aligment: 1,
+          content: "Valor Original: ${DanfeUtils.formatMoneyMilhar(danfe?.dados?.cobr?.fat?.vOrig ?? '', modeda: 'pt_BR', simbolo: moeda)}",
+        ),
+      );
+      danfeJson.add(
+        _prepareLine(
+          aligment: 1,
+          content: "Valor Liquido: ${DanfeUtils.formatMoneyMilhar(danfe?.dados?.cobr?.fat?.vLiq ?? '', modeda: 'pt_BR', simbolo: moeda)}",
+        ),
+      );
+      danfeJson.add(_divider());
+      for (var duplicata in danfe?.dados?.cobr?.dup ?? []) {
+        danfeJson.add(
+          _prepareLine(
+            aligment: 1,
+            content: "Duplicata: ${duplicata.nDup ?? ''}",
+          ),
+        );
+        danfeJson.add(
+          _prepareLine(
+            aligment: 1,
+            content: "Vencimento: ${DanfeUtils.formatDate(duplicata.dVenc ?? '', dateOnly: true)}",
+          ),
+        );
+        danfeJson.add(
+          _prepareLine(
+            aligment: 1,
+            content: "Valor: ${DanfeUtils.formatMoneyMilhar(duplicata.vDup ?? '', modeda: 'pt_BR', simbolo: moeda)}",
+          ),
+        );
+        danfeJson.add(_divider());
+      }
+    }
+
     danfeJson.add(_prepareLine(content: 'CHAVE DE ACESSO DA NOTA FISCAL'));
     danfeJson.add(
       _prepareLine(
@@ -854,8 +1019,8 @@ class DanfePrinter implements IDanfePrinter {
     danfeJson.add(
       _prepareQrcode(
         content: danfe?.qrcodePrinter ?? '',
-        size: 120,
-        level: 'L',
+        size: 150,
+        level: 'H',
       ),
     );
 
@@ -882,7 +1047,8 @@ class DanfePrinter implements IDanfePrinter {
       DateTime dateTime = DateTime.parse(
         danfe?.protNFe?.infProt?.dhRecbto ?? DateTime.now().toIso8601String(),
       );
-      String formattedDate = "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}";
+      String formattedDate =
+          "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}";
       danfeJson.add(_prepareLine(content: 'Data: $formattedDate '));
     }
 
@@ -960,6 +1126,13 @@ class DanfePrinter implements IDanfePrinter {
     divider['line'] = {};
     divider['line']['divider'] = true;
     return divider;
+  }
+
+  Map _prepareJump(int lines) {
+    Map jump = {};
+    jump['line'] = {};
+    jump['line']['jump'] = lines;
+    return jump;
   }
 
   Map _prepareQrcode({
