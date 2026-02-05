@@ -15,6 +15,7 @@ dependencies:
   image: ^4.3.0
   intl: ^0.20.0
   printer_gateway: ^0.0.3
+  xml: ^6.6.1
   xml2json: ^6.2.7
 
 dev_dependencies:
