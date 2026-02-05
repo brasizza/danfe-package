@@ -1,4 +1,7 @@
 
+## 2.0.0
+* Agora é possível parsear NFSE no modelo nacional
+* Inclusao de um novo modelo de impressao onde pode te retornar uma imagem e/ou um widget para preview em tela, assim pode mandar a impressão direto via imagem para qualquer dispositivo
 
 ## 1.0.3
 * Inclusão da tag de totais de tributos incidentes na impressao da danfe
