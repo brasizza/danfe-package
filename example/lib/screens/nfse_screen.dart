@@ -1,6 +1,7 @@
 import 'package:danfe/danfe.dart';
 import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 import 'package:example/nfse_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class NfseScreen extends StatefulWidget {
@@ -187,22 +188,25 @@ class _NfseScreenState extends State<NfseScreen> {
                             ),
                           ),
 
-                          ElevatedButton.icon(
-                            onPressed: () async {
-                              final profile = await CapabilityProfile.load();
-                              await controller.printDefault(
-                                danfe: _dadosNfse,
-                                paper: PaperSize.mm80,
-                                profile: profile,
-                              );
-                            },
-                            icon: const Icon(Icons.print),
-                            label: const Text('Imprimir'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              foregroundColor: Colors.white,
-                            ),
-                          ),
+                          (kIsWasm || kIsWeb)
+                              ? const SizedBox()
+                              : ElevatedButton.icon(
+                                  onPressed: () async {
+                                    final profile =
+                                        await CapabilityProfile.load();
+                                    await controller.printDefault(
+                                      danfe: _dadosNfse,
+                                      paper: PaperSize.mm80,
+                                      profile: profile,
+                                    );
+                                  },
+                                  icon: const Icon(Icons.print),
+                                  label: const Text('Imprimir'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                    foregroundColor: Colors.white,
+                                  ),
+                                ),
                         ],
                       ),
                     ],
@@ -339,21 +343,25 @@ class _NfseScreenState extends State<NfseScreen> {
                     title: const Text('Preview - Imagem NFSe'),
                     automaticallyImplyLeading: false,
                     actions: [
-                      IconButton(
-                        icon: const Icon(Icons.print),
-                        onPressed: () async {
-                          controller.printImagePos(
-                            images: imageParts,
-                            paper: PaperSize.mm80,
-                            profile: await CapabilityProfile.load(),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Função de impressão de imagem'),
+                      kIsWasm || kIsWeb
+                          ? const SizedBox()
+                          : IconButton(
+                              icon: const Icon(Icons.print),
+                              onPressed: () async {
+                                controller.printImagePos(
+                                  images: imageParts,
+                                  paper: PaperSize.mm80,
+                                  profile: await CapabilityProfile.load(),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Função de impressão de imagem',
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
                       IconButton(
                         icon: const Icon(Icons.close),
                         onPressed: () => Navigator.pop(context),
