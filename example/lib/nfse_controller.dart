@@ -5,8 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:image/image.dart';
 
-import 'custom_printer.dart';
-
 class NfseController {
   Nfse? parseXml(String xml) {
     try {

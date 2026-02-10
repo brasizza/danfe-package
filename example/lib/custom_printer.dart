@@ -1205,7 +1205,7 @@ class CustomPrinter implements IDanfePrinter {
     return customLine;
   }
 
-  _createItems({List<Det>? det, required PaperSize paperSize}) {
+  List<dynamic> _createItems({List<Det>? det, required PaperSize paperSize}) {
     List items = [];
     if (det != null) {
       for (Det item in det) {
