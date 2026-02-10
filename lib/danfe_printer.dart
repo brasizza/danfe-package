@@ -574,7 +574,7 @@ class DanfePrinter implements IDanfePrinter {
       _prepareLine(
         aligment: 1,
         bold: false,
-        fontSize: 10,
+        fontSize: 14,
         italic: false,
         content:
             'CNPJ - ${DanfeUtils.formatCNPJ(danfe?.dados?.emit?.cnpj ?? '')}',
@@ -587,7 +587,7 @@ class DanfePrinter implements IDanfePrinter {
       _prepareLine(
         aligment: 1,
         bold: false,
-        fontSize: 10,
+        fontSize: 14,
         italic: false,
         content: DanfeUtils.removeAcentos(
           '${danfe?.dados?.emit?.enderEmit?.xLgr ?? ''},${danfe?.dados?.emit?.enderEmit?.nro ?? ''} ${danfe?.dados?.emit?.enderEmit?.xBairro ?? ''}$uf',
@@ -598,7 +598,7 @@ class DanfePrinter implements IDanfePrinter {
       _prepareLine(
         aligment: 1,
         bold: false,
-        fontSize: 10,
+        fontSize: 14,
         italic: false,
         content:
             'CEP: ${DanfeUtils.formatCep(danfe?.dados?.emit?.enderEmit?.cEP ?? '')}',
@@ -610,7 +610,7 @@ class DanfePrinter implements IDanfePrinter {
         _prepareLine(
           aligment: 1,
           bold: true,
-          fontSize: 10,
+          fontSize: 14,
           italic: false,
           content: ('Nota Fiscal Eletronica - SAT '),
         ),
@@ -620,7 +620,7 @@ class DanfePrinter implements IDanfePrinter {
         _prepareLine(
           aligment: 1,
           bold: true,
-          fontSize: 10,
+          fontSize: 14,
           italic: false,
           content: ('Nota Fiscal Eletronica - NFC-E '),
         ),
@@ -630,7 +630,7 @@ class DanfePrinter implements IDanfePrinter {
         _prepareLine(
           aligment: 1,
           bold: true,
-          fontSize: 10,
+          fontSize: 14,
           italic: false,
           content: ('Nota Fiscal Eletronica - NFe '),
         ),
@@ -640,7 +640,7 @@ class DanfePrinter implements IDanfePrinter {
       _prepareLine(
         aligment: 0,
         bold: false,
-        fontSize: 10,
+        fontSize: 14,
         italic: false,
         content:
             "CPF/CNPJ do consumidor: ${danfe?.dados?.dest?.cpf ?? danfe?.dados?.dest?.cnpj ?? ''}",
@@ -651,7 +651,7 @@ class DanfePrinter implements IDanfePrinter {
         _prepareLine(
           aligment: 0,
           bold: false,
-          fontSize: 10,
+          fontSize: 14,
           italic: false,
           content: "Nome: ${danfe?.dados?.dest?.xNome ?? ''}",
         ),
@@ -661,7 +661,7 @@ class DanfePrinter implements IDanfePrinter {
       _prepareLine(
         aligment: 0,
         bold: false,
-        fontSize: 10,
+        fontSize: 14,
         italic: false,
         content: ("Nota: ${danfe?.dados?.ide?.nNF ?? ''}"),
       ),
@@ -670,7 +670,7 @@ class DanfePrinter implements IDanfePrinter {
       _prepareLine(
         aligment: 0,
         bold: false,
-        fontSize: 10,
+        fontSize: 14,
         italic: false,
         content:
             ('Data: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dataEmissao ?? '')}'),
@@ -681,7 +681,7 @@ class DanfePrinter implements IDanfePrinter {
         _prepareLine(
           aligment: 0,
           bold: false,
-          fontSize: 10,
+          fontSize: 14,
           italic: false,
           content:
               ('Data E/S: ${DanfeUtils.formatDate(danfe?.dados?.ide?.dhSaiEnt ?? '')}'),
@@ -1039,7 +1039,7 @@ class DanfePrinter implements IDanfePrinter {
     danfeJson.add(_prepareLine(content: 'CHAVE DE ACESSO DA NOTA FISCAL'));
     danfeJson.add(
       _prepareLine(
-        fontSize: 10,
+        fontSize: 14,
         bold: true,
         content: DanfeUtils.splitByLength(
           danfe?.dados?.chaveNota ?? '',
@@ -1051,8 +1051,8 @@ class DanfePrinter implements IDanfePrinter {
     danfeJson.add(
       _prepareQrcode(
         content: danfe?.qrcodePrinter ?? '',
-        size: 150,
-        level: 'H',
+        size: 160,
+        level: 'L',
       ),
     );
 
@@ -1088,7 +1088,7 @@ class DanfePrinter implements IDanfePrinter {
       danfeJson.add(
         _prepareLine(
           content: danfe!.dados!.infAdic!.infCpl ?? '',
-          fontSize: 10,
+          fontSize: 14,
         ),
       );
     }

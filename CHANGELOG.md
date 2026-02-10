@@ -1,4 +1,6 @@
 
+## 2.0.1
+* Melhorando a impressão padrao da danfe printer,melhorando a fonte padrao
 ## 2.0.0
 * Agora é possível parsear NFSE no modelo nacional
 * Inclusao de um novo modelo de impressao onde pode te retornar uma imagem e/ou um widget para preview em tela, assim pode mandar a impressão direto via imagem para qualquer dispositivo
