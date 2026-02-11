@@ -33,3 +33,4 @@ export 'src/models/prot_nfe.dart';
 export 'src/models/total.dart';
 export 'src/interface/i_danfe_printer.dart';
 export 'src/core/utils.dart';
+export 'src/core/json_printer_helper.dart';

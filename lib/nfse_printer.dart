@@ -407,13 +407,14 @@ class NfsePrinter {
   /// Retorna uma string JSON compatível com printer_gateway.
   String normativeJsonNfse(Nfse? nfse, {bool mostrarMoeda = true}) {
     String moeda = (mostrarMoeda == true) ? 'R\$' : '';
+    final helper = JsonPrinterHelper();
 
     List<Map> nfseJson = [];
 
     // Cabeçalho - Dados do Prestador (Emitente)
     if (nfse?.emit != null) {
       nfseJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 1,
           bold: true,
           fontSize: 18,
@@ -423,7 +424,7 @@ class NfsePrinter {
       );
 
       nfseJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 1,
           bold: false,
           fontSize: 12,
@@ -437,7 +438,7 @@ class NfsePrinter {
         final String uf = endereco.uf == null ? '' : ' - ${endereco.uf}';
 
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 1,
             bold: false,
             fontSize: 12,
@@ -450,7 +451,7 @@ class NfsePrinter {
 
         if (endereco.cep != null) {
           nfseJson.add(
-            _prepareLine(
+            helper.prepareLine(
               aligment: 1,
               bold: false,
               fontSize: 12,
@@ -463,7 +464,7 @@ class NfsePrinter {
 
       if (nfse.emit!.fone != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 1,
             bold: false,
             fontSize: 12,
@@ -475,7 +476,7 @@ class NfsePrinter {
 
       if (nfse.emit!.email != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 1,
             bold: false,
             fontSize: 12,
@@ -486,11 +487,11 @@ class NfsePrinter {
       }
     }
 
-    nfseJson.add(_divider());
+    nfseJson.add(helper.divider());
 
     // Título do documento
     nfseJson.add(
-      _prepareLine(
+      helper.prepareLine(
         aligment: 1,
         bold: true,
         fontSize: 14,
@@ -500,7 +501,7 @@ class NfsePrinter {
     );
 
     nfseJson.add(
-      _prepareLine(
+      helper.prepareLine(
         aligment: 1,
         bold: false,
         fontSize: 12,
@@ -509,12 +510,12 @@ class NfsePrinter {
       ),
     );
 
-    nfseJson.add(_divider());
+    nfseJson.add(helper.divider());
 
     // Número da NFSe
     if (nfse?.nNFSe != null) {
       nfseJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 0,
           bold: true,
           fontSize: 12,
@@ -527,7 +528,7 @@ class NfsePrinter {
     // Data e hora de processamento
     if (nfse?.dhProc != null) {
       nfseJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 0,
           bold: false,
           fontSize: 12,
@@ -542,7 +543,7 @@ class NfsePrinter {
     if (nfse?.ambGer != null) {
       final ambiente = nfse!.ambGer == '1' ? 'Producao' : 'Homologacao';
       nfseJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 0,
           bold: false,
           fontSize: 12,
@@ -555,7 +556,7 @@ class NfsePrinter {
     // Status
     if (nfse?.cStat != null && nfse?.xLocIncid != null) {
       nfseJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 0,
           bold: false,
           fontSize: 12,
@@ -565,12 +566,12 @@ class NfsePrinter {
       );
     }
 
-    nfseJson.add(_divider());
+    nfseJson.add(helper.divider());
 
     // Dados do Prestador
     if (nfse?.infDPS?.prest != null) {
       nfseJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 0,
           bold: true,
           fontSize: 12,
@@ -582,7 +583,7 @@ class NfsePrinter {
       final prestador = nfse!.infDPS!.prest!;
 
       nfseJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 0,
           bold: false,
           fontSize: 12,
@@ -591,13 +592,13 @@ class NfsePrinter {
         ),
       );
 
-      nfseJson.add(_divider());
+      nfseJson.add(helper.divider());
     }
 
     // Dados do Tomador
     if (nfse?.infDPS?.tomador != null) {
       nfseJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 0,
           bold: true,
           fontSize: 12,
@@ -610,7 +611,7 @@ class NfsePrinter {
 
       if (tomador.cnpj != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
@@ -620,7 +621,7 @@ class NfsePrinter {
         );
       } else if (tomador.cpf != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
@@ -632,7 +633,7 @@ class NfsePrinter {
 
       if (tomador.xNome != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
@@ -645,7 +646,7 @@ class NfsePrinter {
       if (tomador.endereco != null) {
         final endereco = tomador.endereco!;
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
@@ -658,7 +659,7 @@ class NfsePrinter {
 
         if (endereco.cep != null) {
           nfseJson.add(
-            _prepareLine(
+            helper.prepareLine(
               aligment: 0,
               bold: false,
               fontSize: 12,
@@ -669,13 +670,13 @@ class NfsePrinter {
         }
       }
 
-      nfseJson.add(_divider());
+      nfseJson.add(helper.divider());
     }
 
     // Dados do Serviço
     if (nfse?.infDPS?.serv?.cServ != null) {
       nfseJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 0,
           bold: true,
           fontSize: 12,
@@ -688,7 +689,7 @@ class NfsePrinter {
 
       if (cServ.xDescServ != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
@@ -700,7 +701,7 @@ class NfsePrinter {
 
       if (cServ.cTribNac != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
@@ -712,7 +713,7 @@ class NfsePrinter {
 
       if (cServ.cTribMun != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
@@ -724,7 +725,7 @@ class NfsePrinter {
 
       if (cServ.cNBS != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
@@ -734,13 +735,13 @@ class NfsePrinter {
         );
       }
 
-      nfseJson.add(_divider());
+      nfseJson.add(helper.divider());
     }
 
     // Valores
     if (nfse?.infDPS?.valores?.vServPrest != null) {
       nfseJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 0,
           bold: true,
           fontSize: 12,
@@ -753,7 +754,7 @@ class NfsePrinter {
 
       if (vServPrest.vServ != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
@@ -766,7 +767,7 @@ class NfsePrinter {
 
       if (vServPrest.vDed != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
@@ -779,7 +780,7 @@ class NfsePrinter {
 
       if (vServPrest.vBC != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: true,
             fontSize: 12,
@@ -790,7 +791,7 @@ class NfsePrinter {
         );
       }
 
-      nfseJson.add(_divider());
+      nfseJson.add(helper.divider());
     }
 
     // Tributos
@@ -798,7 +799,7 @@ class NfsePrinter {
       final trib = nfse!.infDPS!.valores!.trib!;
 
       nfseJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 0,
           bold: true,
           fontSize: 12,
@@ -809,7 +810,7 @@ class NfsePrinter {
 
       if (trib.tribMun?.pAliq != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
@@ -822,7 +823,7 @@ class NfsePrinter {
 
       if (trib.totTrib?.vTotTrib != null) {
         nfseJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 0,
             bold: false,
             fontSize: 12,
@@ -832,37 +833,9 @@ class NfsePrinter {
           ),
         );
       }
-      nfseJson.add(_divider());
+      nfseJson.add(helper.divider());
     }
 
     return json.encode(nfseJson);
-  }
-
-  /// Método auxiliar para criar uma linha customizada.
-  Map _prepareLine({
-    bool bold = false,
-    bool italic = false,
-    int aligment = 1,
-    int fontSize = 12,
-    String content = '',
-  }) {
-    Map customLine = {};
-    customLine['line'] = {};
-    customLine['line']['customization'] = {};
-    customLine['line']['customization']['font_style'] = {};
-    customLine['line']['customization']['font_style']['bold'] = bold;
-    customLine['line']['customization']['font_size'] = fontSize;
-    customLine['line']['customization']['alignment'] = aligment;
-    customLine['line']['customization']['font_style']['italic'] = italic;
-    customLine['line']['content'] = content;
-    return customLine;
-  }
-
-  /// Método auxiliar para criar um divisor.
-  Map _divider() {
-    Map divider = {};
-    divider['line'] = {};
-    divider['line']['divider'] = true;
-    return divider;
   }
 }

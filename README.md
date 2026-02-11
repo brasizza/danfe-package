@@ -60,7 +60,11 @@ import 'package:danfe/danfe.dart';
 
 // Converte o DANFE em JSON normativo
 DanfePrinter danfePrinter = DanfePrinter(PaperSize.mm80);
-String jsonDanfe = danfePrinter.normativeJsonDanfe(danfe);
+String jsonDanfe = danfePrinter.normativeJsonDanfe(
+  danfe,
+  mostrarMoeda: true, // Exibir símbolo R$ (padrão: true)
+  customFont: 'RobotoMonoRegular', // Fonte customizada (padrão: 'RobotoMonoRegular')
+);
 
 // Cria o widget
 ImageDanfe imageDanfe = ImageDanfe(
@@ -77,7 +81,10 @@ Widget danfeWidget = await imageDanfe.toWidget(context);
 import 'package:danfe/danfe.dart';
 
 DanfePrinter danfePrinter = DanfePrinter(PaperSize.mm80);
-String jsonDanfe = danfePrinter.normativeJsonDanfe(danfe);
+String jsonDanfe = danfePrinter.normativeJsonDanfe(
+  danfe,
+  customFont: 'RobotoMonoBold', // Opcional: as fontes que estao no seu APP ou fontes diretamente do SO destino
+);
 
 ImageDanfe imageDanfe = ImageDanfe(
   jsonData: jsonDanfe,
@@ -94,7 +101,10 @@ import 'package:danfe/danfe.dart';
 import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 
 DanfePrinter danfePrinter = DanfePrinter(PaperSize.mm80);
-String jsonDanfe = danfePrinter.normativeJsonDanfe(danfe);
+String jsonDanfe = danfePrinter.normativeJsonDanfe(
+  danfe,
+  customFont: 'RobotoMonoMedium',
+);
 
 ImageDanfe imageDanfe = ImageDanfe(
   jsonData: jsonDanfe,
@@ -328,6 +338,63 @@ printer.disconnect();
     </infNFSe>
   </NFSe>
 </root>
+```
+
+---
+
+## 🎨 Fontes Customizadas
+
+O package inclui três variantes da fonte RobotoMono que podem ser usadas na impressão:
+
+- `RobotoMonoRegular` - Fonte regular (padrão)
+- `RobotoMonoMedium` - Fonte média
+- `RobotoMonoBold` - Fonte negrito
+
+Você pode especificar a fonte ao gerar o JSON normativo:
+
+```dart
+// Para DANFE
+String jsonDanfe = danfePrinter.normativeJsonDanfe(
+  danfe,
+  customFont: 'RobotoMonoBold',
+);
+
+// Para NFSe (usa RobotoMonoRegular por padrão)
+String jsonNfse = nfsePrinter.normativeJsonNfse(nfse);
+```
+
+## 🛠️ JsonPrinterHelper
+
+Classe auxiliar que centraliza métodos comuns para criação de estruturas JSON de impressão. Útil se você quiser criar layouts customizados:
+
+```dart
+import 'package:danfe/danfe.dart';
+
+final helper = JsonPrinterHelper(fontName: 'RobotoMonoBold');
+
+// Criar linha customizada
+Map linha = helper.prepareLine(
+  content: 'Texto customizado',
+  bold: true,
+  fontSize: 14,
+  aligment: 1, // 0: esquerda, 1: centro, 2: direita
+);
+
+// Criar divisor
+Map divisor = helper.divider();
+
+// Criar QR Code
+Map qrcode = helper.prepareQrcode(
+  content: 'https://exemplo.com',
+  size: 160,
+  level: 'H',
+);
+
+// Criar coluna de itens
+Map coluna = helper.createColumnItems(
+  paperSize: PaperSize.mm80,
+  det: danfe.dados?.det,
+);
 ```
 
 ---

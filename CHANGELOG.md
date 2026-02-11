@@ -1,4 +1,9 @@
 
+## 2.0.2
+* Melhoria na fonte customizável
+* Separação do core de geração do JSON para uma classe separada
+* Para saber como utlizar as fontes: [pubspec.yaml](https://github.com/brasizza/danfe-package/blob/master/example/pubspec.yaml)
+
 ## 2.0.1
 * Melhorando a impressão padrao da danfe printer,melhorando a fonte padrao
 ## 2.0.0

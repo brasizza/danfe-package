@@ -100,6 +100,7 @@ class ImageDanfe {
     bool mostrarMoeda = true,
     Uint8List? headerImage,
     Uint8List? footerImage,
+    String? customFont,
   }) {
     final escPosPaperSize = paperSize == DanfePaperSize.mm58
         ? PaperSize.mm58
@@ -108,6 +109,7 @@ class ImageDanfe {
     final jsonData = danfePrinter.normativeJsonDanfe(
       danfe,
       mostrarMoeda: mostrarMoeda,
+      customFont: customFont ?? '',
     );
 
     return ImageDanfe(

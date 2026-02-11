@@ -289,6 +289,7 @@ class _DanfeScreenState extends State<DanfeScreen> {
     final imageDanfe = ImageDanfe.fromDanfe(
       danfe: _dadosDanfe!,
       paperSize: DanfePaperSize.mm80,
+      customFont: 'RobotoMonoRegular',
     );
 
     showDialog(
@@ -327,6 +328,7 @@ class _DanfeScreenState extends State<DanfeScreen> {
     final imageDanfe = ImageDanfe.fromDanfe(
       danfe: _dadosDanfe!,
       paperSize: DanfePaperSize.mm80,
+      customFont: 'RobotoMonoRegular',
     );
 
     showDialog(

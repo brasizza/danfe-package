@@ -19,7 +19,7 @@ class DanfePrinter implements IDanfePrinter {
   /// [mostrarMoeda] - Define se o símbolo da moeda deve ser exibido. Valor padrão é `true`.
   ///
   /// Retorna uma lista de bytes que representa os comandos de impressão.
-
+  String? fontName = 'RobotoMonoRegular';
   @override
   Future<List<int>> bufferDanfe(
     Danfe? danfe, {
@@ -556,13 +556,19 @@ class DanfePrinter implements IDanfePrinter {
   }
 
   @override
-  String normativeJsonDanfe(Danfe? danfe, {bool mostrarMoeda = true}) {
+  String normativeJsonDanfe(
+    Danfe? danfe, {
+    bool mostrarMoeda = true,
+    String customFont = 'RobotoMonoRegular',
+  }) {
     String moeda = (mostrarMoeda == true) ? 'R\$' : '';
+    fontName = customFont;
+    final helper = JsonPrinterHelper(fontName: customFont);
 
     List<Map> danfeJson = [];
 
     danfeJson.add(
-      _prepareLine(
+      helper.prepareLine(
         aligment: 1,
         bold: true,
         fontSize: 18,
@@ -571,7 +577,7 @@ class DanfePrinter implements IDanfePrinter {
       ),
     );
     danfeJson.add(
-      _prepareLine(
+      helper.prepareLine(
         aligment: 1,
         bold: false,
         fontSize: 14,
@@ -584,7 +590,7 @@ class DanfePrinter implements IDanfePrinter {
         ? ''
         : ' - ${danfe!.dados!.emit!.enderEmit!.uF}';
     danfeJson.add(
-      _prepareLine(
+      helper.prepareLine(
         aligment: 1,
         bold: false,
         fontSize: 14,
@@ -595,7 +601,7 @@ class DanfePrinter implements IDanfePrinter {
       ),
     );
     danfeJson.add(
-      _prepareLine(
+      helper.prepareLine(
         aligment: 1,
         bold: false,
         fontSize: 14,
@@ -604,10 +610,10 @@ class DanfePrinter implements IDanfePrinter {
             'CEP: ${DanfeUtils.formatCep(danfe?.dados?.emit?.enderEmit?.cEP ?? '')}',
       ),
     );
-    danfeJson.add(_divider());
+    danfeJson.add(helper.divider());
     if ((danfe?.tipo ?? TipoDocumento.CFe) == TipoDocumento.CFe) {
       danfeJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 1,
           bold: true,
           fontSize: 14,
@@ -617,7 +623,7 @@ class DanfePrinter implements IDanfePrinter {
       );
     } else if ((danfe?.tipo ?? TipoDocumento.NFCe) == TipoDocumento.NFCe) {
       danfeJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 1,
           bold: true,
           fontSize: 14,
@@ -627,7 +633,7 @@ class DanfePrinter implements IDanfePrinter {
       );
     } else {
       danfeJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 1,
           bold: true,
           fontSize: 14,
@@ -637,7 +643,7 @@ class DanfePrinter implements IDanfePrinter {
       );
     }
     danfeJson.add(
-      _prepareLine(
+      helper.prepareLine(
         aligment: 0,
         bold: false,
         fontSize: 14,
@@ -648,7 +654,7 @@ class DanfePrinter implements IDanfePrinter {
     );
     if (danfe?.dados?.dest?.xNome != '' && danfe?.dados?.dest?.xNome != null) {
       danfeJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 0,
           bold: false,
           fontSize: 14,
@@ -658,7 +664,7 @@ class DanfePrinter implements IDanfePrinter {
       );
     }
     danfeJson.add(
-      _prepareLine(
+      helper.prepareLine(
         aligment: 0,
         bold: false,
         fontSize: 14,
@@ -667,7 +673,7 @@ class DanfePrinter implements IDanfePrinter {
       ),
     );
     danfeJson.add(
-      _prepareLine(
+      helper.prepareLine(
         aligment: 0,
         bold: false,
         fontSize: 14,
@@ -678,7 +684,7 @@ class DanfePrinter implements IDanfePrinter {
     );
     if (danfe?.dados?.ide?.dhSaiEnt != null) {
       danfeJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 0,
           bold: false,
           fontSize: 14,
@@ -688,23 +694,23 @@ class DanfePrinter implements IDanfePrinter {
         ),
       );
     }
-    danfeJson.add(_divider());
+    danfeJson.add(helper.divider());
 
     danfeJson.add(
-      _createColumnItems(paperSize: paperSize, det: danfe?.dados?.det),
+      helper.createColumnItems(paperSize: paperSize, det: danfe?.dados?.det),
     );
 
-    danfeJson.add(_divider());
+    danfeJson.add(helper.divider());
 
     danfeJson.add(
-      _createColumn(
+      helper.createColumn(
         paperSize: paperSize,
         rows: [
-          _createRow(
+          helper.createRow(
             row: {'text': 'QTD de itens', 'alignment': 0},
             paperSize: paperSize,
           ),
-          _createRow(
+          helper.createRow(
             row: {
               'text': DanfeUtils.formatNumber(
                 danfe?.dados?.det?.length.toString() ?? '',
@@ -718,14 +724,14 @@ class DanfePrinter implements IDanfePrinter {
     );
 
     danfeJson.add(
-      _createColumn(
+      helper.createColumn(
         paperSize: paperSize,
         rows: [
-          _createRow(
+          helper.createRow(
             row: {'text': 'SUBTOTAL', 'alignment': 0, 'bold': true},
             paperSize: paperSize,
           ),
-          _createRow(
+          helper.createRow(
             row: {
               'text': DanfeUtils.formatMoneyMilhar(
                 danfe?.dados?.total?.valorTotal ?? '',
@@ -743,14 +749,14 @@ class DanfePrinter implements IDanfePrinter {
 
     if ((danfe?.dados?.total?.valorFrete ?? '0.00') != '0.00') {
       danfeJson.add(
-        _createColumn(
+        helper.createColumn(
           paperSize: paperSize,
           rows: [
-            _createRow(
+            helper.createRow(
               row: {'text': 'FRETE', 'alignment': 0},
               paperSize: paperSize,
             ),
-            _createRow(
+            helper.createRow(
               row: {
                 'text': DanfeUtils.formatMoneyMilhar(
                   danfe?.dados?.total?.valorFrete ?? '',
@@ -768,14 +774,14 @@ class DanfePrinter implements IDanfePrinter {
 
     if ((danfe?.dados?.total?.desconto ?? '0.00') != '0.00') {
       danfeJson.add(
-        _createColumn(
+        helper.createColumn(
           paperSize: paperSize,
           rows: [
-            _createRow(
+            helper.createRow(
               row: {'text': 'Desconto', 'alignment': 0},
               paperSize: paperSize,
             ),
-            _createRow(
+            helper.createRow(
               row: {
                 'text': DanfeUtils.formatMoneyMilhar(
                   danfe?.dados?.total?.desconto ?? '',
@@ -793,14 +799,14 @@ class DanfePrinter implements IDanfePrinter {
 
     if ((danfe?.dados?.total?.acrescimo ?? '0.00') != '0.00') {
       danfeJson.add(
-        _createColumn(
+        helper.createColumn(
           paperSize: paperSize,
           rows: [
-            _createRow(
+            helper.createRow(
               row: {'text': 'Acréscimo', 'alignment': 0},
               paperSize: paperSize,
             ),
-            _createRow(
+            helper.createRow(
               row: {
                 'text': DanfeUtils.formatMoneyMilhar(
                   danfe?.dados?.total?.acrescimo ?? '',
@@ -817,14 +823,14 @@ class DanfePrinter implements IDanfePrinter {
     }
     if ((danfe?.dados?.pgto?.vTroco ?? '0.00') != '0.00') {
       danfeJson.add(
-        _createColumn(
+        helper.createColumn(
           paperSize: paperSize,
           rows: [
-            _createRow(
+            helper.createRow(
               row: {'text': 'Troco', 'alignment': 0},
               paperSize: paperSize,
             ),
-            _createRow(
+            helper.createRow(
               row: {
                 'text': DanfeUtils.formatMoneyMilhar(
                   danfe?.dados?.pgto?.vTroco ?? '',
@@ -841,14 +847,14 @@ class DanfePrinter implements IDanfePrinter {
     }
 
     danfeJson.add(
-      _createColumn(
+      helper.createColumn(
         paperSize: paperSize,
         rows: [
-          _createRow(
+          helper.createRow(
             row: {'text': 'Total', 'alignment': 0, 'bold': true},
             paperSize: paperSize,
           ),
-          _createRow(
+          helper.createRow(
             row: {
               'text': DanfeUtils.formatMoneyMilhar(
                 danfe?.dados?.total?.valorPago ?? '0.00',
@@ -864,14 +870,14 @@ class DanfePrinter implements IDanfePrinter {
       ),
     );
 
-    danfeJson.add(_divider());
+    danfeJson.add(helper.divider());
 
     if (danfe?.dados?.pgto != null) {
       danfeJson.add(
-        _createColumn(
+        helper.createColumn(
           paperSize: paperSize,
           rows: [
-            _createRow(
+            helper.createRow(
               row: {
                 'text': 'Formas de pagamento',
                 'alignment': 0,
@@ -879,7 +885,7 @@ class DanfePrinter implements IDanfePrinter {
               },
               paperSize: paperSize,
             ),
-            _createRow(
+            helper.createRow(
               row: {'text': 'Valor pago', 'alignment': 2, 'bold': true},
               paperSize: paperSize,
             ),
@@ -889,17 +895,17 @@ class DanfePrinter implements IDanfePrinter {
 
       for (MP pagamento in danfe!.dados!.pgto!.formas!) {
         danfeJson.add(
-          _createColumn(
+          helper.createColumn(
             paperSize: paperSize,
             rows: [
-              _createRow(
+              helper.createRow(
                 row: {
                   'text': DanfeUtils.removeAcentos(pagamento.cMP ?? ''),
                   'alignment': 0,
                 },
                 paperSize: paperSize,
               ),
-              _createRow(
+              helper.createRow(
                 row: {
                   'text': DanfeUtils.formatMoneyMilhar(
                     pagamento.vMP ?? '',
@@ -914,20 +920,20 @@ class DanfePrinter implements IDanfePrinter {
           ),
         );
       }
-      danfeJson.add(_divider());
+      danfeJson.add(helper.divider());
     }
 
     if (danfe?.dados?.total?.valotTotalTributos != null) {
       if (danfe!.dados!.total!.valotTotalTributos != '0.00') {
         danfeJson.add(
-          _createColumn(
+          helper.createColumn(
             paperSize: paperSize,
             rows: [
-              _createRow(
+              helper.createRow(
                 row: {'text': 'Tributos totais incidentes:', 'alignment': 0},
                 paperSize: paperSize,
               ),
-              _createRow(
+              helper.createRow(
                 row: {
                   'text': DanfeUtils.formatMoneyMilhar(
                     danfe.dados!.total!.valotTotalTributos ?? '',
@@ -941,21 +947,21 @@ class DanfePrinter implements IDanfePrinter {
             ],
           ),
         );
-        danfeJson.add(_prepareJump(1));
+        danfeJson.add(helper.prepareJump(1));
       }
     }
 
     if (danfe?.dados?.transp != null) {
       if (danfe?.dados?.transp?.transporta?.xNome != null) {
         danfeJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 1,
             bold: true,
             content: 'TRANSPORTADORA',
           ),
         );
         danfeJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 1,
             content: DanfeUtils.removeAcentos(
               danfe?.dados?.transp?.transporta?.xNome ?? '',
@@ -963,7 +969,7 @@ class DanfePrinter implements IDanfePrinter {
           ),
         );
         danfeJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 1,
             content: DanfeUtils.removeAcentos(
               danfe?.dados?.transp?.transporta?.xEnder ?? '',
@@ -971,74 +977,76 @@ class DanfePrinter implements IDanfePrinter {
           ),
         );
         danfeJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 1,
             content: DanfeUtils.removeAcentos(
               '${danfe?.dados?.transp?.transporta?.xMun ?? ''} ${danfe?.dados?.transp?.transporta?.uf ?? ''}',
             ),
           ),
         );
-        danfeJson.add(_divider());
+        danfeJson.add(helper.divider());
       }
     }
 
     if (danfe?.dados?.cobr != null) {
       danfeJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 1,
           bold: true,
           content: 'COBRANCA',
         ),
       );
       danfeJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 1,
           content: "Fatura: ${danfe?.dados?.cobr?.fat?.nFat ?? ''}",
         ),
       );
       danfeJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 1,
           content:
               "Valor Original: ${DanfeUtils.formatMoneyMilhar(danfe?.dados?.cobr?.fat?.vOrig ?? '', modeda: 'pt_BR', simbolo: moeda)}",
         ),
       );
       danfeJson.add(
-        _prepareLine(
+        helper.prepareLine(
           aligment: 1,
           content:
               "Valor Liquido: ${DanfeUtils.formatMoneyMilhar(danfe?.dados?.cobr?.fat?.vLiq ?? '', modeda: 'pt_BR', simbolo: moeda)}",
         ),
       );
-      danfeJson.add(_divider());
+      danfeJson.add(helper.divider());
       for (var duplicata in danfe?.dados?.cobr?.dup ?? []) {
         danfeJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 1,
             content: "Duplicata: ${duplicata.nDup ?? ''}",
           ),
         );
         danfeJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 1,
             content:
                 "Vencimento: ${DanfeUtils.formatDate(duplicata.dVenc ?? '', dateOnly: true)}",
           ),
         );
         danfeJson.add(
-          _prepareLine(
+          helper.prepareLine(
             aligment: 1,
             content:
                 "Valor: ${DanfeUtils.formatMoneyMilhar(duplicata.vDup ?? '', modeda: 'pt_BR', simbolo: moeda)}",
           ),
         );
-        danfeJson.add(_divider());
+        danfeJson.add(helper.divider());
       }
     }
 
-    danfeJson.add(_prepareLine(content: 'CHAVE DE ACESSO DA NOTA FISCAL'));
     danfeJson.add(
-      _prepareLine(
+      helper.prepareLine(content: 'CHAVE DE ACESSO DA NOTA FISCAL'),
+    );
+    danfeJson.add(
+      helper.prepareLine(
         fontSize: 14,
         bold: true,
         content: DanfeUtils.splitByLength(
@@ -1049,7 +1057,7 @@ class DanfePrinter implements IDanfePrinter {
       ),
     );
     danfeJson.add(
-      _prepareQrcode(
+      helper.prepareQrcode(
         content: danfe?.qrcodePrinter ?? '',
         size: 160,
         level: 'L',
@@ -1059,19 +1067,19 @@ class DanfePrinter implements IDanfePrinter {
     if (danfe?.dados?.ide?.serie != null) {
       final serie = (danfe?.dados?.ide?.serie ?? '0').padLeft(3, '0');
       final nnf = (danfe?.dados?.ide?.nNF ?? '0').padLeft(9, '0');
-      danfeJson.add(_prepareLine(content: 'Nota $nnf Serie $serie '));
+      danfeJson.add(helper.prepareLine(content: 'Nota $nnf Serie $serie '));
     }
 
     if (danfe?.dados?.ide?.nserieSAT != null) {
       final serie = (danfe?.dados?.ide?.nserieSAT ?? '0').padLeft(3, '0');
       final nnf = (danfe?.dados?.ide?.nNF ?? '0').padLeft(9, '0');
 
-      danfeJson.add(_prepareLine(content: 'Nota $nnf Serie $serie '));
+      danfeJson.add(helper.prepareLine(content: 'Nota $nnf Serie $serie '));
     }
 
     if (danfe?.protNFe != null) {
       danfeJson.add(
-        _prepareLine(
+        helper.prepareLine(
           content: 'Protocolo: ${danfe?.protNFe?.infProt?.nProt ?? ''} ',
         ),
       );
@@ -1081,214 +1089,17 @@ class DanfePrinter implements IDanfePrinter {
       );
       String formattedDate =
           "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}";
-      danfeJson.add(_prepareLine(content: 'Data: $formattedDate '));
+      danfeJson.add(helper.prepareLine(content: 'Data: $formattedDate '));
     }
 
     if (danfe?.dados?.infAdic?.infCpl != null) {
       danfeJson.add(
-        _prepareLine(
+        helper.prepareLine(
           content: danfe!.dados!.infAdic!.infCpl ?? '',
           fontSize: 14,
         ),
       );
     }
     return json.encode(danfeJson);
-  }
-
-  Map _createRow({required Map row, required PaperSize paperSize}) {
-    final lineRow = {};
-    lineRow['row'] = {};
-    lineRow['row']['customization'] = {};
-    lineRow['row']['customization']['font_size'] = paperSize == PaperSize.mm58
-        ? 10
-        : 12;
-    lineRow['row']['customization']['alignment'] = row.containsKey('alignment')
-        ? row['alignment']
-        : 0;
-    lineRow['row']['customization']['font_style'] = {};
-    lineRow['row']['customization']['font_style']['bold'] =
-        row.containsKey('bold') ? row['bold'] : false;
-    lineRow['row']['customization']['font_style']['italic'] =
-        row.containsKey('italic') ? row['italic'] : false;
-    lineRow['row']['content'] = row['text'];
-    lineRow['row']['size'] = row['size'];
-    return lineRow;
-  }
-
-  List<Map> _createHeader({
-    required List<Map> headers,
-    required PaperSize paperSize,
-  }) {
-    List<Map> header = [];
-    for (var row in headers) {
-      header.add(_createRow(row: row, paperSize: paperSize));
-    }
-
-    return header;
-  }
-
-  Map _createColumn({required List<Map> rows, required PaperSize paperSize}) {
-    Map column = {};
-    column['line'] = {};
-    column['line']['column'] = rows.toList();
-
-    return column;
-  }
-
-  Map _createColumnItems({required PaperSize paperSize, List<Det>? det}) {
-    List<Map> headers = [];
-    if (paperSize == PaperSize.mm58) {
-      headers.add({'text': "DESCRICAO", 'size': 65, 'bold': true});
-      headers.add({'text': "QTD", 'size': 15, 'bold': true, 'alignment': 2});
-      headers.add({'text': "VLTOT", 'size': 20, 'bold': true, 'alignment': 2});
-    } else {
-      headers.add({'text': "DESCRICAO", 'size': 50, 'bold': true});
-      headers.add({'text': "QTD", 'size': 10, 'bold': true, 'alignment': 2});
-      headers.add({'text': "VLUN", 'size': 20, 'bold': true, 'alignment': 2});
-      headers.add({'text': "VLTOT", 'size': 20, 'bold': true, 'alignment': 2});
-    }
-
-    Map column = {};
-    column['line'] = {};
-    column['line']['column'] = [];
-    column['line']['column'].add({
-      'header': _createHeader(headers: headers, paperSize: paperSize),
-      'items': _createItems(det: det, paperSize: paperSize),
-    });
-
-    return column;
-  }
-
-  Map _divider() {
-    Map divider = {};
-    divider['line'] = {};
-    divider['line']['divider'] = true;
-    return divider;
-  }
-
-  Map _prepareJump(int lines) {
-    Map jump = {};
-    jump['line'] = {};
-    jump['line']['jump'] = lines;
-    return jump;
-  }
-
-  Map _prepareQrcode({
-    int size = 100,
-    String content = '',
-    String level = 'H',
-  }) {
-    Map qrcode = {};
-    qrcode['line'] = {};
-    qrcode['line']['qrcode'] = {};
-    qrcode['line']['qrcode']['size'] = size;
-    qrcode['line']['qrcode']['content'] = content;
-    qrcode['line']['qrcode']['level'] = level;
-    return qrcode;
-  }
-
-  Map _prepareLine({
-    bool bold = false,
-    bool italic = false,
-    int aligment = 1,
-    int fontSize = 12,
-    String content = '',
-  }) {
-    Map customLine = {};
-    customLine['line'] = {};
-    customLine['line']['customization'] = {};
-    customLine['line']['customization']['font_style'] = {};
-    customLine['line']['customization']['font_style']['bold'] = bold;
-    customLine['line']['customization']['font_size'] = fontSize;
-    customLine['line']['customization']['alignment'] = aligment;
-    customLine['line']['customization']['font_style']['italic'] = italic;
-    customLine['line']['content'] = content;
-    return customLine;
-  }
-
-  _createItems({List<Det>? det, required PaperSize paperSize}) {
-    List items = [];
-    if (det != null) {
-      for (Det item in det) {
-        final detList = <Map>[];
-
-        if (paperSize == PaperSize.mm58) {
-          detList.add(
-            _createRow(
-              row: {'text': item.prod?.xProd ?? ''},
-              paperSize: paperSize,
-            ),
-          );
-          detList.add(
-            _createRow(
-              row: {
-                'text': DanfeUtils.formatNumber(item.prod?.qCom ?? ''),
-                'alignment': 2,
-              },
-              paperSize: paperSize,
-            ),
-          );
-          detList.add(
-            _createRow(
-              row: {
-                'text': DanfeUtils.formatMoneyMilhar(
-                  item.prod?.vProd ?? '',
-                  modeda: 'pt_BR',
-                  simbolo: '',
-                ),
-                'alignment': 2,
-              },
-              paperSize: paperSize,
-            ),
-          );
-        } else {
-          detList.add(
-            _createRow(
-              row: {'text': item.prod?.xProd ?? ''},
-              paperSize: paperSize,
-            ),
-          );
-          detList.add(
-            _createRow(
-              row: {
-                'text': DanfeUtils.formatNumber(item.prod?.qCom ?? ''),
-                'alignment': 2,
-              },
-              paperSize: paperSize,
-            ),
-          );
-
-          detList.add(
-            _createRow(
-              row: {
-                'text': DanfeUtils.formatMoneyMilhar(
-                  item.prod?.vUnCom ?? '',
-                  modeda: 'pt_BR',
-                  simbolo: '',
-                ),
-                'alignment': 2,
-              },
-              paperSize: paperSize,
-            ),
-          );
-          detList.add(
-            _createRow(
-              row: {
-                'text': DanfeUtils.formatMoneyMilhar(
-                  item.prod?.vProd ?? '',
-                  modeda: 'pt_BR',
-                  simbolo: '',
-                ),
-                'alignment': 2,
-              },
-              paperSize: paperSize,
-            ),
-          );
-        }
-
-        items.add(detList);
-      }
-    }
-    return items;
   }
 }
